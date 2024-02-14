@@ -46,17 +46,25 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   }
 
   // setup the viewport
-  let cmpCamera/* : ƒ.ComponentCamera */ = new ƒ.ComponentCamera();
+  let useAutoviewCamera = false;
+  let cmpCamera/* : ƒ.ComponentCamera */ = getFirstComponentCamera(graph);
+  if(!cmpCamera){
+    useAutoviewCamera = true;
+    cmpCamera = new ƒ.ComponentCamera();
+  }
   let canvas/* : HTMLCanvasElement */ = document.querySelector("canvas");
   let viewport/* : ƒ.Viewport */ = new ƒ.Viewport();
   viewport.initialize("InteractiveViewport", graph, cmpCamera, canvas);
   ƒ.Debug.log("Viewport:", viewport);  
   // make the camera interactive (complex method in FudgeAid)
-  let cameraOrbit/* : ƒ.Node */ = ƒAid.Viewport.expandCameraToInteractiveOrbit(viewport);
+  if(useAutoviewCamera) {
+    let cameraOrbit/* : ƒ.Node */ = ƒAid.Viewport.expandCameraToInteractiveOrbit(viewport);
+    ƒ.Render.prepare(cameraOrbit);
+  }
 
   // hide the cursor when interacting, also suppressing right-click menu
-  canvas.addEventListener("mousedown", canvas.requestPointerLock);
-  canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
+  // canvas.addEventListener("mousedown", canvas.requestPointerLock);
+  // canvas.addEventListener("mouseup", function () { document.exitPointerLock(); });
 
   // setup audio
   let cmpListener/* : ƒ.ComponentAudioListener */ = new ƒ.ComponentAudioListener();
@@ -66,9 +74,19 @@ async function startInteractiveViewport(_graphId)/* : void */ {
   ƒ.Debug.log("Audio:", ƒ.AudioManager.default);
 
   // draw viewport once for immediate feedback
-  ƒ.Render.prepare(cameraOrbit);
   viewport.draw();
 
   // dispatch event to signal startup done
   canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
+}
+
+function getFirstComponentCamera(node){
+  for(let n of node.getChildren()){
+    let cam = n.getComponent(ƒ.ComponentCamera);
+    if(cam) return cam;
+    
+    let childCam = getFirstComponentCamera(n);
+    if(childCam) return cam;
+  }
+  return null;
 }
