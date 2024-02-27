@@ -15,7 +15,7 @@ namespace Script {
       if (ƒ.Project.mode == ƒ.MODE.EDITOR)
         return;
 
-      ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
+      // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
       this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
         this.#material = this.node.getComponent(ƒ.ComponentMaterial)
       });
@@ -33,7 +33,7 @@ namespace Script {
         this.#direction = 1;
         color.a = 0;
       }
-      console.log(color.a);
+      // console.log(color.a);
     }
 
     // protected reduceMutator(_mutator: ƒ.Mutator): void {

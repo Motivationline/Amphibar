@@ -2,11 +2,89 @@
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class HTMLConnectedScript extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static iSubclass = ƒ.Component.registerSubclass(HTMLConnectedScript);
+        inventory;
+        constructor() {
+            super();
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            document.addEventListener("interactiveViewportStarted", this.init);
+        }
+        init() {
+            this.inventory = new Inventory();
+            for (let i = 0; i < 20; i++) {
+                this.inventory.addItem(new Item("Item " + i, "items/item.png"));
+            }
+        }
+    }
+    Script.HTMLConnectedScript = HTMLConnectedScript;
+    class Inventory {
+        divWrapper = document.getElementById("testtable");
+        items = [];
+        addItem(_item) {
+            if (!this.items.includes(_item))
+                this.items.push(_item);
+            this.updateInventory();
+        }
+        removeItem(_item) {
+            let index = this.items.indexOf(_item);
+            if (index >= 0)
+                this.items.splice(index, 1);
+        }
+        updateInventory() {
+            if (!this.divWrapper)
+                return;
+            this.divWrapper.innerHTML = "";
+            for (let item of this.items) {
+                this.divWrapper.appendChild(item.toHTMLElement());
+            }
+        }
+    }
+    class Item {
+        name;
+        image;
+        #element;
+        constructor(_name, _image) {
+            this.name = _name;
+            this.image = _image;
+        }
+        toHTMLElement() {
+            let div = document.createElement("div");
+            div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
+            div.classList.add("item");
+            div.draggable = true;
+            div.addEventListener("dragstart", this.addData.bind(this));
+            // div.addEventListener("dragend", (_ev) => { div.style.pointerEvents = "initial" });
+            div.addEventListener("drop", this.tryCombine.bind(this));
+            div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
+            this.#element = div;
+            return div;
+        }
+        addData(_ev) {
+            _ev.dataTransfer.setData("item", this.name);
+            // this.#element.style.pointerEvents = "none";
+        }
+        tryCombine(_ev) {
+            let otherItem = _ev.dataTransfer.getData("item");
+            console.log("combine items", this.name, otherItem);
+        }
+    }
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
     ƒ.Debug.info("Main Program Template running!");
     let node;
     document.addEventListener("interactiveViewportStarted", start);
+    let mouseIsOverInteractable = false;
     function start(_event) {
         Script.mainViewport = _event.detail;
+        Script.mainViewport.canvas.addEventListener("dragover", isDroppable);
+        Script.mainViewport.canvas.addEventListener("drop", drop);
         Script.mainViewport.canvas.addEventListener("mousemove", mousemove);
         Script.mainViewport.canvas.addEventListener("click", mouseclick);
         node = Script.mainViewport.getBranch();
@@ -21,27 +99,37 @@ var Script;
     }
     function mousemove(_event) {
         Script.mainViewport.canvas.style.cursor = "default";
+        mouseIsOverInteractable = false;
         Script.mainViewport.dispatchPointerEvent(_event);
-        /*
-        let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
-        let foundPickable = false;
-        for(let pick of picks){
-          let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
-          if(cmpPick && cmpPick.isActive) {
-            foundPickable = true;
-            break;
-          }
-        }
-        if(foundPickable){
-        } else {
-        }
-        */
     }
     function mouseclick(_event) {
         Script.mainViewport.dispatchPointerEvent(_event);
     }
     function foundNode(_event) {
+        mouseIsOverInteractable = true;
         Script.mainViewport.canvas.style.cursor = "pointer";
+    }
+    function isDroppable(_event) {
+        let pick = findPickable(_event);
+        if (pick) {
+            _event.preventDefault();
+        }
+    }
+    function drop(_event) {
+        let pick = findPickable(_event);
+        if (pick) {
+            console.log("dropped", _event.dataTransfer.getData("item"), "onto", pick.node.name);
+        }
+    }
+    function findPickable(_event) {
+        let picks = ƒ.Picker.pickViewport(Script.mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
+        for (let pick of picks) {
+            let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
+            if (cmpPick && cmpPick.isActive) {
+                return pick;
+            }
+        }
+        return null;
     }
 })(Script || (Script = {}));
 var Script;
@@ -58,7 +146,7 @@ var Script;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-            ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, this.frame.bind(this));
+            // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
                 this.#material = this.node.getComponent(ƒ.ComponentMaterial);
             });
@@ -75,7 +163,7 @@ var Script;
                 this.#direction = 1;
                 color.a = 0;
             }
-            console.log(color.a);
+            // console.log(color.a);
         }
     }
     Script.PickableObjectScript = PickableObjectScript;

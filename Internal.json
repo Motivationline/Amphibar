@@ -44,7 +44,15 @@
     "ƒ.Graph": {
       "name": "item_interaction",
       "active": true,
-      "components": {},
+      "components": {
+        "HTMLConnectedScript": [
+          {
+            "Script.HTMLConnectedScript": {
+              "active": true
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.Node": {
