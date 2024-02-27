@@ -2,6 +2,7 @@
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    // import ƒui = FudgeUserInterface;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class HTMLConnectedScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
@@ -15,13 +16,95 @@ var Script;
             document.addEventListener("interactiveViewportStarted", this.init);
         }
         init() {
-            this.inventory = new Inventory();
-            for (let i = 0; i < 20; i++) {
-                this.inventory.addItem(new Item("Item " + i, "items/item.png"));
-            }
+            this.inventory = new Script.Inventory();
+            // for(let i = 0; i < 20; i++){
+            //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
+            // }
         }
     }
     Script.HTMLConnectedScript = HTMLConnectedScript;
+    /*
+    class Item {
+      name: string;
+      image: string;
+      #element: HTMLDivElement;
+  
+      constructor(_name: string, _image: string) {
+        this.name = _name;
+        this.image = _image;
+      }
+  
+      toHTMLElement(): HTMLElement {
+        let div: HTMLDivElement = document.createElement("div");
+        div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
+        div.classList.add("item");
+        div.draggable = true;
+        div.addEventListener("dragstart", this.addData.bind(this));
+        // div.addEventListener("dragend", (_ev) => { div.style.pointerEvents = "initial" });
+        div.addEventListener("drop", this.tryCombine.bind(this));
+        div.addEventListener("dragover", _ev => { _ev.preventDefault() });
+        this.#element = div;
+        return div;
+      }
+      addData(_ev: DragEvent) {
+        _ev.dataTransfer.setData("item", this.name);
+        // this.#element.style.pointerEvents = "none";
+      }
+      tryCombine(_ev: DragEvent) {
+        let otherItem = _ev.dataTransfer.getData("item");
+        console.log("combine items", this.name, otherItem);
+      }
+    }
+    */
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    class Interactable extends ƒ.ComponentScript {
+        name;
+        image;
+        constructor(_name, _image) {
+            super();
+            this.name = _name;
+            this.image = _image;
+            Script.interactableItems.push(this);
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("click", this.interact.bind(this));
+            });
+        }
+        toHTMLElement() {
+            let div = document.createElement("div");
+            div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
+            div.classList.add("item");
+            div.draggable = true;
+            div.addEventListener("dragstart", addData.bind(this));
+            div.addEventListener("drop", tryUseWithEvent.bind(this));
+            div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
+            return div;
+            function addData(_event) {
+                _event.dataTransfer.setData("interactable", this.name);
+            }
+            function tryUseWithEvent(_event) {
+                let otherInteractableName = _event.dataTransfer.getData("interactable");
+                let otherInteractable = Script.interactableItems.find(i => i.name === otherInteractableName);
+                if (!otherInteractable)
+                    return;
+                console.log("try to use", this.name, "with", otherInteractable);
+                this.tryUseWith(otherInteractable);
+            }
+        }
+    }
+    Script.Interactable = Interactable;
+    let INTERACTION_TYPE;
+    (function (INTERACTION_TYPE) {
+        INTERACTION_TYPE[INTERACTION_TYPE["NONE"] = 0] = "NONE";
+        INTERACTION_TYPE[INTERACTION_TYPE["LOOK_AT"] = 1] = "LOOK_AT";
+        INTERACTION_TYPE[INTERACTION_TYPE["PICK_UP"] = 2] = "PICK_UP";
+        INTERACTION_TYPE[INTERACTION_TYPE["TALK_TO"] = 3] = "TALK_TO";
+    })(INTERACTION_TYPE = Script.INTERACTION_TYPE || (Script.INTERACTION_TYPE = {}));
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class Inventory {
         divWrapper = document.getElementById("testtable");
         items = [];
@@ -44,35 +127,7 @@ var Script;
             }
         }
     }
-    class Item {
-        name;
-        image;
-        #element;
-        constructor(_name, _image) {
-            this.name = _name;
-            this.image = _image;
-        }
-        toHTMLElement() {
-            let div = document.createElement("div");
-            div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
-            div.classList.add("item");
-            div.draggable = true;
-            div.addEventListener("dragstart", this.addData.bind(this));
-            // div.addEventListener("dragend", (_ev) => { div.style.pointerEvents = "initial" });
-            div.addEventListener("drop", this.tryCombine.bind(this));
-            div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
-            this.#element = div;
-            return div;
-        }
-        addData(_ev) {
-            _ev.dataTransfer.setData("item", this.name);
-            // this.#element.style.pointerEvents = "none";
-        }
-        tryCombine(_ev) {
-            let otherItem = _ev.dataTransfer.getData("item");
-            console.log("combine items", this.name, otherItem);
-        }
-    }
+    Script.Inventory = Inventory;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -81,6 +136,7 @@ var Script;
     let node;
     document.addEventListener("interactiveViewportStarted", start);
     let mouseIsOverInteractable = false;
+    Script.interactableItems = [];
     function start(_event) {
         Script.mainViewport = _event.detail;
         Script.mainViewport.canvas.addEventListener("dragover", isDroppable);
@@ -91,6 +147,8 @@ var Script;
         node.addEventListener("mousemove", foundNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+        Script.inventory = new Script.Inventory();
+        Script.inventory.addItem(new Script.ExampleInteractable("test", "items/item.png"));
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
@@ -98,7 +156,7 @@ var Script;
         ƒ.AudioManager.default.update();
     }
     function mousemove(_event) {
-        Script.mainViewport.canvas.style.cursor = "default";
+        Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
         mouseIsOverInteractable = false;
         Script.mainViewport.dispatchPointerEvent(_event);
     }
@@ -107,7 +165,24 @@ var Script;
     }
     function foundNode(_event) {
         mouseIsOverInteractable = true;
-        Script.mainViewport.canvas.style.cursor = "pointer";
+        let node = _event.target;
+        let interactable = findInteractable(node);
+        if (!interactable)
+            return;
+        let type = interactable.getInteractionType();
+        switch (type) {
+            case Script.INTERACTION_TYPE.LOOK_AT:
+                Script.mainViewport.canvas.classList.add("cursor-look");
+                break;
+            case Script.INTERACTION_TYPE.PICK_UP:
+                Script.mainViewport.canvas.classList.add("cursor-take");
+                break;
+            case Script.INTERACTION_TYPE.TALK_TO:
+                Script.mainViewport.canvas.classList.add("cursor-talk");
+                break;
+            default:
+                break;
+        }
     }
     function isDroppable(_event) {
         let pick = findPickable(_event);
@@ -118,7 +193,12 @@ var Script;
     function drop(_event) {
         let pick = findPickable(_event);
         if (pick) {
-            console.log("dropped", _event.dataTransfer.getData("item"), "onto", pick.node.name);
+            let interactable = findInteractable(pick.node);
+            if (!interactable)
+                return;
+            let otherInteractableName = _event.dataTransfer.getData("interactable");
+            let otherInteractable = Script.interactableItems.find(i => i.name === otherInteractableName);
+            console.log("dropped", otherInteractable.name, "onto", interactable.name);
         }
     }
     function findPickable(_event) {
@@ -130,6 +210,9 @@ var Script;
             }
         }
         return null;
+    }
+    function findInteractable(_node) {
+        return _node.getAllComponents().find(i => i instanceof Script.Interactable);
     }
 })(Script || (Script = {}));
 var Script;
@@ -175,7 +258,7 @@ var Script;
     class PickingScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
         static iSubclass = ƒ.Component.registerSubclass(PickingScript);
-        #currentHover = null;
+        // #currentHover: ƒ.Node = null;
         constructor() {
             super();
             // Don't start when running in editor
@@ -206,17 +289,35 @@ var Script;
         };
         hovered(_event) {
             // console.log(_event.target);
-            if (_event.target instanceof ƒ.Node)
-                this.#currentHover = _event.target;
+            // if (_event.target instanceof ƒ.Node)
+            // this.#currentHover = _event.target;
         }
         clicked(_event) {
             console.log(_event.target);
-            if (_event.target instanceof ƒ.Node)
-                this.#currentHover = _event.target;
+            // if (_event.target instanceof ƒ.Node)
+            // this.#currentHover = _event.target;
         }
         frame() {
         }
     }
     Script.PickingScript = PickingScript;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class ExampleInteractable extends Script.Interactable {
+        constructor(_name, _image) {
+            super(_name, _image);
+        }
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.TALK_TO;
+        }
+        interact() {
+            throw new Error("Method not implemented.");
+        }
+        tryUseWith(_interactable) {
+            throw new Error("Method not implemented.");
+        }
+    }
+    Script.ExampleInteractable = ExampleInteractable;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

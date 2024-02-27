@@ -221,10 +221,13 @@
                         }
                       }
                     ],
-                    "PickableObjectScript": [
+                    "PickableObjectScript": [],
+                    "ExampleInteractable": [
                       {
-                        "Script.PickableObjectScript": {
-                          "active": true
+                        "Script.ExampleInteractable": {
+                          "active": true,
+                          "name": "blue cube",
+                          "image": "items/item.png"
                         }
                       }
                     ]

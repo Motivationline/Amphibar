@@ -6,6 +6,8 @@ namespace Script {
   let node: ƒ.Node;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
   let mouseIsOverInteractable: boolean = false;
+  export let inventory: Inventory;
+  export const interactableItems: Interactable[] = [];
 
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
@@ -20,6 +22,9 @@ namespace Script {
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
+
+    inventory = new Inventory();
+    inventory.addItem(new ExampleInteractable("test", "items/item.png"))
   }
 
   function update(_event: Event): void {
@@ -29,7 +34,7 @@ namespace Script {
   }
 
   function mousemove(_event: PointerEvent): void {
-    mainViewport.canvas.style.cursor = "default";
+    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
     mouseIsOverInteractable = false;
     mainViewport.dispatchPointerEvent(_event);
   }
@@ -40,7 +45,24 @@ namespace Script {
 
   function foundNode(_event: PointerEvent): void {
     mouseIsOverInteractable = true;
-    mainViewport.canvas.style.cursor = "pointer";
+    let node = <ƒ.Node>_event.target;
+    let interactable = findInteractable(node);
+    if (!interactable) return;
+    let type = interactable.getInteractionType();
+    switch (type) {
+      case INTERACTION_TYPE.LOOK_AT:
+        mainViewport.canvas.classList.add("cursor-look");
+        break;
+      case INTERACTION_TYPE.PICK_UP:
+        mainViewport.canvas.classList.add("cursor-take");
+        break;
+      case INTERACTION_TYPE.TALK_TO:
+        mainViewport.canvas.classList.add("cursor-talk");
+        break;
+
+      default:
+        break;
+    }
   }
 
   function isDroppable(_event: DragEvent): void {
@@ -51,8 +73,12 @@ namespace Script {
   }
   function drop(_event: DragEvent): void {
     let pick = findPickable(_event);
-    if(pick){
-      console.log("dropped", _event.dataTransfer.getData("item"), "onto", pick.node.name);
+    if (pick) {
+      let interactable: Interactable = findInteractable(pick.node);
+      if (!interactable) return;
+      let otherInteractableName: string = _event.dataTransfer.getData("interactable");
+      let otherInteractable = interactableItems.find(i => i.name === otherInteractableName);
+      console.log("dropped", otherInteractable.name, "onto", interactable.name);
     }
   }
 
@@ -65,5 +91,9 @@ namespace Script {
       }
     }
     return null;
+  }
+
+  function findInteractable(_node: ƒ.Node): Interactable {
+    return <Interactable>_node.getAllComponents().find(i => i instanceof Interactable);
   }
 }

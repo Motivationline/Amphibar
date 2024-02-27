@@ -1,32 +1,44 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    export class HTMLConnectedScript extends ƒ.ComponentScript {
+    class HTMLConnectedScript extends ƒ.ComponentScript {
         static readonly iSubclass: number;
         inventory: Inventory;
         constructor();
         private init;
     }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    abstract class Interactable extends ƒ.ComponentScript {
+        name: string;
+        image?: string;
+        abstract getInteractionType(): INTERACTION_TYPE;
+        abstract interact(): void;
+        abstract tryUseWith(_interactable: Interactable): void;
+        constructor(_name: string, _image?: string);
+        toHTMLElement(): HTMLElement;
+    }
+    enum INTERACTION_TYPE {
+        NONE = 0,
+        LOOK_AT = 1,
+        PICK_UP = 2,
+        TALK_TO = 3
+    }
+}
+declare namespace Script {
     class Inventory {
         divWrapper: HTMLElement;
-        items: Item[];
-        addItem(_item: Item): void;
-        removeItem(_item: Item): void;
+        items: Interactable[];
+        addItem(_item: Interactable): void;
+        removeItem(_item: Interactable): void;
         private updateInventory;
     }
-    class Item {
-        #private;
-        name: string;
-        image: string;
-        constructor(_name: string, _image: string);
-        toHTMLElement(): HTMLElement;
-        addData(_ev: DragEvent): void;
-        tryCombine(_ev: DragEvent): void;
-    }
-    export {};
 }
 declare namespace Script {
     import ƒ = FudgeCore;
     let mainViewport: ƒ.Viewport;
+    let inventory: Inventory;
+    const interactableItems: Interactable[];
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -40,12 +52,19 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     class PickingScript extends ƒ.ComponentScript {
-        #private;
         static readonly iSubclass: number;
         constructor();
         hndEvent: (_event: Event) => void;
         private hovered;
         private clicked;
         private frame;
+    }
+}
+declare namespace Script {
+    class ExampleInteractable extends Interactable {
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
     }
 }

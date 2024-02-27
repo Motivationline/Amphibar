@@ -5,7 +5,7 @@ namespace Script {
   export class PickingScript extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(PickingScript);
-    #currentHover: ƒ.Node = null;
+    // #currentHover: ƒ.Node = null;
 
 
     constructor() {
@@ -42,13 +42,13 @@ namespace Script {
 
     private hovered(_event: CustomEvent): void {
       // console.log(_event.target);
-      if (_event.target instanceof ƒ.Node)
-        this.#currentHover = _event.target;
+      // if (_event.target instanceof ƒ.Node)
+        // this.#currentHover = _event.target;
     }
     private clicked(_event: CustomEvent): void {
       console.log(_event.target);
-      if (_event.target instanceof ƒ.Node)
-        this.#currentHover = _event.target;
+      // if (_event.target instanceof ƒ.Node)
+        // this.#currentHover = _event.target;
     }
     private frame(): void {
       

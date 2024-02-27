@@ -1,6 +1,6 @@
 namespace Script {
   import ƒ = FudgeCore;
-  import ƒui = FudgeUserInterface;
+  // import ƒui = FudgeUserInterface;
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
   export class HTMLConnectedScript extends ƒ.ComponentScript {
@@ -22,36 +22,13 @@ namespace Script {
 
     private init() {
       this.inventory = new Inventory();
-      for(let i = 0; i < 20; i++){
-        this.inventory.addItem(new Item("Item " + i, "items/item.png"));
-      }
+      // for(let i = 0; i < 20; i++){
+      //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
+      // }
     }
   }
 
-  class Inventory {
-    divWrapper: HTMLElement = document.getElementById("testtable");
-    items: Item[] = [];
-
-    addItem(_item: Item) {
-      if (!this.items.includes(_item))
-        this.items.push(_item);
-      this.updateInventory();
-    }
-    removeItem(_item: Item) {
-      let index = this.items.indexOf(_item);
-      if (index >= 0)
-        this.items.splice(index, 1);
-    }
-
-    private updateInventory() {
-      if (!this.divWrapper) return;
-      this.divWrapper.innerHTML = "";
-      for (let item of this.items) {
-        this.divWrapper.appendChild(item.toHTMLElement());
-      }
-    }
-  }
-
+  /*
   class Item {
     name: string;
     image: string;
@@ -83,4 +60,5 @@ namespace Script {
       console.log("combine items", this.name, otherItem);
     }
   }
+  */
 }

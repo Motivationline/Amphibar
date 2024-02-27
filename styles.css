@@ -12,7 +12,7 @@ dialog {
 
 canvas.fullscreen { 
   width: 100vw; 
-  height: 80vh; 
+  height: 80vh;
 }
 
 #testtable {
@@ -48,4 +48,14 @@ canvas.fullscreen {
   text-align: center;
   font-size: 3em;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.cursor-talk {
+  cursor: url("cursors/mouth.png"), pointer;
+}
+.cursor-take {
+  cursor: grab;
+}
+.cursor-look {
+  cursor: url("cursors/eye.png"), pointer;
 }
