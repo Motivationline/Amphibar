@@ -1,4 +1,28 @@
 declare namespace Script {
+    class DialogManager {
+        #private;
+        static Instance: DialogManager;
+        constructor();
+        private initHtml;
+        private setupDisplay;
+        private clickedOverlay;
+        private showText;
+        private showOptions;
+        private hideDialog;
+        showDialog(_dialog: Dialog, _delay?: number): Promise<void | string>;
+    }
+    interface Dialog {
+        text: string;
+        name: string;
+        icon: string;
+        options?: DialogOption[];
+    }
+    interface DialogOption {
+        text: string;
+        id: string;
+    }
+}
+declare namespace Script {
     import ƒ = FudgeCore;
     class HTMLConnectedScript extends ƒ.ComponentScript {
         static readonly iSubclass: number;
@@ -62,6 +86,14 @@ declare namespace Script {
 }
 declare namespace Script {
     class ExampleInteractable extends Interactable {
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class ExampleInteractable2 extends Interactable {
         constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;

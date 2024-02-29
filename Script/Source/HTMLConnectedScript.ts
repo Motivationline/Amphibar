@@ -20,11 +20,32 @@ namespace Script {
 
     }
 
-    private init() {
+    private async init() {
       this.inventory = new Inventory();
       // for(let i = 0; i < 20; i++){
       //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
       // }
+      let dm = new DialogManager();
+      await dm.showDialog({
+        icon: "items/item.png",
+        name: "Item",
+        text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
+      }, 10) 
+      await dm.showDialog({
+        icon: "items/item.png",
+        name: "Item 2",
+        text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
+      });
+      let result = await dm.showDialog({
+        icon: "items/item.png",
+        name: "Item 2",
+        text: "Lorem",
+        options: [
+          {id: "option 1", text: "This is option 1"},
+          {id: "option 2", text: "This is a different option"}
+        ]
+      });
+      console.log("chose", result);
     }
   }
 

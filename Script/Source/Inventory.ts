@@ -1,6 +1,6 @@
 namespace Script {
     export class Inventory {
-        divWrapper: HTMLElement = document.getElementById("testtable");
+        divWrapper: HTMLElement = document.getElementById("inventory");
         items: Interactable[] = [];
 
         addItem(_item: Interactable) {

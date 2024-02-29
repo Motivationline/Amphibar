@@ -79,6 +79,7 @@ namespace Script {
       let otherInteractableName: string = _event.dataTransfer.getData("interactable");
       let otherInteractable = interactableItems.find(i => i.name === otherInteractableName);
       console.log("dropped", otherInteractable.name, "onto", interactable.name);
+      interactable.tryUseWith(otherInteractable);
     }
   }
 

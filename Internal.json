@@ -221,7 +221,6 @@
                         }
                       }
                     ],
-                    "PickableObjectScript": [],
                     "ExampleInteractable": [
                       {
                         "Script.ExampleInteractable": {
@@ -298,6 +297,13 @@
                     "PickableObjectScript": [
                       {
                         "Script.PickableObjectScript": {
+                          "active": true
+                        }
+                      }
+                    ],
+                    "ExampleInteractable2": [
+                      {
+                        "Script.ExampleInteractable2": {
                           "active": true
                         }
                       }

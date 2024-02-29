@@ -1,6 +1,111 @@
 "use strict";
 var Script;
 (function (Script) {
+    class DialogManager {
+        static Instance = new DialogManager();
+        #nameBox;
+        #textBox;
+        #optionBox;
+        #characterBox;
+        #overlayBox;
+        #parentBox;
+        #currentDialog;
+        #textProgress = 0;
+        #currentPromiseResolver;
+        constructor() {
+            if (DialogManager.Instance)
+                return DialogManager.Instance;
+            document.addEventListener("DOMContentLoaded", this.initHtml.bind(this));
+            DialogManager.Instance = this;
+        }
+        initHtml() {
+            console.log("initHtml");
+            this.#parentBox = document.getElementById("dialog");
+            this.#nameBox = this.#parentBox.querySelector("#dialog-name");
+            this.#textBox = this.#parentBox.querySelector("#dialog-text");
+            this.#characterBox = this.#parentBox.querySelector("#dialog-icon");
+            this.#optionBox = this.#parentBox.querySelector("#dialog-options");
+            this.#overlayBox = document.getElementById("dialog-overlay");
+            this.#overlayBox.addEventListener("click", this.clickedOverlay.bind(this));
+        }
+        setupDisplay() {
+            this.#overlayBox.classList.remove("hidden");
+            this.#parentBox.classList.remove("hidden");
+            this.#characterBox.src = this.#currentDialog.icon;
+            this.#nameBox.innerText = this.#currentDialog.name;
+            this.#optionBox.innerHTML = "";
+            this.#textBox.innerHTML = "";
+            this.#textProgress = 0;
+            // this.#status = DialogStatus.WRITING;
+        }
+        clickedOverlay(_event) {
+            this.#textProgress = Infinity;
+            if (this.#currentPromiseResolver && !this.#currentDialog.options) {
+                this.#currentPromiseResolver();
+                this.hideDialog();
+            }
+        }
+        showText(_delay = 10) {
+            return new Promise((resolve, reject) => {
+                if (_delay <= 0) {
+                    this.#textProgress = Infinity;
+                }
+                let interval = setInterval(() => {
+                    this.#textProgress++;
+                    this.#textBox.innerText = this.#currentDialog.text.substring(0, this.#textProgress);
+                    if (this.#textProgress >= this.#currentDialog.text.length) {
+                        clearInterval(interval);
+                        // this.#status = DialogStatus.WAITING_FOR_DISMISSAL;
+                        setTimeout(resolve, 250);
+                    }
+                }, _delay);
+            });
+        }
+        showOptions() {
+            return new Promise((resolve, reject) => {
+                this.#optionBox.innerHTML = "";
+                for (let option of this.#currentDialog.options) {
+                    let button = document.createElement("button");
+                    this.#optionBox.appendChild(button);
+                    button.innerText = option.text;
+                    button.addEventListener("click", () => {
+                        resolve(option.id);
+                        this.hideDialog();
+                    });
+                }
+            });
+        }
+        hideDialog() {
+            this.#overlayBox.classList.add("hidden");
+            this.#parentBox.classList.add("hidden");
+        }
+        async showDialog(_dialog, _delay = 10) {
+            this.#currentDialog = _dialog;
+            if (this.#currentPromiseResolver) {
+                this.#currentPromiseResolver();
+                this.#currentPromiseResolver = null;
+            }
+            this.setupDisplay();
+            await this.showText(_delay);
+            if (_dialog.options)
+                return this.showOptions();
+            return new Promise((resolve, reject) => {
+                this.#currentPromiseResolver = resolve;
+            });
+        }
+    }
+    Script.DialogManager = DialogManager;
+    let DialogStatus;
+    (function (DialogStatus) {
+        DialogStatus[DialogStatus["HIDDEN"] = 0] = "HIDDEN";
+        DialogStatus[DialogStatus["WRITING"] = 1] = "WRITING";
+        DialogStatus[DialogStatus["WAITING_FOR_DISMISSAL"] = 2] = "WAITING_FOR_DISMISSAL";
+        DialogStatus[DialogStatus["WAITING_FOR_OPTION"] = 3] = "WAITING_FOR_OPTION";
+        DialogStatus[DialogStatus["DONE"] = 4] = "DONE";
+    })(DialogStatus || (DialogStatus = {}));
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     var ƒ = FudgeCore;
     // import ƒui = FudgeUserInterface;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
@@ -15,11 +120,32 @@ var Script;
                 return;
             document.addEventListener("interactiveViewportStarted", this.init);
         }
-        init() {
+        async init() {
             this.inventory = new Script.Inventory();
             // for(let i = 0; i < 20; i++){
             //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
             // }
+            let dm = new Script.DialogManager();
+            await dm.showDialog({
+                icon: "items/item.png",
+                name: "Item",
+                text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
+            }, 10);
+            await dm.showDialog({
+                icon: "items/item.png",
+                name: "Item 2",
+                text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam"
+            });
+            let result = await dm.showDialog({
+                icon: "items/item.png",
+                name: "Item 2",
+                text: "Lorem",
+                options: [
+                    { id: "option 1", text: "This is option 1" },
+                    { id: "option 2", text: "This is a different option" }
+                ]
+            });
+            console.log("chose", result);
         }
     }
     Script.HTMLConnectedScript = HTMLConnectedScript;
@@ -106,7 +232,7 @@ var Script;
 var Script;
 (function (Script) {
     class Inventory {
-        divWrapper = document.getElementById("testtable");
+        divWrapper = document.getElementById("inventory");
         items = [];
         addItem(_item) {
             if (!this.items.includes(_item))
@@ -199,6 +325,7 @@ var Script;
             let otherInteractableName = _event.dataTransfer.getData("interactable");
             let otherInteractable = Script.interactableItems.find(i => i.name === otherInteractableName);
             console.log("dropped", otherInteractable.name, "onto", interactable.name);
+            interactable.tryUseWith(otherInteractable);
         }
     }
     function findPickable(_event) {
@@ -312,12 +439,30 @@ var Script;
             return Script.INTERACTION_TYPE.TALK_TO;
         }
         interact() {
-            throw new Error("Method not implemented.");
+            alert("you're trying to talk to a cube?");
         }
         tryUseWith(_interactable) {
-            throw new Error("Method not implemented.");
+            alert("you can't use that here.");
         }
     }
     Script.ExampleInteractable = ExampleInteractable;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class ExampleInteractable2 extends Script.Interactable {
+        constructor(_name, _image) {
+            super(_name, _image);
+        }
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.LOOK_AT;
+        }
+        interact() {
+            console.log("look at me! I'm a cube!");
+        }
+        tryUseWith(_interactable) {
+            console.log("using this with a cube? i dunno...");
+        }
+    }
+    Script.ExampleInteractable2 = ExampleInteractable2;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
