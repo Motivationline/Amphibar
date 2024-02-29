@@ -1,5 +1,5 @@
 declare namespace Script {
-    class DialogManager {
+    export class DialogManager {
         #private;
         static Instance: DialogManager;
         constructor();
@@ -7,20 +7,30 @@ declare namespace Script {
         private setupDisplay;
         private clickedOverlay;
         private showText;
+        private getTextContent;
+        private parseText;
+        private findBracketsRecursive;
         private showOptions;
         private hideDialog;
         showDialog(_dialog: Dialog, _delay?: number): Promise<void | string>;
     }
-    interface Dialog {
+    export interface Dialog {
         text: string;
+        parsedText?: ParsedDialog;
+        textLength?: number;
         name: string;
         icon: string;
         options?: DialogOption[];
     }
-    interface DialogOption {
+    export interface DialogOption {
         text: string;
         id: string;
     }
+    interface ParsedDialog {
+        class: string;
+        content: (string | ParsedDialog)[];
+    }
+    export {};
 }
 declare namespace Script {
     import ƒ = FudgeCore;
