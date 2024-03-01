@@ -12,6 +12,8 @@ namespace Script {
         #textProgress: number = 0;
         #currentPromiseResolver: (value: string | void | PromiseLike<string | void>) => void;
 
+        #dialogQueue: Promise<void | string>[] = [];
+
         constructor() {
             if (DialogManager.Instance) return DialogManager.Instance;
             document.addEventListener("DOMContentLoaded", this.initHtml.bind(this));
@@ -153,14 +155,17 @@ namespace Script {
             this.#parentBox.classList.add("hidden");
         }
 
-        public async showDialog(_dialog: Dialog, _delay: number = 10): Promise<void | string> {
-            // clear old existing dialog
-            if (this.#currentPromiseResolver) {
-                this.#currentPromiseResolver();
-                this.#currentPromiseResolver = null;
-            }
+        private async showDialogInternal(_dialog: Dialog, _delay: number = 10): Promise<void | string> {
+            // wait for previous dialogs to be done
+            await Promise.all(this.#dialogQueue);            
 
-            // setup current dialog7
+            // clear old existing dialog
+            // if (this.#currentPromiseResolver) {
+            //     this.#currentPromiseResolver();
+            //     this.#currentPromiseResolver = null;
+            // }
+
+            // setup current dialog
             this.#currentDialog = { ..._dialog };
             this.#currentDialog.parsedText = this.parseText(_dialog.text);
             this.setupDisplay();
@@ -172,6 +177,12 @@ namespace Script {
             return new Promise((resolve, reject) => {
                 this.#currentPromiseResolver = resolve;
             });
+        }
+
+        public async showDialog(_dialog: Dialog, _delay: number = 10): Promise<void | string> {
+            let promise = this.showDialogInternal(_dialog, _delay);
+            this.#dialogQueue.push(promise);
+            return promise;
         }
     }
 

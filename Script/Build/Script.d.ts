@@ -12,6 +12,7 @@ declare namespace Script {
         private findBracketsRecursive;
         private showOptions;
         private hideDialog;
+        private showDialogInternal;
         showDialog(_dialog: Dialog, _delay?: number): Promise<void | string>;
     }
     export interface Dialog {

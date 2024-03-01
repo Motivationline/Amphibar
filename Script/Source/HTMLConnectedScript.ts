@@ -26,11 +26,11 @@ namespace Script {
       //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
       // }
       let dm = new DialogManager();
-      // await dm.showDialog({
-      //   icon: "items/item.png",
-      //   name: "Item",
-      //   text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
-      // }, 10) 
+      dm.showDialog({
+        icon: "items/item.png",
+        name: "Item",
+        text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
+      }, 10) 
       await dm.showDialog({
         icon: "items/item.png",
         name: "Item 2",

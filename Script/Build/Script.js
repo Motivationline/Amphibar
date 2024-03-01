@@ -12,6 +12,7 @@ var Script;
         #currentDialog;
         #textProgress = 0;
         #currentPromiseResolver;
+        #dialogQueue = [];
         constructor() {
             if (DialogManager.Instance)
                 return DialogManager.Instance;
@@ -142,13 +143,15 @@ var Script;
             this.#overlayBox.classList.add("hidden");
             this.#parentBox.classList.add("hidden");
         }
-        async showDialog(_dialog, _delay = 10) {
+        async showDialogInternal(_dialog, _delay = 10) {
+            // wait for previous dialogs to be done
+            await Promise.all(this.#dialogQueue);
             // clear old existing dialog
-            if (this.#currentPromiseResolver) {
-                this.#currentPromiseResolver();
-                this.#currentPromiseResolver = null;
-            }
-            // setup current dialog7
+            // if (this.#currentPromiseResolver) {
+            //     this.#currentPromiseResolver();
+            //     this.#currentPromiseResolver = null;
+            // }
+            // setup current dialog
             this.#currentDialog = { ..._dialog };
             this.#currentDialog.parsedText = this.parseText(_dialog.text);
             this.setupDisplay();
@@ -159,6 +162,11 @@ var Script;
             return new Promise((resolve, reject) => {
                 this.#currentPromiseResolver = resolve;
             });
+        }
+        async showDialog(_dialog, _delay = 10) {
+            let promise = this.showDialogInternal(_dialog, _delay);
+            this.#dialogQueue.push(promise);
+            return promise;
         }
     }
     Script.DialogManager = DialogManager;
@@ -193,11 +201,11 @@ var Script;
             //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
             // }
             let dm = new Script.DialogManager();
-            // await dm.showDialog({
-            //   icon: "items/item.png",
-            //   name: "Item",
-            //   text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
-            // }, 10) 
+            dm.showDialog({
+                icon: "items/item.png",
+                name: "Item",
+                text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
+            }, 10);
             await dm.showDialog({
                 icon: "items/item.png",
                 name: "Item 2",
