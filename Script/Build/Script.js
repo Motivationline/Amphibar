@@ -149,7 +149,7 @@ var Script;
             // clear old existing dialog
             // if (this.#currentPromiseResolver) {
             //     this.#currentPromiseResolver();
-            //     this.#currentPromiseResolver = null;
+            this.#currentPromiseResolver = null;
             // }
             // setup current dialog
             this.#currentDialog = { ..._dialog };

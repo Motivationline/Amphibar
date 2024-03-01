@@ -157,12 +157,12 @@ namespace Script {
 
         private async showDialogInternal(_dialog: Dialog, _delay: number = 10): Promise<void | string> {
             // wait for previous dialogs to be done
-            await Promise.all(this.#dialogQueue);            
+            await Promise.all(this.#dialogQueue);
 
             // clear old existing dialog
             // if (this.#currentPromiseResolver) {
             //     this.#currentPromiseResolver();
-            //     this.#currentPromiseResolver = null;
+            this.#currentPromiseResolver = null;
             // }
 
             // setup current dialog
