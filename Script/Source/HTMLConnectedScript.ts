@@ -16,12 +16,13 @@ namespace Script {
       if (ƒ.Project.mode == ƒ.MODE.EDITOR)
         return;
 
-      document.addEventListener("interactiveViewportStarted", <EventListener>this.init);
+      // document.addEventListener("interactiveViewportStarted", <EventListener>this.init);
 
     }
 
     private async init() {
       this.inventory = new Inventory();
+      return;
       // for(let i = 0; i < 20; i++){
       //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
       // }

@@ -8,6 +8,7 @@ namespace Script {
   let mouseIsOverInteractable: boolean = false;
   export let inventory: Inventory;
   export const interactableItems: Interactable[] = [];
+  export let character: CharacterScript;
 
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
@@ -41,6 +42,21 @@ namespace Script {
 
   function mouseclick(_event: PointerEvent): void {
     mainViewport.dispatchPointerEvent(_event);
+
+    // move character
+    if(!character) return;
+    let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+    if(ray.direction.y > 0) return;
+    let smallestDistance = Infinity;
+    let closestWaypoint: ƒ.ComponentWaypoint;
+    for(let waypoint of ƒ.ComponentWaypoint.waypoints){
+      let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
+      if(distance < smallestDistance) {
+        smallestDistance = distance;
+        closestWaypoint = waypoint;
+      }
+    }
+    character.moveTo(closestWaypoint);
   }
 
   function foundNode(_event: PointerEvent): void {

@@ -1,4 +1,30 @@
 declare namespace Script {
+    import ƒ = FudgeCore;
+    class BathroomManager extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        private init;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class CharacterScript extends ƒ.ComponentScript {
+        #private;
+        static readonly iSubclass: number;
+        private nextTarget;
+        private currentTarget;
+        private walker;
+        private animator;
+        private animations;
+        constructor();
+        private init;
+        moveTo(_waypoint: ƒ.ComponentWaypoint): void;
+        private actuallyWalk;
+        private reachedWaypoint;
+        private finishedWalking;
+    }
+}
+declare namespace Script {
     export class DialogManager {
         #private;
         static Instance: DialogManager;
@@ -32,6 +58,17 @@ declare namespace Script {
         content: (string | ParsedDialog)[];
     }
     export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class GenerateWaypointsScript extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        dx: number;
+        dz: number;
+        distance: number;
+        constructor();
+        private createWaypoints;
+    }
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -74,6 +111,7 @@ declare namespace Script {
     let mainViewport: ƒ.Viewport;
     let inventory: Inventory;
     const interactableItems: Interactable[];
+    let character: CharacterScript;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -96,15 +134,9 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    class ExampleInteractable extends Interactable {
-        constructor(_name: string, _image: string);
-        getInteractionType(): INTERACTION_TYPE;
-        interact(): void;
-        tryUseWith(_interactable: Interactable): void;
-    }
-}
-declare namespace Script {
-    class ExampleInteractable2 extends Interactable {
+    class DefaultViewable extends Interactable {
+        text: string;
+        name: string;
         constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;

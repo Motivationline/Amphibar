@@ -1,6 +1,98 @@
 "use strict";
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class BathroomManager extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static iSubclass = ƒ.Component.registerSubclass(BathroomManager);
+        constructor() {
+            super();
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.init.bind(this));
+        }
+        init() {
+        }
+    }
+    Script.BathroomManager = BathroomManager;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class CharacterScript extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static iSubclass = ƒ.Component.registerSubclass(CharacterScript);
+        nextTarget;
+        currentTarget;
+        walker;
+        animator;
+        animations = new Map();
+        #currentlyWalking = false;
+        constructor() {
+            super();
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
+            // this.addEventListener(ƒ.EVENT.GRAPH_INSTANTIATED, this.init.bind(this));
+        }
+        init() {
+            // this.node.addEventListener("click");
+            Script.character = this;
+            this.walker = this.node.getComponent(ƒ.ComponentWalker);
+            this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
+            this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
+            this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
+            // console.log("idle", );
+            this.animations.set("idle", ƒ.Project.getResourcesByName("Idle")[0]);
+            this.animations.set("interact", ƒ.Project.getResourcesByName("Interact")[0]);
+            this.animations.set("walk", ƒ.Project.getResourcesByName("WalkDerpy")[0]);
+        }
+        moveTo(_waypoint) {
+            if (!this.#currentlyWalking)
+                return this.actuallyWalk(_waypoint);
+            this.nextTarget = _waypoint;
+        }
+        actuallyWalk(_waypoint) {
+            if (this.currentTarget) {
+                this.walker.moveTo(this.currentTarget, _waypoint, true);
+                this.#currentlyWalking = true;
+            }
+            else {
+                this.walker.moveTo(_waypoint);
+                this.#currentlyWalking = false;
+            }
+            this.currentTarget = _waypoint;
+            this.animator.animation = this.animations.get("walk");
+            this.nextTarget = null;
+        }
+        reachedWaypoint(_event) {
+            let currentWaypoint = _event.detail;
+            if (this.nextTarget) {
+                this.currentTarget = currentWaypoint;
+                this.actuallyWalk(this.nextTarget);
+            }
+            // this.node.getChild(0).cmpTransform.mtxLocal.rotation = this.walker.direction;
+            // this.node.getChild(0).cmpTransform.mtxLocal.rotation = ƒ.Matrix4x4.LOOK_AT(this.node.mtxWorld.translation, ƒ.Vector3.SUM(this.walker.direction, this.node.mtxWorld.translation)).rotation;
+            // console.log("reacged", _event.detail);
+        }
+        finishedWalking(_event) {
+            this.animator.animation = this.animations.get("idle");
+            this.#currentlyWalking = false;
+            let currentWaypoint = _event.detail;
+            if (this.nextTarget) {
+                this.currentTarget = currentWaypoint;
+                this.actuallyWalk(this.nextTarget);
+            }
+        }
+    }
+    Script.CharacterScript = CharacterScript;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class DialogManager {
         static Instance = new DialogManager();
         #nameBox;
@@ -182,6 +274,46 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    class GenerateWaypointsScript extends ƒ.ComponentScript {
+        // Register the script as component for use in the editor via drag&drop
+        static iSubclass = ƒ.Component.registerSubclass(GenerateWaypointsScript);
+        dx = 2;
+        dz = 2;
+        distance = 0.5;
+        constructor() {
+            super();
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.createWaypoints.bind(this));
+        }
+        createWaypoints() {
+            for (let comp of this.node.getComponents(ƒ.ComponentWaypoint)) {
+                this.node.removeComponent(comp);
+            }
+            let connectionDistance = this.distance * this.distance * 2.5 /* slightly more than sqrt(2) = 1.41 */;
+            let waypoints = [];
+            for (let x = 0; x <= this.dx; x += this.distance) {
+                for (let z = 0; z <= this.dz; z += this.distance) {
+                    let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.CONSTRUCTION(new ƒ.Vector3(x, 0, z)));
+                    this.node.addComponent(waypoint);
+                    for (let w of waypoints) {
+                        let distance = ƒ.Vector3.DIFFERENCE(w.mtxWorld.translation, waypoint.mtxWorld.translation).magnitudeSquared;
+                        if (distance < connectionDistance)
+                            ƒ.ComponentWaypoint.addConnection(w, waypoint, distance, 1, true);
+                    }
+                    waypoints.push(waypoint);
+                }
+            }
+        }
+    }
+    Script.GenerateWaypointsScript = GenerateWaypointsScript;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
     // import ƒui = FudgeUserInterface;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class HTMLConnectedScript extends ƒ.ComponentScript {
@@ -193,10 +325,11 @@ var Script;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-            document.addEventListener("interactiveViewportStarted", this.init);
+            // document.addEventListener("interactiveViewportStarted", <EventListener>this.init);
         }
         async init() {
             this.inventory = new Script.Inventory();
+            return;
             // for(let i = 0; i < 20; i++){
             //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
             // }
@@ -349,7 +482,7 @@ var Script;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
-        Script.inventory.addItem(new Script.ExampleInteractable("test", "items/item.png"));
+        Script.inventory.addItem(new ExampleInteractable("test", "items/item.png"));
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
@@ -363,6 +496,22 @@ var Script;
     }
     function mouseclick(_event) {
         Script.mainViewport.dispatchPointerEvent(_event);
+        // move character
+        if (!Script.character)
+            return;
+        let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+        if (ray.direction.y > 0)
+            return;
+        let smallestDistance = Infinity;
+        let closestWaypoint;
+        for (let waypoint of ƒ.ComponentWaypoint.waypoints) {
+            let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                closestWaypoint = waypoint;
+            }
+        }
+        Script.character.moveTo(closestWaypoint);
     }
     function foundNode(_event) {
         mouseIsOverInteractable = true;
@@ -506,25 +655,9 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class ExampleInteractable extends Script.Interactable {
-        constructor(_name, _image) {
-            super(_name, _image);
-        }
-        getInteractionType() {
-            return Script.INTERACTION_TYPE.TALK_TO;
-        }
-        interact() {
-            alert("you're trying to talk to a cube?");
-        }
-        tryUseWith(_interactable) {
-            alert("you can't use that here.");
-        }
-    }
-    Script.ExampleInteractable = ExampleInteractable;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
-    class ExampleInteractable2 extends Script.Interactable {
+    class DefaultViewable extends Script.Interactable {
+        text = "...";
+        name = "Gegenstand";
         constructor(_name, _image) {
             super(_name, _image);
         }
@@ -532,12 +665,20 @@ var Script;
             return Script.INTERACTION_TYPE.LOOK_AT;
         }
         interact() {
-            console.log("look at me! I'm a cube!");
+            Script.DialogManager.Instance.showDialog({
+                icon: this.image,
+                name: this.name,
+                text: this.text,
+            });
         }
         tryUseWith(_interactable) {
-            console.log("using this with a cube? i dunno...");
+            Script.DialogManager.Instance.showDialog({
+                icon: this.image,
+                name: this.name,
+                text: "Das funktioniert nicht.",
+            });
         }
     }
-    Script.ExampleInteractable2 = ExampleInteractable2;
+    Script.DefaultViewable = DefaultViewable;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

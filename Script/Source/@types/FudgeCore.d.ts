@@ -202,7 +202,11 @@ declare namespace FudgeCore {
         /** dispatched to {@link Node} when it gets attached to a viewport for rendering */
         ATTACH_BRANCH = "attachBranch",
         /** dispatched to {@link Project} when it's done loading resources from a url */
-        RESOURCES_LOADED = "resourcesLoaded"
+        RESOURCES_LOADED = "resourcesLoaded",
+        /** dispatched to {@link ComponentWalker} and {@link ComponentWaypoint} when a {@link ComponentWalker} reaches a {@link Waypoint} or {@link ComponentWaypoint} */
+        WAYPOINT_REACHED = "waypointReached",
+        /** dispatched to {@link ComponentWalker} when the final {@link Waypoint} in the current path has been reached */
+        PATHING_CONCLUDED = "pathingConcluded"
     }
     /** Union type of other event types serving as annotation for listeners and handlers */
     type EventUnified = Event | CustomEvent | EventPhysics;
@@ -478,7 +482,7 @@ declare namespace FudgeCore {
          */
         constructor(_name: string);
         /**
-         * Return the mutator path string to get from one node to another or null if no path is found e.g.:
+         * Return the mutator-like path string to get from one node to another or null if no path is found e.g.:
          * ```typescript
          * "node/parent/children/1/components/ComponentSkeleton/0"
          * ```
@@ -1078,13 +1082,6 @@ declare namespace FudgeCore {
         SUBTRACTIVE = 3,
         MODULATE = 4
     }
-    interface BufferSpecification {
-        size: number;
-        dataType: number;
-        normalize: boolean;
-        stride: number;
-        offset: number;
-    }
     const UNIFORM_BLOCKS: {
         LIGHTS: {
             NAME: string;
@@ -1147,12 +1144,6 @@ declare namespace FudgeCore {
          * Initializes offscreen-canvas, renderingcontext and hardware viewport. Call once before creating any resources like meshes or shaders
          */
         static initialize(_antialias?: boolean, _alpha?: boolean): WebGL2RenderingContext;
-        /**
-         * Wrapper function to utilize the bufferSpecification interface when passing data to the shader via a buffer.
-         * @param _attributeLocation  The location of the attribute on the shader, to which they data will be passed.
-         * @param _bufferSpecification  Interface passing datapullspecifications to the buffer.
-         */
-        static setAttributeStructure(_attributeLocation: number, _bufferSpecification: BufferSpecification): void;
         /**
         * Checks the first parameter and throws an exception with the WebGL-errorcode if the value is null
         * @param _value  value to check against null
@@ -1790,6 +1781,26 @@ declare namespace FudgeCore {
          */
         calculate(): void;
     }
+}
+declare namespace FudgeCore {
+    const AnimationGLTF_base: (abstract new (...args: any[]) => {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Animation;
+    /**
+     * An {@link Animation} loaded from a glTF-File.
+     * @authors Jonas Plotzky
+     */
+    export class AnimationGLTF extends AnimationGLTF_base {
+        load(_url?: RequestInfo, _name?: string): Promise<AnimationGLTF>;
+    }
+    export {};
 }
 declare namespace FudgeCore {
     enum ANIMATION_INTERPOLATION {
@@ -3230,12 +3241,33 @@ declare namespace FudgeCore {
      */
     class Graph extends Node implements SerializableResource {
         idResource: string;
-        type: string;
         constructor(_name?: string);
+        get type(): string;
         serialize(): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         private hndMutate;
     }
+}
+declare namespace FudgeCore {
+    const GraphGLTF_base: (abstract new (...args: any[]) => {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Graph;
+    /**
+     * A {@link Graph} loaded from a glTF-File.
+     * @authors Jonas Plotzky, HFU, 2024
+     */
+    export class GraphGLTF extends GraphGLTF_base {
+        load(_url?: RequestInfo, _name?: string): Promise<GraphGLTF>;
+        serialize(): Serialization;
+    }
+    export {};
 }
 declare namespace FudgeCore {
     /**
@@ -3485,6 +3517,26 @@ declare namespace FudgeCore {
         getMutator(): Mutator;
         protected reduceMutator(_mutator: Mutator): void;
     }
+}
+declare namespace FudgeCore {
+    const MaterialGLTF_base: (abstract new (...args: any[]) => {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Material;
+    /**
+     * A {@link Material} loaded from a glTF-File.
+     * @authors Jonas Plotzky, HFU, 2024
+     */
+    export class MaterialGLTF extends MaterialGLTF_base {
+        load(_url?: RequestInfo, _name?: string): Promise<MaterialGLTF>;
+    }
+    export {};
 }
 declare namespace FudgeCore {
     /**
@@ -4603,6 +4655,7 @@ declare namespace FudgeCore {
      * @authors Jirka Dell'Oro-Friedl, HFU, 2019/22
      */
     abstract class Mesh extends Mutable implements SerializableResource {
+        #private;
         /** refers back to this class from any subclass e.g. in order to find compatible other resources*/
         static readonly baseClass: typeof Mesh;
         /** list of all the subclasses derived from this class, if they registered properly*/
@@ -4617,7 +4670,7 @@ declare namespace FudgeCore {
         protected ƒradius: number;
         constructor(_name?: string);
         protected static registerSubclass(_subClass: typeof Mesh): number;
-        get type(): string;
+        get renderMesh(): RenderMesh;
         get boundingBox(): Box;
         get radius(): number;
         /**
@@ -4701,6 +4754,31 @@ declare namespace FudgeCore {
     }
 }
 declare namespace FudgeCore {
+    const MeshFBX_base: (abstract new (...args: any[]) => {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Mesh;
+    /**
+     * A mesh loaded from an FBX-File.
+     * @authors Matthias Roming, HFU, 2023 | Jonas Plotzky, HFU, 2023
+     */
+    export class MeshFBX extends MeshFBX_base {
+        iMesh: number;
+        load(_url?: RequestInfo, _iMesh?: number): Promise<MeshFBX>;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        private getDataIndex;
+        private createBones;
+    }
+    export {};
+}
+declare namespace FudgeCore {
     /** Allows to create custom meshes from given Data */
     class MeshFromData extends Mesh {
         protected verticesToSet: Float32Array;
@@ -4715,21 +4793,51 @@ declare namespace FudgeCore {
     }
 }
 declare namespace FudgeCore {
-    /**
-     * Mesh loaded from a file
-     * @author Matthias Roming, HFU, 2022-2023
-     */
-    class MeshImport extends Mesh {
+    const MeshGLTF_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
-        private loader;
+        status: RESOURCE_STATUS;
         serialize(): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
-        /**
-         * Load mesh from file
-         */
-        load(_loader?: typeof MeshLoader, _url?: RequestInfo, _data?: Object): Promise<MeshImport>;
-        mutate(_mutator: Mutator, _selection?: string[], _dispatchMutate?: boolean): Promise<void>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Mesh;
+    /**
+     * A {@link Mesh} loaded from a glTF-File.
+     * @authors Jonas Plotzky, HFU, 2024
+     */
+    export class MeshGLTF extends MeshGLTF_base {
+        iPrimitive: number;
+        load(_url?: RequestInfo, _name?: string, _iPrimitive?: number): Promise<MeshGLTF>;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
     }
+    export {};
+}
+declare namespace FudgeCore {
+    const MeshOBJ_base: (abstract new (...args: any[]) => {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        load(): Promise<any>;
+        name: string;
+        idResource: string;
+        readonly type: string;
+    }) & typeof Mesh;
+    /**
+     * A mesh loaded from an OBJ-file.
+     * Simple Wavefront OBJ import. Takes a wavefront obj string. To Load from a file url, use the
+     * static LOAD Method. Currently only works with triangulated Meshes
+     * (activate 'Geomentry → Triangulate Faces' in Blenders obj exporter)
+     * @todo Load Materials, Support Quads
+     * @authors Simon Storl-Schulke 2021 | Luis Keck, HFU, 2021 | Jirka Dell'Oro-Friedl, HFU, 2021-2022 | Matthias Roming, HFU, 2023 | Jonas Plotzky, HFU, 2023
+     */
+    export class MeshOBJ extends MeshOBJ_base {
+        load(_url?: RequestInfo): Promise<MeshOBJ>;
+    }
+    export {};
 }
 declare namespace FudgeCore {
     /**
@@ -4874,16 +4982,6 @@ declare namespace FudgeCore {
         deserialize(_serialization: Serialization): Promise<Serializable>;
         mutate(_mutator: Mutator, _selection?: string[], _dispatchMutate?: boolean): Promise<void>;
         protected rotate(_shape: Vector2[], _longitudes: number): void;
-    }
-}
-declare namespace FudgeCore {
-}
-declare namespace FudgeCore {
-    /**
-     * Mesh influenced by a skeleton and loaded from a file
-     * @authors Matthias Roming, HFU, 2022-2023 | Jonas Plotzky, HFU, 2023
-     */
-    class MeshSkin extends MeshImport {
     }
 }
 declare namespace FudgeCore {
@@ -5036,52 +5134,6 @@ declare namespace FudgeCore {
 }
 declare namespace FudgeCore {
     /**
-     * Base class for MeshImport-loaders
-     * @author Matthias Roming, HFU, 2023
-     */
-    abstract class MeshLoader {
-        /**
-         * Loads the given data into the given mesh
-         */
-        static load(_mesh: MeshImport | MeshSkin, _data?: Object): Promise<MeshImport>;
-    }
-}
-declare namespace FudgeCore {
-    /**
-     * Filmbox mesh import
-     * @authors Matthias Roming, HFU, 2023 | Jonas Plotzky, HFU, 2023
-     * @ignore currently not working
-     */
-    class MeshLoaderFBX extends MeshLoader {
-        static load(_mesh: MeshImport | MeshSkin, _data: FBX.Geometry): Promise<MeshImport>;
-    }
-}
-declare namespace FudgeCore {
-    /**
-     * gl Transfer Format mesh import
-     * @authors Matthias Roming, HFU, 2022-2023 | Jonas Plotzky, HFU, 2023
-     */
-    class MeshLoaderGLTF extends MeshLoader {
-        static load(_mesh: MeshImport | MeshSkin, _data?: {
-            iMesh: number;
-            iPrimitive: number;
-        }): Promise<MeshImport>;
-    }
-}
-declare namespace FudgeCore {
-    /**
-     * Simple Wavefront OBJ import. Takes a wavefront obj string. To Load from a file url, use the
-     * static LOAD Method. Currently only works with triangulated Meshes
-     * (activate 'Geomentry → Triangulate Faces' in Blenders obj exporter)
-     * @todo Load Materials, Support Quads
-     * @authors Simon Storl-Schulke 2021 | Luis Keck, HFU, 2021 | Jirka Dell'Oro-Friedl, HFU, 2021-2022 | Matthias Roming, HFU, 2023 | Jonas Plotzky, HFU, 2023
-     */
-    class MeshLoaderOBJ extends MeshLoader {
-        static load(_mesh: MeshImport): Promise<MeshImport>;
-    }
-}
-declare namespace FudgeCore {
-    /**
      * The namesapce for handling the particle data
      */
     namespace ParticleData {
@@ -5160,6 +5212,133 @@ declare namespace FudgeCore {
     }
 }
 declare namespace FudgeCore {
+}
+declare namespace FudgeCore {
+    /**
+     * Enables this node to access the waypoint grid established through {@link ComponentWaypoint}s and their {@link Connection}s,
+     * find a path through them and even walk down the path.
+     * @author Lukas Scheuerle, HFU, 2024
+     */
+    export class ComponentWalker extends Component {
+        #private;
+        static readonly iSubclass: number;
+        /** The speed the walker should move with. Corresponds to units/s. */
+        speed: number;
+        constructor();
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        /**
+         * Teleports (moves instantly) to the _target Waypoint.
+         * @param _target
+         * @returns a Promise that resolves immediately.
+         */
+        moveTo(_target: Waypoint): Promise<void>;
+        /**
+         * Moves the walker from the _start to the _end Waypoint.
+         * Teleports (moves instantly) to the _start point, then moves through the waypoint connections to the _end point.
+         * @param _start
+         * @param _end
+         * @param _rotate Rotates the walker to look in the direction of the waypoint
+         * @returns a Promise that resolves when the _end point is reached. Rejects if _end can't be reached (no path found).
+         */
+        moveTo(_start: Waypoint, _end: Waypoint, _rotate?: boolean): Promise<void>;
+        /** Takes care of the moving algorithm by calculating the next step and moving along this step */
+        protected moving(): void;
+        /** find the path between two given waypoints */
+        protected getPath(_start: Waypoint, _end: Waypoint): PathingNode[];
+        /**
+         * Checks whether a connection is usable by this specific walker.
+         * **Always returns true, unless overwritten in a custom Walker subclass.**
+         * Can be used to influence the pathfinding algorithm for custom waypoint / connection systems.
+         * @param _connection A connection to check
+         * @returns true if the connection is usable by this walker, false if not
+         */
+        protected isConnectionUsable(_connection: Connection): boolean;
+        /**
+         * Calculates the new distance based on a connection.
+         * **Always returns the plain connections cost unless overwritten in a custom walker subclass.**
+         * Can be used to influence the pathfinding algorithm for custom waypoint / connection systems.
+         * @param _connection A connection to check
+         * @returns the amount of cost a connection encurs to the current walker or 0 if cost is negative.
+         */
+        protected calculateConnectionCost(_connection: Connection): number;
+        private pathingNodeToPath;
+        private rotateTowards;
+    }
+    /**
+     * An internal interface to manage pathing data inside the Walker
+     */
+    interface PathingNode {
+        waypoint: Waypoint;
+        distance: number;
+        previous: PathingNode;
+        previousConnection: Connection;
+    }
+    export {};
+}
+declare namespace FudgeCore {
+    /**
+     * Unifies Waypoints of the pathing algorithms
+     * @author Lukas Scheuerle, HFU, 2024
+     */
+    interface Waypoint {
+        connections: Connection[];
+        mtxLocal: Matrix4x4;
+        mtxWorld: Matrix4x4;
+        isActive: boolean;
+    }
+    /**
+     * Sets a position that a {@link ComponentWalker} can use as a target point.
+     * Implements {@link Waypoint}.
+     * Registers itself to a static list of all available waypoints
+     * @author Lukas Scheuerle, HFU, 2024
+     */
+    class ComponentWaypoint extends Component implements Waypoint, Gizmo {
+        #private;
+        static readonly iSubclass: number;
+        mtxLocal: Matrix4x4;
+        constructor(_mtxInit?: Matrix4x4, _connections?: Connection[]);
+        /** All the waypoints that are currently loaded in the scene. **Do not edit, treat as readonly!** */
+        static get waypoints(): ComponentWaypoint[];
+        /**
+         * A shorthand to create a connection between two {@link ComponentWaypoint}s
+         * @param _start The {@link ComponentWaypoint} from which to start the connection.
+         * @param _end The {@link ComponentWaypoint} to which the connection leads.
+         * @param _cost The cost of the connection. The higher the value, the less likely it is to be taken. Cannot be negative.
+         * @param _speedModifier How fast the connection can be walked on. Defaults to 1
+         * @param _bothWays If true, creates a connection in both directions. Default: false
+         */
+        static addConnection(_start: ComponentWaypoint, _end: ComponentWaypoint, _cost: number, _speedModifier?: number, _bothWays?: boolean): void;
+        get isActive(): boolean;
+        get connections(): Connection[];
+        /** The current world position of the Waypoint. Returns a new Matrix without connection to the Waypoint */
+        get mtxWorld(): Matrix4x4;
+        /** Adds a new {@link Connection} to this waypoint */
+        addConnection(_connection: Connection): void;
+        /** Removes a {@link Connection} from this waypoint */
+        removeConnection(_connection: Connection): void;
+        serialize(): Serialization;
+        deserialize(_serialization: Serialization): Promise<Serializable>;
+        drawGizmos(): void;
+        /** An internal function to help the deserializaztion process. */
+        private serializedWaypointToWaypoint;
+    }
+}
+declare namespace FudgeCore {
+    /**
+     * A directed connection between two waypoints
+     * @author Lukas Scheuerle, HFU, 2024
+     */
+    interface Connection {
+        /** The start / origin waypoint of this connection. */
+        start: Waypoint;
+        /** The end / target waypoint of this connection. */
+        end: Waypoint;
+        /** The cost of the connection, the higher the less likely to be taken. Cannot be negative. */
+        cost: number;
+        /** Modifies the speed that a walker can walk past this connection by multiplying the speed with this value. Needs to be >0 */
+        speedModifier: number;
+    }
 }
 declare namespace FudgeCore {
     /**
@@ -6296,6 +6475,35 @@ declare namespace FudgeCore {
         weights?: WebGLBuffer;
         nIndices?: number;
     }
+    /**
+     * Inserted into a {@link Mesh}, an instance of this class calculates and represents the mesh data in the form needed by the render engine
+     */
+    class RenderMesh {
+        #private;
+        buffers: RenderBuffers;
+        mesh: Mesh;
+        constructor(_mesh: Mesh);
+        get vertices(): Float32Array;
+        set vertices(_vertices: Float32Array);
+        get indices(): Uint16Array;
+        set indices(_indices: Uint16Array);
+        get normals(): Float32Array;
+        set normals(_normals: Float32Array);
+        get tangents(): Float32Array;
+        set tangents(_tangents: Float32Array);
+        get textureUVs(): Float32Array;
+        set textureUVs(_textureUVs: Float32Array);
+        get colors(): Float32Array;
+        set colors(_colors: Float32Array);
+        get bones(): Uint8Array;
+        set bones(_iBones: Uint8Array);
+        get weights(): Float32Array;
+        set weights(_weights: Float32Array);
+        /**
+         * Clears this render mesh and all its buffers
+         */
+        clear(): void;
+    }
 }
 declare namespace FudgeCore {
     /**
@@ -6546,10 +6754,20 @@ declare namespace FudgeCore {
         EDITOR = 0,
         RUNTIME = 1
     }
+    export enum RESOURCE_STATUS {
+        PENDING = 0,
+        READY = 1,
+        ERROR = 2
+    }
+    export interface SerializableResourceExternal extends SerializableResource {
+        url: RequestInfo;
+        status: RESOURCE_STATUS;
+        load(): Promise<SerializableResourceExternal>;
+    }
     export interface SerializableResource extends Serializable {
         name: string;
-        type: string;
         idResource: string;
+        readonly type: string;
     }
     export interface Resources {
         [idResource: string]: SerializableResource;
@@ -6695,7 +6913,6 @@ declare namespace FudgeCore.FBX {
         getSequence<T extends number | bigint>(_getter: () => T, _length: number, _offset?: number): Generator<T>;
     }
 }
-/** @ignore currently not working */
 declare namespace FudgeCore.FBX {
     /**
      * Interface to represent fbx files containing its documents, definitions, objects and connections.
@@ -6879,7 +7096,6 @@ declare namespace FudgeCore {
     /**
      * Asset loader for Filmbox files.
      * @author Matthias Roming, HFU, 2023
-     * @ignore currently not working
      */
     class FBXLoader {
         #private;
@@ -6893,7 +7109,7 @@ declare namespace FudgeCore {
         static LOAD(_uri: string): Promise<FBXLoader>;
         getScene(_index?: number): Promise<Graph>;
         getNode(_index: number): Promise<Node>;
-        getMesh(_index: number): Promise<MeshImport>;
+        getMesh(_index: number): Promise<MeshFBX>;
         getMaterial(_index: number): Promise<Material>;
         getTexture(_index: number): Promise<Texture>;
         /**
@@ -7684,25 +7900,31 @@ declare namespace FudgeCore {
     class GLTFLoader {
         #private;
         private static loaders;
-        readonly gltf: GLTF.GlTf;
-        readonly url: string;
         private constructor();
         private static get defaultMaterial();
         private static get defaultSkinMaterial();
         /**
-         * Returns a {@link GLTFLoader} instance for the given url.
+         * Returns a {@link GLTFLoader} instance for the given url or null if the url can't be resolved.
          */
-        static LOAD(_url: string): Promise<GLTFLoader>;
+        static LOAD(_url: string, _registerResources?: boolean): Promise<GLTFLoader>;
         private static checkCompatibility;
         private static preProcess;
         /**
-         * Returns a {@link GraphInstance} for the given scene name or the default scene if no name is given.
+         * Returns the glTF file name.
          */
-        getScene(_name?: string): Promise<Graph>;
+        get name(): string;
         /**
-         * Returns a {@link GraphInstance} for the given scene index or the default scene if no index is given.
+            * Returns all resources of the given type.
+            */
+        loadResources<T extends Serializable>(_class: new () => T): Promise<T[]>;
+        /**
+         * Returns a {@link Graph} for the given scene name or the default scene if no name is given.
          */
-        getSceneByIndex(_iScene?: number): Promise<Graph>;
+        getGraph(_name?: string): Promise<Node>;
+        /**
+         * Returns a {@link Graph} for the given scene index or the default scene if no index is given.
+         */
+        getGraph(_iScene?: number): Promise<Node>;
         /**
          * Returns the first {@link Node} with the given name.
          */
@@ -7726,23 +7948,27 @@ declare namespace FudgeCore {
         /**
          * Returns the {@link Animation} for the given animation index.
          */
-        getAnimationByIndex(_iAnimation: number): Promise<Animation>;
+        getAnimation(_iAnimation: number): Promise<Animation>;
         /**
-         * Returns the first {@link MeshImport} with the given mesh name.
+         * Returns the first {@link MeshGLTF} with the given name.
          */
-        getMesh(_name: string): Promise<MeshImport>;
+        getMesh(_name: string, _iPrimitive?: number): Promise<Mesh>;
         /**
-         * Returns the {@link MeshImport} for the given mesh index.
+         * Returns the {@link MeshGLTF} for the given mesh index and primitive index.
          */
-        getMeshByIndex(_iMesh: number, _iPrimitive?: number): Promise<MeshImport>;
+        getMesh(_iMesh: number, _iPrimitive?: number): Promise<Mesh>;
+        /**
+         * Returns the first {@link MaterialGLTF} with the given material name.
+         */
+        getMaterial(_name: string): Promise<Material>;
         /**
          * Returns the {@link Material} for the given material index.
          */
-        getMaterialByIndex(_iMaterial: number, _skin?: boolean, _flat?: boolean): Promise<Material>;
+        getMaterial(_iMaterial: number): Promise<Material>;
         /**
          * Returns the {@link Texture} for the given texture index.
          */
-        getTextureByIndex(_iTexture: number): Promise<Texture>;
+        getTexture(_iTexture: number): Promise<Texture>;
         /**
         * Returns the first {@link ComponentSkeleton} with the given skeleton name.
         */
@@ -7752,6 +7978,7 @@ declare namespace FudgeCore {
          */
         getSkeletonByIndex(_iSkeleton: number): Promise<ComponentSkeleton>;
         toString(): string;
+        private getIndex;
         private getBufferData;
         private getBufferViewData;
         private getBuffer;
