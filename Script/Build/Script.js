@@ -45,11 +45,15 @@ var Script;
             this.walker = this.node.getComponent(ƒ.ComponentWalker);
             this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
             this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
-            this.animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+            this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
             // console.log("idle", );
-            this.animations.set("idle", ƒ.Project.getResourcesByName("Idle")[0]);
-            this.animations.set("interact", ƒ.Project.getResourcesByName("Interact")[0]);
-            this.animations.set("walk", ƒ.Project.getResourcesByName("WalkDerpy")[0]);
+            let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
+            for (let anim of animations) {
+                this.animations.set(anim.name, anim);
+            }
+            // this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
+            // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
+            // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
         }
         moveTo(_waypoint) {
             if (!this.#currentlyWalking)
@@ -57,16 +61,16 @@ var Script;
             this.nextTarget = _waypoint;
         }
         actuallyWalk(_waypoint) {
-            if (this.currentTarget) {
+            if (this.currentTarget && this.currentTarget !== _waypoint) {
                 this.walker.moveTo(this.currentTarget, _waypoint, true);
                 this.#currentlyWalking = true;
+                this.animator.animation = this.animations.get("WalkDerpy");
             }
             else {
                 this.walker.moveTo(_waypoint);
                 this.#currentlyWalking = false;
             }
             this.currentTarget = _waypoint;
-            this.animator.animation = this.animations.get("interact");
             this.nextTarget = null;
         }
         reachedWaypoint(_event) {
@@ -81,7 +85,7 @@ var Script;
             // console.log("reacged", _event.detail);
         }
         finishedWalking(_event) {
-            this.animator.animation = this.animations.get("idle");
+            this.animator.animation = this.animations.get("Idle");
             this.#currentlyWalking = false;
             let currentWaypoint = _event.detail;
             if (this.nextTarget) {
@@ -436,6 +440,7 @@ var Script;
         INTERACTION_TYPE[INTERACTION_TYPE["LOOK_AT"] = 1] = "LOOK_AT";
         INTERACTION_TYPE[INTERACTION_TYPE["PICK_UP"] = 2] = "PICK_UP";
         INTERACTION_TYPE[INTERACTION_TYPE["TALK_TO"] = 3] = "TALK_TO";
+        INTERACTION_TYPE[INTERACTION_TYPE["DOOR"] = 4] = "DOOR";
     })(INTERACTION_TYPE = Script.INTERACTION_TYPE || (Script.INTERACTION_TYPE = {}));
 })(Script || (Script = {}));
 var Script;
@@ -513,7 +518,7 @@ var Script;
         ƒ.AudioManager.default.update();
     }
     function pointermove(_event) {
-        Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
+        Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door");
         mouseIsOverInteractable = false;
         Script.mainViewport.dispatchPointerEvent(_event);
     }
@@ -553,20 +558,21 @@ var Script;
             case Script.INTERACTION_TYPE.TALK_TO:
                 Script.mainViewport.canvas.classList.add("cursor-talk");
                 break;
+            case Script.INTERACTION_TYPE.DOOR:
+                Script.mainViewport.canvas.classList.add("cursor-door");
+                break;
             default:
                 break;
         }
     }
     function isDroppable(_event) {
         let pick = findPickable(_event);
-        console.log("isDroppable", pick);
         if (pick) {
             _event.preventDefault();
         }
     }
     function drop(_event) {
         let pick = findPickable(_event);
-        console.log("drop", pick);
         if (pick) {
             let interactable = findInteractable(pick.node);
             if (!interactable)
@@ -578,14 +584,33 @@ var Script;
         }
     }
     function findPickable(_event) {
-        let picks = ƒ.Picker.pickViewport(Script.mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
-        for (let pick of picks) {
-            let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
-            if (cmpPick && cmpPick.isActive) {
-                return pick;
+        // let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
+        // for (let pick of picks) {
+        //   let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
+        //   if (cmpPick && cmpPick.isActive) {
+        //     return pick;
+        //   }
+        // }
+        // return null;
+        let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+        let smallestDistance = Infinity;
+        let closestItem;
+        let items = node.getChildrenByName("items")[0].getChildren();
+        for (let item of items) {
+            let pick = item.getComponent(ƒ.ComponentPick);
+            if (!pick)
+                continue;
+            if (!pick.isActive)
+                continue;
+            let distance = ray.getDistance(item.mtxWorld.translation).magnitudeSquared;
+            if (pick.node.radius * pick.node.radius > distance)
+                continue;
+            if (distance < smallestDistance) {
+                smallestDistance = distance;
+                closestItem = pick;
             }
         }
-        return null;
+        return closestItem;
     }
     function findInteractable(_node) {
         return _node.getAllComponents().find(i => i instanceof Script.Interactable);
@@ -680,6 +705,20 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    class SceneManager {
+        static Instance = new Script.DialogManager();
+        static load(_name) {
+            console.log("load scene", _name);
+            let sceneToLoad = ƒ.Project.getResourcesByName(_name)[0];
+            if (!sceneToLoad || !(sceneToLoad instanceof ƒ.Node))
+                return console.error(`scene ${_name} not found.`);
+            Script.mainViewport.setBranch(sceneToLoad);
+        }
+    }
+    Script.SceneManager = SceneManager;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class DefaultViewable extends Script.Interactable {
         text = "...";
         name = "Gegenstand";
@@ -705,5 +744,29 @@ var Script;
         }
     }
     Script.DefaultViewable = DefaultViewable;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    class Door extends Script.Interactable {
+        target = "main";
+        constructor(_name, _image) {
+            super(_name, _image);
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.radius = 1;
+            });
+        }
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.DOOR;
+        }
+        interact() {
+            Script.SceneManager.load(this.target);
+        }
+        tryUseWith(_interactable) { }
+    }
+    Script.Door = Door;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

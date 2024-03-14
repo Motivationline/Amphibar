@@ -65,6 +65,10 @@ canvas.fullscreen {
   cursor: url("cursors/eye.png"), pointer;
 }
 
+.cursor-door {
+  cursor: url("cursors/door.png"), pointer;
+}
+
 .hidden {
   display: none;
 }

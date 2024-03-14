@@ -45,5 +45,6 @@ namespace Script {
         LOOK_AT,
         PICK_UP,
         TALK_TO,
+        DOOR,
     }
 }

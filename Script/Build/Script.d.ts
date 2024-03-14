@@ -94,7 +94,8 @@ declare namespace Script {
         NONE = 0,
         LOOK_AT = 1,
         PICK_UP = 2,
-        TALK_TO = 3
+        TALK_TO = 3,
+        DOOR = 4
     }
 }
 declare namespace Script {
@@ -134,9 +135,24 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class SceneManager {
+        static Instance: DialogManager;
+        static load(_name: string): void;
+    }
+}
+declare namespace Script {
     class DefaultViewable extends Interactable {
         text: string;
         name: string;
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class Door extends Interactable {
+        target: string;
         constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;

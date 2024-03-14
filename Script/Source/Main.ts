@@ -59,7 +59,7 @@ namespace Script {
   }
 
   function pointermove(_event: PointerEvent): void {
-    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
+    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door");
     mouseIsOverInteractable = false;
     mainViewport.dispatchPointerEvent(_event);
   }
@@ -99,6 +99,9 @@ namespace Script {
       case INTERACTION_TYPE.TALK_TO:
         mainViewport.canvas.classList.add("cursor-talk");
         break;
+      case INTERACTION_TYPE.DOOR:
+        mainViewport.canvas.classList.add("cursor-door");
+        break;
 
       default:
         break;
@@ -123,15 +126,33 @@ namespace Script {
     }
   }
 
-  function findPickable(_event: MouseEvent): ƒ.Pick {
-    let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
-    for (let pick of picks) {
-      let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
-      if (cmpPick && cmpPick.isActive) {
-        return pick;
+  function findPickable(_event: MouseEvent): ƒ.ComponentPick {
+    // let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
+    // for (let pick of picks) {
+    //   let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
+    //   if (cmpPick && cmpPick.isActive) {
+    //     return pick;
+    //   }
+    // }
+    // return null;
+    
+    let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+    let smallestDistance = Infinity;
+    let closestItem: ƒ.ComponentPick;
+    let items = node.getChildrenByName("items")[0].getChildren()
+    for(let item of items){
+      let pick = item.getComponent(ƒ.ComponentPick);
+      if(!pick) continue;
+      if(!pick.isActive) continue;
+      let distance = ray.getDistance(item.mtxWorld.translation).magnitudeSquared;
+      if(pick.node.radius * pick.node.radius > distance) continue;
+      if(distance < smallestDistance) {
+        smallestDistance = distance;
+        closestItem = pick;
       }
     }
-    return null;
+    
+    return closestItem;
   }
 
   function findInteractable(_node: ƒ.Node): Interactable {

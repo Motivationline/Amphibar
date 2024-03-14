@@ -32,12 +32,16 @@ namespace Script {
       this.walker.addEventListener(ƒ.EVENT.WAYPOINT_REACHED, this.reachedWaypoint.bind(this));
       this.walker.addEventListener(ƒ.EVENT.PATHING_CONCLUDED, this.finishedWalking.bind(this));
 
-      this.animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+      this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
 
       // console.log("idle", );
-      this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
-      this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
-      this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
+      let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
+      for (let anim of animations) {
+        this.animations.set(anim.name, <ƒ.Animation>anim);
+      }
+      // this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
+      // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
+      // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
     }
 
     public moveTo(_waypoint: ƒ.ComponentWaypoint) {
@@ -46,22 +50,23 @@ namespace Script {
     }
 
     private actuallyWalk(_waypoint: ƒ.ComponentWaypoint) {
-      if (this.currentTarget) {
+      if (this.currentTarget && this.currentTarget !== _waypoint) {
         this.walker.moveTo(this.currentTarget, _waypoint, true);
         this.#currentlyWalking = true;
+        this.animator.animation = this.animations.get("WalkDerpy");
       } else {
         this.walker.moveTo(_waypoint);
         this.#currentlyWalking = false;
       }
+      
       this.currentTarget = _waypoint;
-      this.animator.animation = this.animations.get("interact");
       this.nextTarget = null;
     }
 
     private reachedWaypoint(_event: CustomEvent) {
       // TODO Check if the character is stuck somehow. 
       let currentWaypoint: ƒ.ComponentWaypoint = _event.detail;
-      if(this.nextTarget){
+      if (this.nextTarget) {
         this.currentTarget = currentWaypoint;
         this.actuallyWalk(this.nextTarget);
       }
@@ -71,11 +76,11 @@ namespace Script {
     }
 
     private finishedWalking(_event: CustomEvent) {
-      this.animator.animation = this.animations.get("idle");
+      this.animator.animation = this.animations.get("Idle");
       this.#currentlyWalking = false;
-      
+
       let currentWaypoint: ƒ.ComponentWaypoint = _event.detail;
-      if(this.nextTarget){
+      if (this.nextTarget) {
         this.currentTarget = currentWaypoint;
         this.actuallyWalk(this.nextTarget);
       }
