@@ -45,7 +45,7 @@ var Script;
             this.walker = this.node.getComponent(ƒ.ComponentWalker);
             this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
             this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
-            this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
+            this.animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
             // console.log("idle", );
             this.animations.set("idle", ƒ.Project.getResourcesByName("Idle")[0]);
             this.animations.set("interact", ƒ.Project.getResourcesByName("Interact")[0]);
@@ -66,10 +66,11 @@ var Script;
                 this.#currentlyWalking = false;
             }
             this.currentTarget = _waypoint;
-            this.animator.animation = this.animations.get("walk");
+            this.animator.animation = this.animations.get("interact");
             this.nextTarget = null;
         }
         reachedWaypoint(_event) {
+            // TODO Check if the character is stuck somehow. 
             let currentWaypoint = _event.detail;
             if (this.nextTarget) {
                 this.currentTarget = currentWaypoint;
@@ -466,6 +467,7 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
+    var ƒAid = FudgeAid;
     ƒ.Debug.info("Main Program Template running!");
     let node;
     document.addEventListener("interactiveViewportStarted", start);
@@ -475,21 +477,42 @@ var Script;
         Script.mainViewport = _event.detail;
         Script.mainViewport.canvas.addEventListener("dragover", isDroppable);
         Script.mainViewport.canvas.addEventListener("drop", drop);
-        Script.mainViewport.canvas.addEventListener("mousemove", mousemove);
+        Script.mainViewport.canvas.addEventListener("pointermove", pointermove);
         Script.mainViewport.canvas.addEventListener("click", mouseclick);
         node = Script.mainViewport.getBranch();
-        node.addEventListener("mousemove", foundNode);
+        node.addEventListener("pointermove", foundNode);
+        addInteractionSphere(node);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
-        Script.inventory.addItem(new ExampleInteractable("test", "items/item.png"));
+        Script.inventory.addItem(new Script.DefaultViewable("test", "items/item.png"));
+    }
+    function addInteractionSphere(_node) {
+        let meshShpere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
+        let material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
+        let children = node.getChildren();
+        let wrapper = new ƒ.Node("Wrapper");
+        for (let child of children) {
+            if (child.nChildren > 0) {
+                children.push(...child.getChildren());
+            }
+            let component = child.getComponent(ƒ.ComponentPick);
+            if (component && component.isActive && component.pick === ƒ.PICK.RADIUS) {
+                let sphere = new ƒAid.Node("BoundingSphere", ƒ.Matrix4x4.SCALING(ƒ.Vector3.ONE(2)), material, meshShpere);
+                sphere.mtxLocal.scale(ƒ.Vector3.ONE(child.radius));
+                sphere.mtxLocal.translation = child.mtxWorld.translation;
+                sphere.getComponent(ƒ.ComponentMaterial).sortForAlpha = true;
+                wrapper.addChild(sphere);
+            }
+        }
+        _node.addChild(wrapper);
     }
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
         Script.mainViewport.draw();
         ƒ.AudioManager.default.update();
     }
-    function mousemove(_event) {
+    function pointermove(_event) {
         Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
         mouseIsOverInteractable = false;
         Script.mainViewport.dispatchPointerEvent(_event);
@@ -536,12 +559,14 @@ var Script;
     }
     function isDroppable(_event) {
         let pick = findPickable(_event);
+        console.log("isDroppable", pick);
         if (pick) {
             _event.preventDefault();
         }
     }
     function drop(_event) {
         let pick = findPickable(_event);
+        console.log("drop", pick);
         if (pick) {
             let interactable = findInteractable(pick.node);
             if (!interactable)

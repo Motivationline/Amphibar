@@ -1,5 +1,6 @@
 namespace Script {
   import ƒ = FudgeCore;
+  import ƒAid = FudgeAid;
   ƒ.Debug.info("Main Program Template running!");
 
   export let mainViewport: ƒ.Viewport;
@@ -14,18 +15,41 @@ namespace Script {
     mainViewport = _event.detail;
     mainViewport.canvas.addEventListener("dragover", isDroppable)
     mainViewport.canvas.addEventListener("drop", drop)
-    mainViewport.canvas.addEventListener("mousemove", <EventListener>mousemove);
+    mainViewport.canvas.addEventListener("pointermove", <EventListener>pointermove);
     mainViewport.canvas.addEventListener("click", <EventListener>mouseclick);
 
 
     node = mainViewport.getBranch();
-    node.addEventListener("mousemove", <EventListener>foundNode);
+    node.addEventListener("pointermove", <EventListener>foundNode);
+
+    addInteractionSphere(node);
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
 
     inventory = new Inventory();
-    inventory.addItem(new ExampleInteractable("test", "items/item.png"))
+    inventory.addItem(new DefaultViewable("test", "items/item.png"))
+  }
+
+  function addInteractionSphere(_node: ƒ.Node){
+    let meshShpere: ƒ.MeshSphere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
+    let material: ƒ.Material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
+    let children = node.getChildren();
+    let wrapper = new ƒ.Node("Wrapper");
+    for(let child of children){
+      if(child.nChildren > 0) {
+        children.push(...child.getChildren());
+      }
+      let component = child.getComponent(ƒ.ComponentPick);
+      if(component && component.isActive && component.pick === ƒ.PICK.RADIUS){
+        let sphere = new ƒAid.Node("BoundingSphere", ƒ.Matrix4x4.SCALING(ƒ.Vector3.ONE(2)), material, meshShpere);
+        sphere.mtxLocal.scale(ƒ.Vector3.ONE(child.radius));
+        sphere.mtxLocal.translation =  child.mtxWorld.translation;
+        sphere.getComponent(ƒ.ComponentMaterial).sortForAlpha = true;
+        wrapper.addChild(sphere);
+      }
+    }
+    _node.addChild(wrapper);
   }
 
   function update(_event: Event): void {
@@ -34,7 +58,7 @@ namespace Script {
     ƒ.AudioManager.default.update();
   }
 
-  function mousemove(_event: PointerEvent): void {
+  function pointermove(_event: PointerEvent): void {
     mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look");
     mouseIsOverInteractable = false;
     mainViewport.dispatchPointerEvent(_event);

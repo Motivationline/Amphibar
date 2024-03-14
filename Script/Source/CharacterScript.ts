@@ -32,7 +32,7 @@ namespace Script {
       this.walker.addEventListener(ƒ.EVENT.WAYPOINT_REACHED, this.reachedWaypoint.bind(this));
       this.walker.addEventListener(ƒ.EVENT.PATHING_CONCLUDED, this.finishedWalking.bind(this));
 
-      this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
+      this.animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
 
       // console.log("idle", );
       this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
@@ -54,11 +54,12 @@ namespace Script {
         this.#currentlyWalking = false;
       }
       this.currentTarget = _waypoint;
-      this.animator.animation = this.animations.get("walk");
+      this.animator.animation = this.animations.get("interact");
       this.nextTarget = null;
     }
 
     private reachedWaypoint(_event: CustomEvent) {
+      // TODO Check if the character is stuck somehow. 
       let currentWaypoint: ƒ.ComponentWaypoint = _event.detail;
       if(this.nextTarget){
         this.currentTarget = currentWaypoint;

@@ -1,0 +1,86 @@
+{
+  "Fudge.ResourceFolder": {
+    "name": "Resources",
+    "children": [
+      {
+        "name": "main_scenes",
+        "children": [
+          {
+            "idResource": "Graph|2024-03-01T13:06:50.608Z|29850"
+          },
+          {
+            "idResource": "Graph|2024-02-08T13:52:27.562Z|67214"
+          }
+        ]
+      },
+      {
+        "name": "bathroom",
+        "children": [
+          {
+            "idResource": "GraphGLTF|2024-03-01T13:07:15.611Z|57542"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T13:52:32.535Z|34115"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T14:33:05.788Z|69655"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T14:33:06.521Z|05908"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T14:33:07.041Z|69856"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T14:33:07.468Z|46868"
+          },
+          {
+            "idResource": "GraphGLTF|2024-03-13T14:33:08.030Z|29798"
+          }
+        ]
+      },
+      {
+        "name": "characters",
+        "children": [
+          {
+            "name": "tadpole",
+            "children": [
+              {
+                "idResource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-03-13T11:00:53.756Z|80322"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-03-13T11:00:53.876Z|15008"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-03-13T11:00:53.922Z|51427"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "testing",
+        "children": [
+          {
+            "idResource": "MeshCube|2024-02-13T09:21:08.648Z|96287"
+          },
+          {
+            "idResource": "Material|2024-02-13T09:21:21.936Z|45616"
+          },
+          {
+            "idResource": "Material|2024-02-13T12:09:57.963Z|31473"
+          },
+          {
+            "idResource": "Graph|2024-02-13T08:54:57.615Z|22761"
+          },
+          {
+            "idResource": "Graph|2024-03-12T13:23:13.773Z|37806"
+          }
+        ]
+      }
+    ]
+  }
+}
