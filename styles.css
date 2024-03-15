@@ -121,3 +121,27 @@ canvas.fullscreen {
   80% { transform: translate(3px, 9px); }
   100% { transform: translate(0px, 5px); }
 }
+
+/* scene transition overlay */
+#scene-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  cursor: none;
+  background-color: black;
+  display: none;
+}
+#scene-overlay.active {
+  display: block;
+  animation: scene 2.0s;
+}
+
+@keyframes scene {
+  0% {clip-path: circle(0%);}
+  45% {clip-path: circle(100%);}
+  55% {clip-path: circle(100%);}
+  100% {clip-path: circle(0%);}
+}

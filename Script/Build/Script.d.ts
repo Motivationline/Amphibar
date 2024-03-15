@@ -136,8 +136,11 @@ declare namespace Script {
 }
 declare namespace Script {
     class SceneManager {
-        static Instance: DialogManager;
+        static Instance: SceneManager;
+        static isTransitioning: boolean;
+        constructor();
         static load(_name: string): void;
+        private static loadScene;
     }
 }
 declare namespace Script {

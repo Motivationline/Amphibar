@@ -706,13 +706,34 @@ var Script;
 var Script;
 (function (Script) {
     class SceneManager {
-        static Instance = new Script.DialogManager();
+        static Instance = new SceneManager();
+        static isTransitioning = false;
+        constructor() {
+            if (SceneManager.Instance)
+                return SceneManager.Instance;
+            SceneManager.Instance = this;
+        }
         static load(_name) {
+            if (this.isTransitioning)
+                return;
             console.log("load scene", _name);
             let sceneToLoad = ƒ.Project.getResourcesByName(_name)[0];
             if (!sceneToLoad || !(sceneToLoad instanceof ƒ.Node))
                 return console.error(`scene ${_name} not found.`);
-            Script.mainViewport.setBranch(sceneToLoad);
+            this.isTransitioning = true;
+            let overlay = document.getElementById("scene-overlay");
+            overlay.classList.add("active");
+            setTimeout(() => {
+                //@ts-ignore
+                this.loadScene(sceneToLoad);
+            }, 1000);
+            setTimeout(() => {
+                overlay.classList.remove("active");
+                this.isTransitioning = false;
+            }, 2000);
+        }
+        static loadScene(_scene) {
+            Script.mainViewport.setBranch(_scene);
         }
     }
     Script.SceneManager = SceneManager;
