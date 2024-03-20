@@ -18,10 +18,12 @@ declare namespace Script {
         private animations;
         constructor();
         private init;
-        moveTo(_waypoint: ƒ.ComponentWaypoint): void;
+        private setCharacter;
+        moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown>;
         private actuallyWalk;
         private reachedWaypoint;
         private finishedWalking;
+        private resolveOrReject;
     }
 }
 declare namespace Script {
@@ -62,6 +64,7 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     class GenerateWaypointsScript extends ƒ.ComponentScript {
+        #private;
         static readonly iSubclass: number;
         dx: number;
         dz: number;
@@ -110,9 +113,11 @@ declare namespace Script {
 declare namespace Script {
     import ƒ = FudgeCore;
     let mainViewport: ƒ.Viewport;
+    let mainNode: ƒ.Node;
     let inventory: Inventory;
     const interactableItems: Interactable[];
     let character: CharacterScript;
+    function foundNode(_event: PointerEvent): void;
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -135,8 +140,7 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    class SceneManager {
-        static Instance: SceneManager;
+    class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean;
         constructor();
         static load(_name: string): void;

@@ -31,17 +31,20 @@ var Script;
         animator;
         animations = new Map();
         #currentlyWalking = false;
+        #currentPromiseResolve;
+        #currentPromiseReject;
         constructor() {
             super();
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
             ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
-            // this.addEventListener(ƒ.EVENT.GRAPH_INSTANTIATED, this.init.bind(this));
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setCharacter.bind(this), true);
+            });
         }
         init() {
             // this.node.addEventListener("click");
-            Script.character = this;
             this.walker = this.node.getComponent(ƒ.ComponentWalker);
             this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
             this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
@@ -55,20 +58,37 @@ var Script;
             // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
             // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
         }
+        setCharacter() {
+            Script.character = this;
+        }
         moveTo(_waypoint) {
-            if (!this.#currentlyWalking)
-                return this.actuallyWalk(_waypoint);
-            this.nextTarget = _waypoint;
+            this.resolveOrReject(false);
+            let promise = new Promise((resolve, reject) => {
+                this.#currentPromiseResolve = resolve;
+                this.#currentPromiseReject = reject;
+            });
+            if (!this.#currentlyWalking) {
+                this.actuallyWalk(_waypoint);
+            }
+            else {
+                this.nextTarget = _waypoint;
+            }
+            return promise;
         }
         actuallyWalk(_waypoint) {
             if (this.currentTarget && this.currentTarget !== _waypoint) {
-                this.walker.moveTo(this.currentTarget, _waypoint, true);
                 this.#currentlyWalking = true;
                 this.animator.animation = this.animations.get("WalkDerpy");
+                this.walker.moveTo(this.currentTarget, _waypoint, true).catch(() => {
+                    this.#currentlyWalking = false;
+                    this.resolveOrReject(true);
+                    this.animator.animation = this.animations.get("Idle");
+                });
             }
             else {
-                this.walker.moveTo(_waypoint);
                 this.#currentlyWalking = false;
+                this.walker.moveTo(_waypoint);
+                this.resolveOrReject(true);
             }
             this.currentTarget = _waypoint;
             this.nextTarget = null;
@@ -92,6 +112,15 @@ var Script;
                 this.currentTarget = currentWaypoint;
                 this.actuallyWalk(this.nextTarget);
             }
+            this.resolveOrReject(true);
+        }
+        resolveOrReject(_resolve) {
+            if (_resolve && this.#currentPromiseResolve)
+                this.#currentPromiseResolve();
+            if (!_resolve && this.#currentPromiseReject)
+                this.#currentPromiseReject();
+            this.#currentPromiseReject = null;
+            this.#currentPromiseResolve = null;
         }
     }
     Script.CharacterScript = CharacterScript;
@@ -286,6 +315,7 @@ var Script;
         dx = 2;
         dz = 2;
         distance = 0.5;
+        #waypoints = [];
         constructor() {
             super();
             // Don't start when running in editor
@@ -293,23 +323,27 @@ var Script;
                 return;
             // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.createWaypoints.bind(this));
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                // this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.createWaypoints.bind(this), true);
+            });
         }
-        createWaypoints() {
+        createWaypoints(_ev) {
+            console.log("create", _ev.type);
             for (let comp of this.node.getComponents(ƒ.ComponentWaypoint)) {
                 this.node.removeComponent(comp);
             }
+            this.#waypoints = [];
             let connectionDistance = this.distance * this.distance * 2.5 /* slightly more than sqrt(2) = 1.41 */;
-            let waypoints = [];
             for (let x = 0; x <= this.dx; x += this.distance) {
                 for (let z = 0; z <= this.dz; z += this.distance) {
                     let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.CONSTRUCTION(new ƒ.Vector3(x, 0, z)));
                     this.node.addComponent(waypoint);
-                    for (let w of waypoints) {
+                    for (let w of this.#waypoints) {
                         let distance = ƒ.Vector3.DIFFERENCE(w.mtxWorld.translation, waypoint.mtxWorld.translation).magnitudeSquared;
                         if (distance < connectionDistance)
                             ƒ.ComponentWaypoint.addConnection(w, waypoint, distance, 1, true);
                     }
-                    waypoints.push(waypoint);
+                    this.#waypoints.push(waypoint);
                 }
             }
         }
@@ -474,7 +508,6 @@ var Script;
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
     ƒ.Debug.info("Main Program Template running!");
-    let node;
     document.addEventListener("interactiveViewportStarted", start);
     let mouseIsOverInteractable = false;
     Script.interactableItems = [];
@@ -484,9 +517,9 @@ var Script;
         Script.mainViewport.canvas.addEventListener("drop", drop);
         Script.mainViewport.canvas.addEventListener("pointermove", pointermove);
         Script.mainViewport.canvas.addEventListener("click", mouseclick);
-        node = Script.mainViewport.getBranch();
-        node.addEventListener("pointermove", foundNode);
-        addInteractionSphere(node);
+        Script.mainNode = Script.mainViewport.getBranch();
+        Script.mainNode.addEventListener("pointermove", foundNode);
+        addInteractionSphere(Script.mainNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
@@ -495,7 +528,7 @@ var Script;
     function addInteractionSphere(_node) {
         let meshShpere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
         let material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
-        let children = node.getChildren();
+        let children = Script.mainNode.getChildren();
         let wrapper = new ƒ.Node("Wrapper");
         for (let child of children) {
             if (child.nChildren > 0) {
@@ -523,23 +556,27 @@ var Script;
         Script.mainViewport.dispatchPointerEvent(_event);
     }
     function mouseclick(_event) {
-        Script.mainViewport.dispatchPointerEvent(_event);
         // move character
-        if (!Script.character)
+        if (!Script.character) {
+            Script.mainViewport.dispatchPointerEvent(_event);
             return;
+        }
         let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
         if (ray.direction.y > 0)
             return;
         let smallestDistance = Infinity;
         let closestWaypoint;
-        for (let waypoint of ƒ.ComponentWaypoint.waypoints) {
+        let waypointNode = Script.mainNode.getChildrenByName("waypoints")[0];
+        for (let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)) {
             let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 closestWaypoint = waypoint;
             }
         }
-        Script.character.moveTo(closestWaypoint);
+        Script.character.moveTo(closestWaypoint).then(() => {
+            Script.mainViewport.dispatchPointerEvent(_event);
+        }).catch(() => { });
     }
     function foundNode(_event) {
         mouseIsOverInteractable = true;
@@ -565,6 +602,7 @@ var Script;
                 break;
         }
     }
+    Script.foundNode = foundNode;
     function isDroppable(_event) {
         let pick = findPickable(_event);
         if (pick) {
@@ -595,7 +633,7 @@ var Script;
         let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
         let smallestDistance = Infinity;
         let closestItem;
-        let items = node.getChildrenByName("items")[0].getChildren();
+        let items = Script.mainNode.getChildrenByName("items")[0].getChildren();
         for (let item of items) {
             let pick = item.getComponent(ƒ.ComponentPick);
             if (!pick)
@@ -705,13 +743,15 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class SceneManager {
-        static Instance = new SceneManager();
+    class SceneManager extends ƒ.ComponentScript {
         static isTransitioning = false;
         constructor() {
-            if (SceneManager.Instance)
-                return SceneManager.Instance;
-            SceneManager.Instance = this;
+            super();
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            // this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
+            //     this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.node.broadcastEvent.bind(this.node));
+            // });
         }
         static load(_name) {
             if (this.isTransitioning)
@@ -733,7 +773,14 @@ var Script;
             }, 2000);
         }
         static loadScene(_scene) {
+            Script.mainNode.removeEventListener("pointermove", Script.foundNode);
+            // for(let waypoint of ƒ.ComponentWaypoint.waypoints){
+            //     waypoint.node.removeComponent(waypoint);
+            // }
+            Script.character = null;
             Script.mainViewport.setBranch(_scene);
+            Script.mainNode = _scene;
+            _scene.addEventListener("pointermove", Script.foundNode);
         }
     }
     Script.SceneManager = SceneManager;

@@ -22,7 +22,25 @@
     "ƒ.Graph": {
       "name": "main",
       "active": true,
-      "components": {},
+      "components": {
+        "SceneManager": [
+          {
+            "Script.SceneManager": {
+              "active": true
+            }
+          }
+        ],
+        "GenerateWaypointsScript": [
+          {
+            "Script.GenerateWaypointsScript": {
+              "active": true,
+              "dx": 2,
+              "dz": 2,
+              "distance": 0.5
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.Node": {
@@ -89,6 +107,138 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "waypoints",
+            "active": true,
+            "components": {
+              "GenerateWaypointsScript": [
+                {
+                  "Script.GenerateWaypointsScript": {
+                    "active": true,
+                    "dx": 2,
+                    "dz": 2,
+                    "distance": 0.5
+                  }
+                }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "tadpole",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentWalker": [
+                {
+                  "ƒ.ComponentWalker": {
+                    "Component": {
+                      "active": true
+                    },
+                    "speed": 1
+                  }
+                }
+              ],
+              "CharacterScript": [
+                {
+                  "Script.CharacterScript": {
+                    "active": true
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "tadpoleWrapper",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[0.7999999523162842, 0.7999999523162842, 0.7999999523162842]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "light",
+            "active": true,
+            "components": {
+              "ComponentLight": [
+                {
+                  "ƒ.ComponentLight": {
+                    "pivot": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "light": {
+                      "ƒ.LightAmbient": {
+                        "color": "[1, 1, 1, 1]"
+                      }
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
           }
         }
       ],
@@ -503,7 +653,15 @@
     "ƒ.Graph": {
       "name": "bath",
       "active": true,
-      "components": {},
+      "components": {
+        "SceneManager": [
+          {
+            "Script.SceneManager": {
+              "active": true
+            }
+          }
+        ]
+      },
       "children": [
         {
           "ƒ.GraphInstance": {

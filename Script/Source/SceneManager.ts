@@ -1,11 +1,16 @@
 namespace Script {
-    export class SceneManager {
-        public static Instance = new SceneManager();
+    export class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean = false;
 
-        constructor(){
-            if(SceneManager.Instance) return SceneManager.Instance;
-            SceneManager.Instance = this;
+        constructor() {
+            super();
+
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+
+            // this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
+            //     this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.node.broadcastEvent.bind(this.node));
+            // });
         }
 
         static load(_name: string) {
@@ -27,8 +32,14 @@ namespace Script {
         }
 
         private static loadScene(_scene: ƒ.Node) {
+            mainNode.removeEventListener("pointermove", <EventListener>foundNode);
+            // for(let waypoint of ƒ.ComponentWaypoint.waypoints){
+            //     waypoint.node.removeComponent(waypoint);
+            // }
+            character = null;
             mainViewport.setBranch(_scene);
-
+            mainNode = _scene;
+            _scene.addEventListener("pointermove", <EventListener>foundNode);
         }
     }
 }

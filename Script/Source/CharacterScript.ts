@@ -12,6 +12,8 @@ namespace Script {
     private animations: Map<string, ƒ.Animation> = new Map();
 
     #currentlyWalking: boolean = false;
+    #currentPromiseResolve: (value?: unknown) => void;
+    #currentPromiseReject: (value?: unknown) => void;
 
     constructor() {
       super();
@@ -21,14 +23,14 @@ namespace Script {
         return;
 
       ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, this.init.bind(this));
-      // this.addEventListener(ƒ.EVENT.GRAPH_INSTANTIATED, this.init.bind(this));
+      this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
+        this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.setCharacter.bind(this), true);
+      });
     }
 
     private init() {
       // this.node.addEventListener("click");
-      character = this;
       this.walker = this.node.getComponent(ƒ.ComponentWalker);
-
       this.walker.addEventListener(ƒ.EVENT.WAYPOINT_REACHED, this.reachedWaypoint.bind(this));
       this.walker.addEventListener(ƒ.EVENT.PATHING_CONCLUDED, this.finishedWalking.bind(this));
 
@@ -44,21 +46,40 @@ namespace Script {
       // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
     }
 
-    public moveTo(_waypoint: ƒ.ComponentWaypoint) {
-      if (!this.#currentlyWalking) return this.actuallyWalk(_waypoint);
-      this.nextTarget = _waypoint;
+    private setCharacter() {
+      character = this;
+    }
+
+    public moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown> {
+      this.resolveOrReject(false);
+
+      let promise = new Promise((resolve, reject) => {
+        this.#currentPromiseResolve = resolve;
+        this.#currentPromiseReject = reject;
+      })
+      if (!this.#currentlyWalking) {
+        this.actuallyWalk(_waypoint);
+      } else {
+        this.nextTarget = _waypoint;
+      }
+      return promise;
     }
 
     private actuallyWalk(_waypoint: ƒ.ComponentWaypoint) {
       if (this.currentTarget && this.currentTarget !== _waypoint) {
-        this.walker.moveTo(this.currentTarget, _waypoint, true);
         this.#currentlyWalking = true;
         this.animator.animation = this.animations.get("WalkDerpy");
+        this.walker.moveTo(this.currentTarget, _waypoint, true).catch(() => {
+          this.#currentlyWalking = false;
+          this.resolveOrReject(true);
+          this.animator.animation = this.animations.get("Idle");
+        });
       } else {
-        this.walker.moveTo(_waypoint);
         this.#currentlyWalking = false;
+        this.walker.moveTo(_waypoint);
+        this.resolveOrReject(true);
       }
-      
+
       this.currentTarget = _waypoint;
       this.nextTarget = null;
     }
@@ -84,6 +105,14 @@ namespace Script {
         this.currentTarget = currentWaypoint;
         this.actuallyWalk(this.nextTarget);
       }
+      this.resolveOrReject(true);
+    }
+
+    private resolveOrReject(_resolve: boolean) {
+      if (_resolve && this.#currentPromiseResolve) this.#currentPromiseResolve();
+      if (!_resolve && this.#currentPromiseReject) this.#currentPromiseReject();
+      this.#currentPromiseReject = null;
+      this.#currentPromiseResolve = null;
     }
   }
 }
