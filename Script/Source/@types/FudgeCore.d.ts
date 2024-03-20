@@ -177,9 +177,9 @@ declare namespace FudgeCore {
         NODE_SERIALIZED = "nodeSerialized",
         /** dispatched to {@link Node} and all its {@link Component}s when it's done deserializing, so all components, children and attributes are available */
         NODE_DESERIALIZED = "nodeDeserialized",
-        /** dispatched to {@link GraphInstance} when it's content is set according to a serialization of a {@link Graph}  */
+        /** dispatched to {@link GraphInstance} when it's content is set according to a serialization of a {@link Graph}. Broadcasted, so needs to be caught in capture. */
         GRAPH_INSTANTIATED = "graphInstantiated",
-        /** dispatched to a {@link Graph} when it's finished deserializing */
+        /** dispatched to a {@link Graph} when it's finished deserializing. Broadcasted, so needs to be caught in capture. */
         GRAPH_DESERIALIZED = "graphDeserialized",
         /** dispatched by a {@link Graph} when it and its connected instances have finished mutating  */
         GRAPH_MUTATED = "graphMutated",
@@ -199,7 +199,7 @@ declare namespace FudgeCore {
         RENDER_END = "renderEnd",
         /** dispatched to {@link Joint}-Components in order to disconnect */
         DISCONNECT_JOINT = "disconnectJoint",
-        /** dispatched to {@link Node} when it gets attached to a viewport for rendering */
+        /** dispatched to {@link Node} when it gets attached to a viewport for rendering. Broadcasted, so needs to be caught in capture. */
         ATTACH_BRANCH = "attachBranch",
         /** dispatched to {@link Project} when it's done loading resources from a url */
         RESOURCES_LOADED = "resourcesLoaded",
@@ -555,6 +555,10 @@ declare namespace FudgeCore {
          */
         addChild(_child: Node): void;
         /**
+         * Adds the given reference to a node to the list of children at the given index. If it is already a child, it is moved to the new position.
+         */
+        addChild(_child: Node, _index: number): void;
+        /**
          * Removes the reference to the give node from the list of children
          */
         removeChild(_child: Node): void;
@@ -606,6 +610,10 @@ declare namespace FudgeCore {
          * Detach the given component from this node. Identical to {@link removeComponent}
          */
         detach(_component: Component): void;
+        /**
+         * Removes all components of the given class attached to this node.
+         */
+        removeComponents(_class: new () => Component): void;
         /**
          * Removes the given component from the node, if it was attached, and sets its parent to null.
          */
@@ -1786,7 +1794,7 @@ declare namespace FudgeCore {
     const AnimationGLTF_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -1799,6 +1807,7 @@ declare namespace FudgeCore {
      */
     export class AnimationGLTF extends AnimationGLTF_base {
         load(_url?: RequestInfo, _name?: string): Promise<AnimationGLTF>;
+        serialize(): Serialization;
     }
     export {};
 }
@@ -1853,6 +1862,7 @@ declare namespace FudgeCore {
      */
     class AnimationSequence extends Mutable implements Serializable {
         private keys;
+        constructor(_keys?: AnimationKey[]);
         get length(): number;
         /**
          * Evaluates the sequence at the given point in time.
@@ -2528,6 +2538,11 @@ declare namespace FudgeCore {
         /** Support sorting of objects with transparency when rendering, render objects in the back first. When this component is used as a part of a {@link ParticleSystem}, try enabling this when disabling {@link ComponentParticleSystem.depthMask} */
         sortForAlpha: boolean;
         constructor(_material?: Material);
+        /**
+         * Returns true if the material has any areas (color or texture) with alpha < 1.
+         * ⚠️ CAUTION: Computionally expensive for textured materials, see {@link Texture.hasTransparency}
+         */
+        get hasTransparency(): boolean;
         serialize(): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
     }
@@ -3252,7 +3267,7 @@ declare namespace FudgeCore {
     const GraphGLTF_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -3499,6 +3514,11 @@ declare namespace FudgeCore {
          */
         set coat(_coat: Coat);
         /**
+         * Returns true if the material has any areas (color or texture) with alpha < 1.
+         * ⚠️ CAUTION: Computionally expensive for textured materials, see {@link Texture.hasTransparency}
+         */
+        get hasTransparency(): boolean;
+        /**
          * Creates a new {@link Coat} instance that is valid for the {@link Shader} referenced by this material
          */
         createCoatMatchingShader(): Coat;
@@ -3522,7 +3542,7 @@ declare namespace FudgeCore {
     const MaterialGLTF_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -4757,7 +4777,7 @@ declare namespace FudgeCore {
     const MeshFBX_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -4796,7 +4816,7 @@ declare namespace FudgeCore {
     const MeshGLTF_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -4819,7 +4839,7 @@ declare namespace FudgeCore {
     const MeshOBJ_base: (abstract new (...args: any[]) => {
         url: RequestInfo;
         status: RESOURCE_STATUS;
-        serialize(): Serialization;
+        serialize(_super?: boolean): Serialization;
         deserialize(_serialization: Serialization): Promise<Serializable>;
         load(): Promise<any>;
         name: string;
@@ -7735,6 +7755,7 @@ declare namespace GLTF {
          */
         parent?: number;
         /**
+         * Path from the root node to this node.
          * Custom property set by FUDGE loader. Not part of glTF standard 2.0.
          */
         path?: number[];
@@ -7914,17 +7935,17 @@ declare namespace FudgeCore {
          */
         get name(): string;
         /**
-            * Returns all resources of the given type.
-            */
-        loadResources<T extends Serializable>(_class: new () => T): Promise<T[]>;
+         * Returns new instances of all resources of the given type.
+         */
+        loadResources<T extends SerializableResourceExternal>(_class: new () => T): Promise<T[]>;
         /**
          * Returns a {@link Graph} for the given scene name or the default scene if no name is given.
          */
-        getGraph(_name?: string): Promise<Node>;
+        getGraph(_name?: string): Promise<Graph>;
         /**
          * Returns a {@link Graph} for the given scene index or the default scene if no index is given.
          */
-        getGraph(_iScene?: number): Promise<Node>;
+        getGraph(_iScene?: number): Promise<Graph>;
         /**
          * Returns the first {@link Node} with the given name.
          */
@@ -8250,6 +8271,12 @@ declare namespace FudgeCore {
         set wrap(_wrap: WRAP);
         get wrap(): WRAP;
         /**
+         * Returns true if the texture has any texels with alpha < 1.
+         * ⚠️ CAUTION: Has to be recomputed whenever the texture/image data changes.
+         */
+        get hasTransparency(): boolean;
+        protected set hasTransparency(_hasTransparency: boolean);
+        /**
          * Returns the image source of this texture.
          */
         abstract get texImageSource(): ImageSource;
@@ -8310,6 +8337,7 @@ declare namespace FudgeCore {
         get texImageSource(): ImageSource;
         get width(): number;
         get height(): number;
+        get hasTransparency(): boolean;
         private get canvas();
         useRenderData(_textureUnit?: number): void;
         serialize(): Serialization;

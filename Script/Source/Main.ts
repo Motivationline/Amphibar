@@ -4,7 +4,7 @@ namespace Script {
   ƒ.Debug.info("Main Program Template running!");
 
   export let mainViewport: ƒ.Viewport;
-  let node: ƒ.Node;
+  export let mainNode: ƒ.Node;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
   let mouseIsOverInteractable: boolean = false;
   export let inventory: Inventory;
@@ -19,10 +19,10 @@ namespace Script {
     mainViewport.canvas.addEventListener("click", <EventListener>mouseclick);
 
 
-    node = mainViewport.getBranch();
-    node.addEventListener("pointermove", <EventListener>foundNode);
+    mainNode = mainViewport.getBranch();
+    mainNode.addEventListener("pointermove", <EventListener>foundNode);
 
-    addInteractionSphere(node);
+    addInteractionSphere(mainNode);
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -34,7 +34,7 @@ namespace Script {
   function addInteractionSphere(_node: ƒ.Node){
     let meshShpere: ƒ.MeshSphere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
     let material: ƒ.Material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
-    let children = node.getChildren();
+    let children = mainNode.getChildren();
     let wrapper = new ƒ.Node("Wrapper");
     for(let child of children){
       if(child.nChildren > 0) {
@@ -65,25 +65,29 @@ namespace Script {
   }
 
   function mouseclick(_event: PointerEvent): void {
-    mainViewport.dispatchPointerEvent(_event);
-
     // move character
-    if(!character) return;
+    if(!character) {
+      mainViewport.dispatchPointerEvent(_event);
+      return;
+    }
     let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
     if(ray.direction.y > 0) return;
     let smallestDistance = Infinity;
     let closestWaypoint: ƒ.ComponentWaypoint;
-    for(let waypoint of ƒ.ComponentWaypoint.waypoints){
+    let waypointNode = mainNode.getChildrenByName("waypoints")[0]
+    for(let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)){
       let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
       if(distance < smallestDistance) {
         smallestDistance = distance;
         closestWaypoint = waypoint;
       }
     }
-    character.moveTo(closestWaypoint);
+    character.moveTo(closestWaypoint).then(()=>{
+      mainViewport.dispatchPointerEvent(_event);
+    }).catch(()=>{});
   }
 
-  function foundNode(_event: PointerEvent): void {
+  export function foundNode(_event: PointerEvent): void {
     mouseIsOverInteractable = true;
     let node = <ƒ.Node>_event.target;
     let interactable = findInteractable(node);
@@ -139,7 +143,7 @@ namespace Script {
     let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
     let smallestDistance = Infinity;
     let closestItem: ƒ.ComponentPick;
-    let items = node.getChildrenByName("items")[0].getChildren()
+    let items = mainNode.getChildrenByName("items")[0].getChildren()
     for(let item of items){
       let pick = item.getComponent(ƒ.ComponentPick);
       if(!pick) continue;
