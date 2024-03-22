@@ -173,6 +173,8 @@ canvas.fullscreen {
 }
 #main-menu-screen {
   z-index: 1500;
+}
+#main-menu-wrapper {
   display: grid;
   grid-template-areas: 
   "logo logo ."
@@ -180,6 +182,10 @@ canvas.fullscreen {
   "exit . start";
   padding: 1em; 
   padding-top: 0; 
+  max-width: 1920px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
 }
 #options-screen {
   z-index: 1501;
