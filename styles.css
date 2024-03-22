@@ -219,6 +219,7 @@ canvas.fullscreen {
 #main-menu-sign {
   grid-area: logo;
   margin-top: -20px;
+  z-index: 1;
 }
 #main-menu-options {
   grid-area: options;
@@ -282,13 +283,13 @@ canvas.fullscreen {
   left: 20%;
 }
 #snail-1 img {
-  animation: snail-ver 280s infinite;
+  animation: snail-ver 280s infinite linear;
 }
 #snail-2 {
   top: 20%;
 }
 #snail-2 img {
-  animation: snail-hor 300s infinite;
+  animation: snail-hor 300s infinite linear;
 }
 @keyframes snail-hor {
   from {left: 100vw; top: 0}
@@ -296,5 +297,5 @@ canvas.fullscreen {
 }
 @keyframes snail-ver {
   from {bottom: 100vh; left: 0}
-  to {bottom: -30px; left: 24vw}
+  to {bottom: -300px; left: 82vh}
 }
