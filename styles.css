@@ -188,7 +188,7 @@ canvas.fullscreen {
   position: relative;
 }
 #options-screen {
-  z-index: 1501;
+  z-index: 1600;
   display: grid;
   justify-items: center;
 }
@@ -273,4 +273,28 @@ canvas.fullscreen {
 @keyframes unblur {
   from {backdrop-filter: blur(10px);}
   to {backdrop-filter: blur(0px);}
+}
+
+.snail {
+  position: absolute;
+}
+#snail-1 {
+  left: 20%;
+}
+#snail-1 img {
+  animation: snail-ver 280s infinite;
+}
+#snail-2 {
+  top: 20%;
+}
+#snail-2 img {
+  animation: snail-hor 300s infinite;
+}
+@keyframes snail-hor {
+  from {left: 100vw; top: 0}
+  to {left: -330px; top: 24vw}
+}
+@keyframes snail-ver {
+  from {bottom: 100vh; left: 0}
+  to {bottom: -30px; left: 24vw}
 }
