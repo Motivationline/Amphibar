@@ -39,9 +39,9 @@
     </canvas>
     <div id="inventory">
     </div>
-    <div id="dialog-overlay" class="hidden">
+    <div id="dialog-overlay" class="hidden fullscreen">
     </div>
-    <div id="scene-overlay">
+    <div id="scene-overlay" class="fullscreen">
     </div>
     <div id="dialog" class="hidden">
         <div id="dialog-name">
@@ -50,6 +50,22 @@
         </div>
         <img id="dialog-icon" />
         <div id="dialog-options">
+        </div>
+    </div>
+
+    <div id="loading-screen" class="fullscreen menu-bg menu hidden">
+        <span id="loading-spinner"></span>
+        <span id="loading-text"></span>
+    </div>
+    <div id="main-menu-screen" class="fullscreen menu-bg menu hidden">
+        <div id="main-menu-sign"><img src="/Assets/UI/MainMenu/Logo.png" alt="Amphibar"><img id="logo-shadow" src="/Assets/UI/MainMenu/Logo-Schatten.png"></div>
+        <div id="main-menu-start" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Start.png" alt="Start"></span></div>
+        <div id="main-menu-options" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Optionen.png" alt="Optionen"></span></div>
+        <div id="main-menu-exit" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Exit.png" alt="Exit"></span></div>
+    </div>
+    <div id="options-screen" class="fullscreen menu hidden">
+        <div>
+            <img src="/Assets/UI/MainMenu/Optionen-Brett.png" alt="">
         </div>
     </div>
 </body>

@@ -2,6 +2,9 @@ namespace Script {
   import ƒ = FudgeCore;
   ƒ.Project.registerScriptNamespace(Script);  // Register the namespace to FUDGE for serialization
 
+  type Character = "Tadpole" | "Frog" | "Fly";
+  type Mood = "neutral" | "sad" | "angry";
+
   export class CharacterScript extends ƒ.ComponentScript {
     // Register the script as component for use in the editor via drag&drop
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(CharacterScript);
@@ -14,6 +17,26 @@ namespace Script {
     #currentlyWalking: boolean = false;
     #currentPromiseResolve: (value?: unknown) => void;
     #currentPromiseReject: (value?: unknown) => void;
+
+
+    static characterIcons: ({[key: string]: ({[key2: string]: string})}) = {
+      Tadpole: {neutral: "Assets/Characters/Tadpole/neutral.png"},
+      Frog: {neutral: "items/item.png"},
+      Fly: {neutral: "items/item.png"},
+    };
+    static characterNames: ({[key: string]: string}) = {
+      Tadpole: "Kaulquappe",
+      Frog: "Frosch",
+      Fly: "Fliege",
+    };
+
+    static talkAs(_character: Character, _text: string, _mood: Mood = "neutral"): Promise<string | void> {
+      return DialogManager.Instance.showDialog({
+        icon: this.characterIcons[_character][_mood],
+        name: this.characterNames[_character],
+        text: _text,
+      })
+    }
 
     constructor() {
       super();

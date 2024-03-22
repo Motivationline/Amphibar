@@ -28,7 +28,7 @@ namespace Script {
             setTimeout(() => {
                 overlay.classList.remove("active");
                 this.isTransitioning = false;
-            }, 2000)
+            }, 1999)
         }
 
         private static loadScene(_scene: ƒ.Node) {

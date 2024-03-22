@@ -952,16 +952,6 @@
                   "name": "spiegel",
                   "active": true,
                   "components": {
-                    "DefaultViewable": [
-                      {
-                        "Script.DefaultViewable": {
-                          "active": true,
-                          "name": "Spiegel",
-                          "image": "items/item.png",
-                          "text": "..."
-                        }
-                      }
-                    ],
                     "ComponentTransform": [
                       {
                         "ƒ.ComponentTransform": {
@@ -1019,6 +1009,15 @@
                         "ƒ.ComponentPick": {
                           "active": true,
                           "pick": "radius"
+                        }
+                      }
+                    ],
+                    "BathroomValve": [
+                      {
+                        "Script.BathroomValve": {
+                          "active": true,
+                          "name": "Valve",
+                          "text": "..."
                         }
                       }
                     ]

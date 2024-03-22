@@ -1,14 +1,8 @@
 declare namespace Script {
     import ƒ = FudgeCore;
-    class BathroomManager extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        constructor();
-        private init;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class CharacterScript extends ƒ.ComponentScript {
+    type Character = "Tadpole" | "Frog" | "Fly";
+    type Mood = "neutral" | "sad" | "angry";
+    export class CharacterScript extends ƒ.ComponentScript {
         #private;
         static readonly iSubclass: number;
         private nextTarget;
@@ -16,6 +10,15 @@ declare namespace Script {
         private walker;
         private animator;
         private animations;
+        static characterIcons: ({
+            [key: string]: ({
+                [key2: string]: string;
+            });
+        });
+        static characterNames: ({
+            [key: string]: string;
+        });
+        static talkAs(_character: Character, _text: string, _mood?: Mood): Promise<string | void>;
         constructor();
         private init;
         private setCharacter;
@@ -24,6 +27,136 @@ declare namespace Script {
         private reachedWaypoint;
         private finishedWalking;
         private resolveOrReject;
+    }
+    export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class GenerateWaypointsScript extends ƒ.ComponentScript {
+        #private;
+        static readonly iSubclass: number;
+        dx: number;
+        dz: number;
+        distance: number;
+        constructor();
+        private createWaypoints;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class HTMLConnectedScript extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        inventory: Inventory;
+        constructor();
+        private init;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    abstract class Interactable extends ƒ.ComponentScript {
+        name: string;
+        image?: string;
+        abstract getInteractionType(): INTERACTION_TYPE;
+        abstract interact(): void;
+        abstract tryUseWith(_interactable: Interactable): void;
+        constructor(_name: string, _image?: string);
+        toHTMLElement(): HTMLElement;
+        canUseWithItem(): boolean;
+    }
+    enum INTERACTION_TYPE {
+        NONE = 0,
+        LOOK_AT = 1,
+        PICK_UP = 2,
+        TALK_TO = 3,
+        DOOR = 4,
+        USE = 5
+    }
+}
+declare namespace Script {
+    class Inventory {
+        divWrapper: HTMLElement;
+        items: Interactable[];
+        addItem(_item: Interactable): void;
+        removeItem(_item: Interactable): void;
+        private updateInventory;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    export let mainViewport: ƒ.Viewport;
+    export let mainNode: ƒ.Node;
+    export let inventory: Inventory;
+    export const interactableItems: Interactable[];
+    export let character: CharacterScript;
+    export let progress: Progress;
+    export function foundNode(_event: PointerEvent): void;
+    interface Progress {
+        fly?: {
+            intro: boolean;
+            clean: number;
+            drink: number;
+            worm: number;
+        };
+        test?: boolean;
+    }
+    export function onChange(object: any, onChange: Function): any;
+    export {};
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class PickableObjectScript extends ƒ.ComponentScript {
+        #private;
+        static readonly iSubclass: number;
+        constructor();
+        private frame;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class PickingScript extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+        private hovered;
+        private clicked;
+        private frame;
+    }
+}
+declare namespace Script {
+    class BathroomValve extends Interactable {
+        text: string;
+        name: string;
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class DefaultViewable extends Interactable {
+        text: string;
+        name: string;
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class Door extends Interactable {
+        target: string;
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class BathroomManager extends ƒ.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        private init;
     }
 }
 declare namespace Script {
@@ -62,81 +195,21 @@ declare namespace Script {
     export {};
 }
 declare namespace Script {
-    import ƒ = FudgeCore;
-    class GenerateWaypointsScript extends ƒ.ComponentScript {
-        #private;
-        static readonly iSubclass: number;
-        dx: number;
-        dz: number;
-        distance: number;
+    class MenuManager {
+        static Instance: MenuManager;
+        loadingScreen: HTMLElement;
+        mainMenuScreen: HTMLElement;
+        optionsScreen: HTMLElement;
         constructor();
-        private createWaypoints;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class HTMLConnectedScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        inventory: Inventory;
-        constructor();
-        private init;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    abstract class Interactable extends ƒ.ComponentScript {
-        name: string;
-        image?: string;
-        abstract getInteractionType(): INTERACTION_TYPE;
-        abstract interact(): void;
-        abstract tryUseWith(_interactable: Interactable): void;
-        constructor(_name: string, _image?: string);
-        toHTMLElement(): HTMLElement;
-    }
-    enum INTERACTION_TYPE {
-        NONE = 0,
-        LOOK_AT = 1,
-        PICK_UP = 2,
-        TALK_TO = 3,
-        DOOR = 4
-    }
-}
-declare namespace Script {
-    class Inventory {
-        divWrapper: HTMLElement;
-        items: Interactable[];
-        addItem(_item: Interactable): void;
-        removeItem(_item: Interactable): void;
-        private updateInventory;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    let mainViewport: ƒ.Viewport;
-    let mainNode: ƒ.Node;
-    let inventory: Inventory;
-    const interactableItems: Interactable[];
-    let character: CharacterScript;
-    function foundNode(_event: PointerEvent): void;
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class PickableObjectScript extends ƒ.ComponentScript {
-        #private;
-        static readonly iSubclass: number;
-        constructor();
-        private frame;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class PickingScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        constructor();
-        hndEvent: (_event: Event) => void;
-        private hovered;
-        private clicked;
-        private frame;
+        private setupListeners;
+        private setupDomConnection;
+        private showStartScreens;
+        loadingTextTimeout: number;
+        private updateLoadingText;
+        private startGame;
+        private exit;
+        private showOptions;
+        private dismissOptions;
     }
 }
 declare namespace Script {
@@ -145,24 +218,5 @@ declare namespace Script {
         constructor();
         static load(_name: string): void;
         private static loadScene;
-    }
-}
-declare namespace Script {
-    class DefaultViewable extends Interactable {
-        text: string;
-        name: string;
-        constructor(_name: string, _image: string);
-        getInteractionType(): INTERACTION_TYPE;
-        interact(): void;
-        tryUseWith(_interactable: Interactable): void;
-    }
-}
-declare namespace Script {
-    class Door extends Interactable {
-        target: string;
-        constructor(_name: string, _image: string);
-        getInteractionType(): INTERACTION_TYPE;
-        interact(): void;
-        tryUseWith(_interactable: Interactable): void;
     }
 }

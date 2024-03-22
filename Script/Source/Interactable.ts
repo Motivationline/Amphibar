@@ -39,6 +39,10 @@ namespace Script {
                 this.tryUseWith(otherInteractable);
             }
         }
+        
+        canUseWithItem(): boolean {
+            return false;
+        }
     }
     export enum INTERACTION_TYPE {
         NONE,
@@ -46,5 +50,6 @@ namespace Script {
         PICK_UP,
         TALK_TO,
         DOOR,
+        USE,
     }
 }

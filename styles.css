@@ -7,6 +7,14 @@ body {
   overflow: hidden;
 }
 
+div.fullscreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 dialog {
   text-align: center;
 }
@@ -58,7 +66,7 @@ canvas.fullscreen {
 }
 
 .cursor-take {
-  cursor: grab;
+  cursor: url("cursors/take.png"), grab;
 }
 
 .cursor-look {
@@ -69,8 +77,16 @@ canvas.fullscreen {
   cursor: url("cursors/door.png"), pointer;
 }
 
+.cursor-use {
+  cursor: url("cursors/use.png"), pointer;
+}
+
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 /* Dialog */
@@ -83,11 +99,6 @@ canvas.fullscreen {
 }
 
 #dialog-overlay {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
   z-index: 999;
 }
 
@@ -124,12 +135,7 @@ canvas.fullscreen {
 
 /* scene transition overlay */
 #scene-overlay {
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10000;
+  z-index: 1001;
   cursor: none;
   background-color: black;
   display: none;
@@ -144,4 +150,121 @@ canvas.fullscreen {
   45% {clip-path: circle(100%);}
   55% {clip-path: circle(100%);}
   100% {clip-path: circle(0%);}
+}
+
+/* menu screens */
+.menu {
+  position: relative;
+  box-sizing: border-box;
+}
+.menu-bg {
+  background-image: url(/Assets/UI/MainMenu/Background-Looping.png);
+}
+
+.click-sign img {
+  max-width: 30vw;
+}
+
+#loading-screen {
+  z-index: 1499;
+  display: grid;
+  place-items: center;
+  font-size: 5em;
+}
+#main-menu-screen {
+  z-index: 1500;
+  display: grid;
+  grid-template-areas: 
+  "logo logo ."
+  "logo logo options"
+  "exit . start";
+  padding: 1em; 
+  padding-top: 0; 
+}
+#options-screen {
+  z-index: 1501;
+  display: grid;
+  justify-items: center;
+}
+#options-screen > div {
+  align-self: start;
+}
+#options-screen:not(.hidden):not(.hide) {
+  animation: blur 0.4s forwards;
+}
+#options-screen.hide {
+  animation: unblur 0.4s forwards !important;
+}
+#options-screen:not(.hidden) > div {
+  animation: options-fly-in 0.4s ease-out forwards;
+}
+#options-screen.hide > div {
+  animation: options-fly-out 0.4s ease-in forwards !important;
+}
+
+#loading-spinner {
+  display: block;
+  width: 3em;
+  height: 3em;
+  border: 0.5em solid black;
+  animation: spin 1s linear infinite;
+}
+
+#main-menu-sign {
+  grid-area: logo;
+  margin-top: -20px;
+}
+#main-menu-options {
+  grid-area: options;
+}
+#main-menu-exit {
+  grid-area: exit;
+}
+#main-menu-start {
+  grid-area: start;
+  justify-self: end;
+}
+#main-menu-sign img {
+  animation: sway 5s ease-in-out alternate-reverse infinite;
+  transform-origin: 50% 0%;
+  max-width: 50vw;
+  max-height: 60vh;
+}
+#logo-shadow {
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  z-index: -1;
+  animation: sway-2 5s ease-in-out alternate-reverse infinite !important;
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+@keyframes sway {
+  0% {transform: rotate(-3deg);}
+  100% {transform: rotate(3deg);}
+}
+@keyframes sway-2 {
+  0% {transform: rotate(-3deg);}
+  100% {transform: rotate(1deg);}
+}
+@keyframes options-fly-in {
+  0% {margin-top: -100vh}
+  90% {margin-top: 0vh}
+  100% {margin-top: -20px}
+}
+@keyframes options-fly-out {
+  0% {margin-top: -20px}
+  10% {margin-top: 0vh}
+  100% {margin-top: -100vh}
+}
+@keyframes blur {
+  from {backdrop-filter: blur(0px);}
+  to {backdrop-filter: blur(10px);}
+}
+@keyframes unblur {
+  from {backdrop-filter: blur(10px);}
+  to {backdrop-filter: blur(0px);}
 }

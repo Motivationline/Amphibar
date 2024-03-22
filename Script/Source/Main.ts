@@ -11,6 +11,8 @@ namespace Script {
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
+  export let progress: Progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { localStorage.setItem("progress", JSON.stringify(progress)) });
+
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
     mainViewport.canvas.addEventListener("dragover", isDroppable)
@@ -31,20 +33,20 @@ namespace Script {
     inventory.addItem(new DefaultViewable("test", "items/item.png"))
   }
 
-  function addInteractionSphere(_node: ƒ.Node){
+  function addInteractionSphere(_node: ƒ.Node) {
     let meshShpere: ƒ.MeshSphere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
     let material: ƒ.Material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
     let children = mainNode.getChildren();
     let wrapper = new ƒ.Node("Wrapper");
-    for(let child of children){
-      if(child.nChildren > 0) {
+    for (let child of children) {
+      if (child.nChildren > 0) {
         children.push(...child.getChildren());
       }
       let component = child.getComponent(ƒ.ComponentPick);
-      if(component && component.isActive && component.pick === ƒ.PICK.RADIUS){
+      if (component && component.isActive && component.pick === ƒ.PICK.RADIUS) {
         let sphere = new ƒAid.Node("BoundingSphere", ƒ.Matrix4x4.SCALING(ƒ.Vector3.ONE(2)), material, meshShpere);
         sphere.mtxLocal.scale(ƒ.Vector3.ONE(child.radius));
-        sphere.mtxLocal.translation =  child.mtxWorld.translation;
+        sphere.mtxLocal.translation = child.mtxWorld.translation;
         sphere.getComponent(ƒ.ComponentMaterial).sortForAlpha = true;
         wrapper.addChild(sphere);
       }
@@ -59,32 +61,32 @@ namespace Script {
   }
 
   function pointermove(_event: PointerEvent): void {
-    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door");
+    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
     mouseIsOverInteractable = false;
     mainViewport.dispatchPointerEvent(_event);
   }
 
   function mouseclick(_event: PointerEvent): void {
     // move character
-    if(!character) {
+    if (!character) {
       mainViewport.dispatchPointerEvent(_event);
       return;
     }
     let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
-    if(ray.direction.y > 0) return;
+    if (ray.direction.y > 0) return;
     let smallestDistance = Infinity;
     let closestWaypoint: ƒ.ComponentWaypoint;
     let waypointNode = mainNode.getChildrenByName("waypoints")[0]
-    for(let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)){
+    for (let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)) {
       let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
-      if(distance < smallestDistance) {
+      if (distance < smallestDistance) {
         smallestDistance = distance;
         closestWaypoint = waypoint;
       }
     }
-    character.moveTo(closestWaypoint).then(()=>{
+    character.moveTo(closestWaypoint).then(() => {
       mainViewport.dispatchPointerEvent(_event);
-    }).catch(()=>{});
+    }).catch(() => { });
   }
 
   export function foundNode(_event: PointerEvent): void {
@@ -106,6 +108,9 @@ namespace Script {
       case INTERACTION_TYPE.DOOR:
         mainViewport.canvas.classList.add("cursor-door");
         break;
+      case INTERACTION_TYPE.USE:
+        mainViewport.canvas.classList.add("cursor-use");
+        break;
 
       default:
         break;
@@ -115,6 +120,7 @@ namespace Script {
   function isDroppable(_event: DragEvent): void {
     let pick = findPickable(_event);
     if (pick) {
+      console.log(pick.node.name);
       _event.preventDefault();
     }
   }
@@ -139,27 +145,62 @@ namespace Script {
     //   }
     // }
     // return null;
-    
+
     let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
     let smallestDistance = Infinity;
     let closestItem: ƒ.ComponentPick;
     let items = mainNode.getChildrenByName("items")[0].getChildren()
-    for(let item of items){
+    for (let item of items) {
       let pick = item.getComponent(ƒ.ComponentPick);
-      if(!pick) continue;
-      if(!pick.isActive) continue;
+      if (!pick) continue;
+      if (!pick.isActive) continue;
+      let interact = findInteractable(item);
+      if (!interact || !interact.isActive) continue;
       let distance = ray.getDistance(item.mtxWorld.translation).magnitudeSquared;
-      if(pick.node.radius * pick.node.radius > distance) continue;
-      if(distance < smallestDistance) {
+      if (pick.node.radius * pick.node.radius > distance) continue;
+      if (distance < smallestDistance) {
         smallestDistance = distance;
         closestItem = pick;
       }
     }
-    
+
     return closestItem;
   }
 
   function findInteractable(_node: ƒ.Node): Interactable {
     return <Interactable>_node.getAllComponents().find(i => i instanceof Interactable);
+  }
+
+  interface Progress {
+    fly?: {
+      intro: boolean,
+      clean: number,
+      drink: number,
+      worm: number,
+    },
+    test?: boolean,
+  }
+
+
+  export function onChange(object: any, onChange: Function) {
+    const handler = {
+      get(target, property, receiver) {
+        try {
+          return new Proxy(target[property], handler);
+        } catch (err) {
+          return Reflect.get(target, property, receiver);
+        }
+      },
+      defineProperty(target, property, descriptor) {
+        onChange();
+        return Reflect.defineProperty(target, property, descriptor);
+      },
+      deleteProperty(target, property) {
+        onChange();
+        return Reflect.deleteProperty(target, property);
+      }
+    };
+
+    return new Proxy(object, handler);
   }
 }
