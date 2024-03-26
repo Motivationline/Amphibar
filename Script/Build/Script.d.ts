@@ -89,6 +89,7 @@ declare namespace Script {
     export const interactableItems: Interactable[];
     export let character: CharacterScript;
     export let progress: Progress;
+    export let settings: Settings;
     export function foundNode(_event: PointerEvent): void;
     interface Progress {
         fly?: {
@@ -98,6 +99,10 @@ declare namespace Script {
             worm: number;
         };
         test?: boolean;
+    }
+    interface Settings {
+        music: number;
+        sounds: number;
     }
     export function onChange(object: any, onChange: Function): any;
     export {};
@@ -210,6 +215,7 @@ declare namespace Script {
         private exit;
         private showOptions;
         private dismissOptions;
+        private updateSlider;
     }
 }
 declare namespace Script {

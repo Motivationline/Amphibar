@@ -73,7 +73,17 @@
     </div>
     <div id="options-screen" class="fullscreen menu hidden">
         <div>
-            <img src="/Assets/UI/MainMenu/Optionen-Brett.png" alt="">
+            <img class="options-sign" src="/Assets/UI/MainMenu/Optionen-Brett.png" alt="">
+            <div class="options-range" id="options-music">
+                <input type="range" min="0" max="100" step="1" data-option="music">
+                <img class="options-slider" src="Assets/UI/MainMenu/Slider-Handle.png" alt="">
+                <div class="options-background-filled"></div>
+            </div>
+            <div class="options-range" id="options-sounds">
+                <input type="range" min="0" max="100" step="1" data-option="sounds">
+                <img class="options-slider" src="Assets/UI/MainMenu/Slider-Handle.png" alt="">
+                <div class="options-background-filled"></div>
+            </div>
         </div>
     </div>
 </body>

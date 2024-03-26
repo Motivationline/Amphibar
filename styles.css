@@ -194,6 +194,7 @@ canvas.fullscreen {
 }
 #options-screen > div {
   align-self: start;
+  position: relative;
 }
 #options-screen:not(.hidden):not(.hide) {
   animation: blur 0.4s forwards;
@@ -206,6 +207,74 @@ canvas.fullscreen {
 }
 #options-screen.hide > div {
   animation: options-fly-out 0.4s ease-in forwards !important;
+}
+
+.options-sign {
+  max-height: 100vh;
+}
+
+.options-range {
+  position: absolute;
+  width: 40%;
+  background-size: 100% 100%;
+}
+
+.options-range input {
+  width: 100%;
+}
+
+#options-music {
+  right: 10%;
+  top: 58%;
+  background-image: url("/Assets/UI/MainMenu/Slider-Empty-1.png");
+}
+#options-music > .options-background-filled {
+  background-image: url("/Assets/UI/MainMenu/Slider-Full-1.png");
+}
+#options-sounds {
+  right: 10%;
+  top: 80%;
+  background-image: url("/Assets/UI/MainMenu/Slider-Empty-2.png");
+}
+#options-sounds > .options-background-filled {
+  background-image: url("/Assets/UI/MainMenu/Slider-Full-2.png");
+}
+.options-background-filled {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+.options-slider {
+  position: absolute;
+  top: -1vh;
+  pointer-events: none;
+  user-select: none;
+  -moz-user-select: none;
+  max-height: 10vh;
+}
+
+#options-screen input[type="range"]::-webkit-slider-thumb,
+#options-screen input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 3em;
+}
+#options-screen input[type="range"]{
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  background: none;
 }
 
 #loading-spinner {
@@ -233,7 +302,7 @@ canvas.fullscreen {
 }
 #main-menu-sign img {
   animation: sway 5s ease-in-out alternate-reverse infinite;
-  transform-origin: 50% 0%;
+  transform-origin: 50% -100%;
   max-width: 50vw;
   max-height: 60vh;
 }
@@ -250,11 +319,11 @@ canvas.fullscreen {
   100% {transform: rotate(360deg);}
 }
 @keyframes sway {
-  0% {transform: rotate(-3deg);}
-  100% {transform: rotate(3deg);}
+  0% {transform: rotate(-1.5deg);}
+  100% {transform: rotate(1.5deg);}
 }
 @keyframes sway-2 {
-  0% {transform: rotate(-3deg);}
+  0% {transform: rotate(-1.5deg);}
   100% {transform: rotate(1deg);}
 }
 @keyframes options-fly-in {
@@ -278,6 +347,7 @@ canvas.fullscreen {
 
 .snail {
   position: absolute;
+  pointer-events: none;
 }
 #snail-1 {
   left: 20%;

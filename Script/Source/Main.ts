@@ -11,7 +11,8 @@ namespace Script {
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
-  export let progress: Progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { localStorage.setItem("progress", JSON.stringify(progress)) });
+  export let progress: Progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(progress)) }, 1) });
+  export let settings: Settings = onChange(JSON.parse(localStorage.getItem("settings")) ?? {}, () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(settings)) }, 1) });
 
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
@@ -179,6 +180,11 @@ namespace Script {
       worm: number,
     },
     test?: boolean,
+  }
+
+  interface Settings {
+    music: number,
+    sounds: number,
   }
 
 

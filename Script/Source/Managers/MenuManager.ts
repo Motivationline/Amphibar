@@ -28,6 +28,15 @@ namespace Script {
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
 
             this.optionsScreen.addEventListener("click", this.dismissOptions.bind(this));
+            this.optionsScreen.querySelector("#options-music input").addEventListener("input", this.updateSlider.bind(this));
+            this.optionsScreen.querySelector("#options-sounds input").addEventListener("input", this.updateSlider.bind(this));
+
+            (<HTMLInputElement>this.optionsScreen.querySelector("#options-music input")).value = settings.music?.toString() ?? "100";
+            (<HTMLInputElement>this.optionsScreen.querySelector("#options-sounds input")).value = settings.sounds?.toString() ?? "100";
+
+            (<HTMLInputElement>this.optionsScreen.querySelector("#options-music input")).dispatchEvent(new InputEvent("input"));
+            (<HTMLInputElement>this.optionsScreen.querySelector("#options-sounds input")).dispatchEvent(new InputEvent("input"));
+
 
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
@@ -71,6 +80,18 @@ namespace Script {
                 this.optionsScreen.classList.remove("hide");
                 this.optionsScreen.classList.add("hidden");
             }, 400)
+        }
+
+        private updateSlider(_event: InputEvent){
+            let inputElement = (<HTMLInputElement>_event.target);
+            let newValue = inputElement.value;
+            (<HTMLImageElement>inputElement.parentElement.querySelector(".options-slider")).style.left = `calc(${newValue}% - 24px)`;
+            (<HTMLImageElement>inputElement.parentElement.querySelector(".options-background-filled")).style.clipPath = `polygon(0 0, ${newValue}% 0, ${newValue}% 100%, 0 100%)`;
+
+            if(inputElement.dataset.option) {
+                //@ts-ignore
+                settings[inputElement.dataset.option] = newValue;
+            }
         }
         
     }

@@ -333,7 +333,8 @@ var Script;
     document.addEventListener("interactiveViewportStarted", start);
     let mouseIsOverInteractable = false;
     Script.interactableItems = [];
-    Script.progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { localStorage.setItem("progress", JSON.stringify(Script.progress)); });
+    Script.progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
+    Script.settings = onChange(JSON.parse(localStorage.getItem("settings")) ?? {}, () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
     function start(_event) {
         Script.mainViewport = _event.detail;
         Script.mainViewport.canvas.addEventListener("dragover", isDroppable);
@@ -908,6 +909,12 @@ var Script;
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
             this.optionsScreen.addEventListener("click", this.dismissOptions.bind(this));
+            this.optionsScreen.querySelector("#options-music input").addEventListener("input", this.updateSlider.bind(this));
+            this.optionsScreen.querySelector("#options-sounds input").addEventListener("input", this.updateSlider.bind(this));
+            this.optionsScreen.querySelector("#options-music input").value = Script.settings.music?.toString() ?? "100";
+            this.optionsScreen.querySelector("#options-sounds input").value = Script.settings.sounds?.toString() ?? "100";
+            this.optionsScreen.querySelector("#options-music input").dispatchEvent(new InputEvent("input"));
+            this.optionsScreen.querySelector("#options-sounds input").dispatchEvent(new InputEvent("input"));
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
         showStartScreens() {
@@ -945,6 +952,16 @@ var Script;
                 this.optionsScreen.classList.remove("hide");
                 this.optionsScreen.classList.add("hidden");
             }, 400);
+        }
+        updateSlider(_event) {
+            let inputElement = _event.target;
+            let newValue = inputElement.value;
+            inputElement.parentElement.querySelector(".options-slider").style.left = `calc(${newValue}% - 24px)`;
+            inputElement.parentElement.querySelector(".options-background-filled").style.clipPath = `polygon(0 0, ${newValue}% 0, ${newValue}% 100%, 0 100%)`;
+            if (inputElement.dataset.option) {
+                //@ts-ignore
+                Script.settings[inputElement.dataset.option] = newValue;
+            }
         }
     }
     Script.MenuManager = MenuManager;
