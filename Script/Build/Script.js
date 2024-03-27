@@ -15,20 +15,22 @@ var Script;
         #currentPromiseResolve;
         #currentPromiseReject;
         static characterIcons = {
-            Tadpole: { neutral: "Assets/Characters/Tadpole/neutral.png" },
-            Frog: { neutral: "items/item.png" },
-            Fly: { neutral: "items/item.png" },
+            Tadpole: { neutral: "Assets/UI/Dialog/Charaktere/Kaulquappe.png" },
+            Frog: { neutral: "Assets/UI/Dialog/Charaktere/Frosch.png" },
+            Fly: { neutral: "Assets/UI/Dialog/Charaktere/Fliege.png" },
         };
         static characterNames = {
-            Tadpole: "Kaulquappe",
-            Frog: "Frosch",
-            Fly: "Fliege",
+            Tadpole: "Assets/UI/Dialog/Namen/Name_Kaulquappe.svg",
+            Frog: "Assets/UI/Dialog/Namen/Name_Frosch.svg",
+            Fly: "Assets/UI/Dialog/Namen/Name_Fliege.svg",
         };
-        static talkAs(_character, _text, _mood = "neutral") {
+        static talkAs(_character, _text, _mood = "neutral", _options) {
             return Script.DialogManager.Instance.showDialog({
                 icon: this.characterIcons[_character][_mood],
                 name: this.characterNames[_character],
                 text: _text,
+                position: _character === "Tadpole" ? "left" : "right",
+                options: _options,
             });
         }
         constructor() {
@@ -612,19 +614,25 @@ var Script;
             let p = Script.progress.fly?.clean ?? 0;
             switch (p) {
                 case 0:
-                    Script.CharacterScript.talkAs("Tadpole", "Ich brauche gerade kein Wasser.");
+                    Script.CharacterScript.talkAs("Fly", "Ich brauche gerade kein Wasser.");
                     break;
                 case 1:
-                    alert("hier wasser eimer auffüllen einfügen");
+                    Script.CharacterScript.talkAs("Frog", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
+                    // alert("hier wasser eimer auffüllen einfügen");
                     break;
                 case 2:
-                    Script.CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
+                    Script.CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.", "neutral", [
+                        { id: "opt1", text: "This is option 1" },
+                        { id: "opt2", text: "This is option 2" },
+                        { id: "opt3", text: "This is option 3" }
+                    ]);
                     break;
             }
             //@ts-ignore
             if (!Script.progress.fly)
                 Script.progress.fly = {};
-            Script.progress.fly.clean = Math.min(2, p + 1);
+            // progress.fly.clean = Math.min(2, p + 1);
+            Script.progress.fly.clean = 2;
         }
         tryUseWith(_interactable) {
         }
@@ -647,6 +655,7 @@ var Script;
                 icon: this.image,
                 name: this.name,
                 text: this.text,
+                position: "right"
             });
         }
         tryUseWith(_interactable) {
@@ -654,6 +663,7 @@ var Script;
                 icon: this.image,
                 name: this.name,
                 text: "Das funktioniert nicht.",
+                position: "right"
             });
         }
     }
@@ -712,6 +722,7 @@ var Script;
         #characterBox;
         #overlayBox;
         #parentBox;
+        #continueIcon;
         #currentDialog;
         #textProgress = 0;
         #currentPromiseResolver;
@@ -728,19 +739,31 @@ var Script;
             this.#nameBox = this.#parentBox.querySelector("#dialog-name");
             this.#textBox = this.#parentBox.querySelector("#dialog-text");
             this.#characterBox = this.#parentBox.querySelector("#dialog-icon");
-            this.#optionBox = this.#parentBox.querySelector("#dialog-options");
+            this.#optionBox = document.getElementById("dialog-options");
             this.#overlayBox = document.getElementById("dialog-overlay");
+            this.#continueIcon = document.getElementById("dialog-text-done");
             this.#overlayBox.addEventListener("click", this.clickedOverlay.bind(this));
         }
         setupDisplay() {
-            this.#overlayBox.classList.remove("hidden");
-            this.#parentBox.classList.remove("hidden");
             this.#characterBox.src = this.#currentDialog.icon;
-            this.#nameBox.innerText = this.#currentDialog.name;
-            this.#optionBox.innerHTML = "";
+            this.#nameBox.src = this.#currentDialog.name;
+            this.#optionBox.classList.add("hidden");
             this.#textBox.innerHTML = "";
             this.#textProgress = 0;
             // this.#status = DialogStatus.WRITING;
+            switch (this.#currentDialog.position) {
+                case "left":
+                    this.#nameBox.style.gridArea = "name";
+                    this.#characterBox.style.gridArea = "char";
+                    break;
+                case "right":
+                    this.#nameBox.style.gridArea = "name2";
+                    this.#characterBox.style.gridArea = "char2";
+                    break;
+            }
+            this.#overlayBox.classList.remove("hidden");
+            this.#parentBox.classList.remove("hidden");
+            this.#continueIcon.classList.add("hidden");
         }
         clickedOverlay(_event) {
             this.#textProgress = Infinity;
@@ -758,6 +781,7 @@ var Script;
                     this.#textProgress++;
                     [this.#textBox.innerHTML] = this.getTextContent(this.#currentDialog.parsedText, this.#textProgress);
                     if (this.#textProgress >= this.#currentDialog.textLength) {
+                        this.#continueIcon.classList.remove("hidden");
                         clearInterval(interval);
                         // this.#status = DialogStatus.WAITING_FOR_DISMISSAL;
                         setTimeout(resolve, 250);
@@ -829,10 +853,13 @@ var Script;
             return [resultDialog, ""];
         }
         showOptions() {
+            this.#continueIcon.classList.add("hidden");
+            this.#optionBox.classList.remove("hidden");
             return new Promise((resolve, reject) => {
                 this.#optionBox.innerHTML = "";
                 for (let option of this.#currentDialog.options) {
-                    let button = document.createElement("button");
+                    let button = document.createElement("span");
+                    button.classList.add("dialog-options-option");
                     this.#optionBox.appendChild(button);
                     button.innerText = option.text;
                     button.addEventListener("click", () => {
@@ -915,6 +942,8 @@ var Script;
             this.optionsScreen.querySelector("#options-sounds input").value = Script.settings.sounds?.toString() ?? "100";
             this.optionsScreen.querySelector("#options-music input").dispatchEvent(new InputEvent("input"));
             this.optionsScreen.querySelector("#options-sounds input").dispatchEvent(new InputEvent("input"));
+            let gameOverlay = document.getElementById("game-overlay");
+            gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
         showStartScreens() {

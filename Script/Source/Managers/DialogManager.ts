@@ -1,12 +1,13 @@
 namespace Script {
     export class DialogManager {
         public static Instance = new DialogManager();
-        #nameBox: HTMLElement;
+        #nameBox: HTMLImageElement;
         #textBox: HTMLElement;
         #optionBox: HTMLElement;
         #characterBox: HTMLImageElement;
         #overlayBox: HTMLElement;
         #parentBox: HTMLElement;
+        #continueIcon: HTMLElement;
 
         #currentDialog: Dialog;
         #textProgress: number = 0;
@@ -25,23 +26,35 @@ namespace Script {
             this.#nameBox = this.#parentBox.querySelector("#dialog-name");
             this.#textBox = this.#parentBox.querySelector("#dialog-text");
             this.#characterBox = this.#parentBox.querySelector("#dialog-icon");
-            this.#optionBox = this.#parentBox.querySelector("#dialog-options");
+            this.#optionBox = document.getElementById("dialog-options");
             this.#overlayBox = document.getElementById("dialog-overlay");
+            this.#continueIcon = document.getElementById("dialog-text-done");
 
             this.#overlayBox.addEventListener("click", this.clickedOverlay.bind(this));
         }
 
         private setupDisplay() {
-            this.#overlayBox.classList.remove("hidden");
-            this.#parentBox.classList.remove("hidden");
-
             this.#characterBox.src = this.#currentDialog.icon;
-            this.#nameBox.innerText = this.#currentDialog.name;
-            this.#optionBox.innerHTML = "";
+            this.#nameBox.src = this.#currentDialog.name;
+            this.#optionBox.classList.add("hidden");
             this.#textBox.innerHTML = "";
             this.#textProgress = 0;
 
             // this.#status = DialogStatus.WRITING;
+            switch (this.#currentDialog.position) {
+                case "left":
+                    this.#nameBox.style.gridArea = "name";
+                    this.#characterBox.style.gridArea = "char";
+                    break;
+                case "right":
+                    this.#nameBox.style.gridArea = "name2";
+                    this.#characterBox.style.gridArea = "char2";
+                    break;
+            }
+
+            this.#overlayBox.classList.remove("hidden");
+            this.#parentBox.classList.remove("hidden");
+            this.#continueIcon.classList.add("hidden");
         }
 
         private clickedOverlay(_event: MouseEvent) {
@@ -61,6 +74,7 @@ namespace Script {
                     this.#textProgress++;
                     [this.#textBox.innerHTML] = this.getTextContent(this.#currentDialog.parsedText, this.#textProgress);
                     if (this.#textProgress >= this.#currentDialog.textLength) {
+                        this.#continueIcon.classList.remove("hidden");
                         clearInterval(interval);
                         // this.#status = DialogStatus.WAITING_FOR_DISMISSAL;
                         setTimeout(resolve, 250);
@@ -135,10 +149,13 @@ namespace Script {
         }
 
         private showOptions(): Promise<string> {
+            this.#continueIcon.classList.add("hidden");
+            this.#optionBox.classList.remove("hidden");
             return new Promise((resolve, reject) => {
                 this.#optionBox.innerHTML = "";
                 for (let option of this.#currentDialog.options) {
-                    let button = document.createElement("button");
+                    let button = document.createElement("span");
+                    button.classList.add("dialog-options-option");
                     this.#optionBox.appendChild(button);
                     button.innerText = option.text;
                     button.addEventListener("click", () => {
@@ -192,6 +209,7 @@ namespace Script {
         textLength?: number,
         name: string,
         icon: string,
+        position: "left" | "right",
         options?: DialogOption[],
     }
 

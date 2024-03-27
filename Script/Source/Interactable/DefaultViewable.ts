@@ -14,6 +14,7 @@ namespace Script {
                 icon: this.image,
                 name: this.name,
                 text: this.text,
+                position: "right"
             })
         }
         tryUseWith(_interactable: Interactable): void {
@@ -21,6 +22,7 @@ namespace Script {
                 icon: this.image,
                 name: this.name,
                 text: "Das funktioniert nicht.",
+                position: "right"
             })
         }
     }

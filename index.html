@@ -25,6 +25,11 @@
     <!--Load Autoview script-->
     <script type="text/javascript" src="Autoview.js"></script>
 
+    <!-- Load Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chilanka&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -40,17 +45,21 @@
     <div id="inventory">
     </div>
     <div id="dialog-overlay" class="hidden fullscreen">
+        <div id="dialog-options-wrapper">
+            <div id="dialog-options"></div>
+        </div>
     </div>
     <div id="scene-overlay" class="fullscreen">
     </div>
     <div id="dialog" class="hidden">
-        <div id="dialog-name">
-        </div>
-        <div id="dialog-text">
-        </div>
         <img id="dialog-icon" />
-        <div id="dialog-options">
-        </div>
+        <img id="dialog-name"/>
+        <div id="dialog-text"></div>
+        <div id="dialog-text-bg"></div>
+        <img id="dialog-text-done" src="Assets/UI/Dialog/Continue.svg">
+    </div>
+    <div id="game-overlay" class="fullscreen">
+        <img src="Assets/UI/Settings.svg" alt="Settings">
     </div>
 
     <div id="loading-screen" class="fullscreen menu-bg menu hidden">

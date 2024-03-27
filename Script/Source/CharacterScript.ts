@@ -19,22 +19,24 @@ namespace Script {
     #currentPromiseReject: (value?: unknown) => void;
 
 
-    static characterIcons: ({[key: string]: ({[key2: string]: string})}) = {
-      Tadpole: {neutral: "Assets/Characters/Tadpole/neutral.png"},
-      Frog: {neutral: "items/item.png"},
-      Fly: {neutral: "items/item.png"},
+    static characterIcons: ({ [key: string]: ({ [key2: string]: string }) }) = {
+      Tadpole: { neutral: "Assets/UI/Dialog/Charaktere/Kaulquappe.png" },
+      Frog: { neutral: "Assets/UI/Dialog/Charaktere/Frosch.png" },
+      Fly: { neutral: "Assets/UI/Dialog/Charaktere/Fliege.png" },
     };
-    static characterNames: ({[key: string]: string}) = {
-      Tadpole: "Kaulquappe",
-      Frog: "Frosch",
-      Fly: "Fliege",
+    static characterNames: ({ [key: string]: string }) = {
+      Tadpole: "Assets/UI/Dialog/Namen/Name_Kaulquappe.svg",
+      Frog: "Assets/UI/Dialog/Namen/Name_Frosch.svg",
+      Fly: "Assets/UI/Dialog/Namen/Name_Fliege.svg",
     };
 
-    static talkAs(_character: Character, _text: string, _mood: Mood = "neutral"): Promise<string | void> {
+    static talkAs(_character: Character, _text: string, _mood: Mood = "neutral", _options?: DialogOption[]): Promise<string | void> {
       return DialogManager.Instance.showDialog({
         icon: this.characterIcons[_character][_mood],
         name: this.characterNames[_character],
         text: _text,
+        position: _character === "Tadpole" ? "left" : "right",
+        options: _options,
       })
     }
 

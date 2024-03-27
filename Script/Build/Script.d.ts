@@ -18,7 +18,7 @@ declare namespace Script {
         static characterNames: ({
             [key: string]: string;
         });
-        static talkAs(_character: Character, _text: string, _mood?: Mood): Promise<string | void>;
+        static talkAs(_character: Character, _text: string, _mood?: Mood, _options?: DialogOption[]): Promise<string | void>;
         constructor();
         private init;
         private setCharacter;
@@ -187,6 +187,7 @@ declare namespace Script {
         textLength?: number;
         name: string;
         icon: string;
+        position: "left" | "right";
         options?: DialogOption[];
     }
     export interface DialogOption {
