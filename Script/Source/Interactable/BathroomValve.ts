@@ -33,7 +33,7 @@ namespace Script {
             //@ts-ignore
             if(!progress.fly) progress.fly = {};
             // progress.fly.clean = Math.min(2, p + 1);
-            progress.fly.clean = 2;
+            progress.fly.clean = (p + 1) % 3;
         }
         tryUseWith(_interactable: Interactable): void {
             

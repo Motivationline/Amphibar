@@ -5,24 +5,25 @@ namespace Script {
         loadingScreen: HTMLElement;
         mainMenuScreen: HTMLElement;
         optionsScreen: HTMLElement;
+        private loadingScreenMinimumVisibleTimeMS: number = 2000;
 
-        constructor(){
-            if(MenuManager.Instance) return MenuManager.Instance;
+        constructor() {
+            if (MenuManager.Instance) return MenuManager.Instance;
             this.setupListeners();
             MenuManager.Instance = this;
         }
 
-        private setupListeners(){
+        private setupListeners() {
             document.addEventListener("DOMContentLoaded", this.setupDomConnection.bind(this))
-            ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, ()=>{this.updateLoadingText("Erschaffe Shader...");})
-            document.addEventListener("interactiveViewportStarted", ()=>{this.updateLoadingText();});
+            ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, () => { this.updateLoadingText("Erschaffe Shader..."); })
+            document.addEventListener("interactiveViewportStarted", this.gameLoaded.bind(this));
         }
-        
-        private setupDomConnection(){
+
+        private setupDomConnection() {
             this.loadingScreen = document.getElementById("loading-screen");
             this.mainMenuScreen = document.getElementById("main-menu-screen");
             this.optionsScreen = document.getElementById("options-screen");
-            
+
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
@@ -42,18 +43,18 @@ namespace Script {
 
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
-        
-        private showStartScreens(){
+
+        private showStartScreens() {
             this.mainMenuScreen.classList.remove("hidden");
             this.updateLoadingText("Lade Ressourcen...");
         }
 
         loadingTextTimeout: number;
-        private updateLoadingText(_text?: string){
+        private updateLoadingText(_text?: string) {
             console.log("update loading text", _text)
-            if(this.loadingTextTimeout) clearTimeout(this.loadingTextTimeout);
+            if (this.loadingTextTimeout) clearTimeout(this.loadingTextTimeout);
             this.loadingScreen.classList.remove("hidden");
-            if(!_text || _text.length === 0){
+            if (!_text || _text.length === 0) {
                 console.log("remove loading text")
                 this.loadingScreen.classList.add("hidden");
                 return;
@@ -63,38 +64,54 @@ namespace Script {
             // this.loadingTextTimeout = setTimeout(()=>{this.updateLoadingText(_text + ".")}, 1000);
         }
 
-        private startGame(){
+        private gameWasStarted: boolean = false;
+        private startGame() {
             this.mainMenuScreen.classList.add("hidden");
+            setTimeout(()=>{
+                this.gameWasStarted = true;
+                if(this.gameIsLoaded) {
+                    this.updateLoadingText();
+                    return;
+                }
+            }, this.loadingScreenMinimumVisibleTimeMS);
         }
 
-        private exit(){
+        private exit() {
             window.close();
         }
 
-        private showOptions(){
+        private showOptions() {
             this.optionsScreen.classList.remove("hidden");
         }
-        
-        private dismissOptions(_event: MouseEvent){
-            if(_event.target !== this.optionsScreen) return;
+
+        private dismissOptions(_event: MouseEvent) {
+            if (_event.target !== this.optionsScreen) return;
             this.optionsScreen.classList.add("hide");
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.optionsScreen.classList.remove("hide");
                 this.optionsScreen.classList.add("hidden");
             }, 400)
         }
 
-        private updateSlider(_event: InputEvent){
+        private updateSlider(_event: InputEvent) {
             let inputElement = (<HTMLInputElement>_event.target);
             let newValue = inputElement.value;
             (<HTMLImageElement>inputElement.parentElement.querySelector(".options-slider")).style.left = `calc(${newValue}% - 24px)`;
             (<HTMLImageElement>inputElement.parentElement.querySelector(".options-background-filled")).style.clipPath = `polygon(0 0, ${newValue}% 0, ${newValue}% 100%, 0 100%)`;
 
-            if(inputElement.dataset.option) {
+            if (inputElement.dataset.option) {
                 //@ts-ignore
                 settings[inputElement.dataset.option] = newValue;
             }
         }
-        
+
+        private gameIsLoaded: boolean = false;
+        private gameLoaded() {
+            this.gameIsLoaded = true;
+            if(this.gameWasStarted) {
+                this.updateLoadingText();
+            }
+        }
+
     }
 }

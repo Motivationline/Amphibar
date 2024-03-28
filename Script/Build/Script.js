@@ -632,7 +632,7 @@ var Script;
             if (!Script.progress.fly)
                 Script.progress.fly = {};
             // progress.fly.clean = Math.min(2, p + 1);
-            Script.progress.fly.clean = 2;
+            Script.progress.fly.clean = (p + 1) % 3;
         }
         tryUseWith(_interactable) {
         }
@@ -917,6 +917,7 @@ var Script;
         loadingScreen;
         mainMenuScreen;
         optionsScreen;
+        loadingScreenMinimumVisibleTimeMS = 2000;
         constructor() {
             if (MenuManager.Instance)
                 return MenuManager.Instance;
@@ -926,7 +927,7 @@ var Script;
         setupListeners() {
             document.addEventListener("DOMContentLoaded", this.setupDomConnection.bind(this));
             ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, () => { this.updateLoadingText("Erschaffe Shader..."); });
-            document.addEventListener("interactiveViewportStarted", () => { this.updateLoadingText(); });
+            document.addEventListener("interactiveViewportStarted", this.gameLoaded.bind(this));
         }
         setupDomConnection() {
             this.loadingScreen = document.getElementById("loading-screen");
@@ -964,8 +965,16 @@ var Script;
             this.loadingScreen.querySelector("#loading-text").innerText = _text;
             // this.loadingTextTimeout = setTimeout(()=>{this.updateLoadingText(_text + ".")}, 1000);
         }
+        gameWasStarted = false;
         startGame() {
             this.mainMenuScreen.classList.add("hidden");
+            setTimeout(() => {
+                this.gameWasStarted = true;
+                if (this.gameIsLoaded) {
+                    this.updateLoadingText();
+                    return;
+                }
+            }, this.loadingScreenMinimumVisibleTimeMS);
         }
         exit() {
             window.close();
@@ -990,6 +999,13 @@ var Script;
             if (inputElement.dataset.option) {
                 //@ts-ignore
                 Script.settings[inputElement.dataset.option] = newValue;
+            }
+        }
+        gameIsLoaded = false;
+        gameLoaded() {
+            this.gameIsLoaded = true;
+            if (this.gameWasStarted) {
+                this.updateLoadingText();
             }
         }
     }

@@ -206,17 +206,21 @@ declare namespace Script {
         loadingScreen: HTMLElement;
         mainMenuScreen: HTMLElement;
         optionsScreen: HTMLElement;
+        private loadingScreenMinimumVisibleTimeMS;
         constructor();
         private setupListeners;
         private setupDomConnection;
         private showStartScreens;
         loadingTextTimeout: number;
         private updateLoadingText;
+        private gameWasStarted;
         private startGame;
         private exit;
         private showOptions;
         private dismissOptions;
         private updateSlider;
+        private gameIsLoaded;
+        private gameLoaded;
     }
 }
 declare namespace Script {
