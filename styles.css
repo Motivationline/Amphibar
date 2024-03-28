@@ -260,6 +260,52 @@ canvas.fullscreen {
   place-items: center;
   font-size: 5em;
 }
+#loading-animation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 480px;
+  height: 480px;
+  max-height: min(30vw, 30vh);
+  max-width: min(30vw, 30vh);
+  animation: loading-animation 1s infinite forwards;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: rotateY(180deg);
+}
+
+@keyframes loading-animation {
+  0% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-00.png");}
+  5% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-01.png");}
+  10% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-02.png");}
+  15% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-03.png");}
+  20% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-04.png");}
+  25% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-05.png");}
+  30% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-06.png");}
+  35% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-07.png");}
+  40% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-08.png");}
+  45% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-09.png");}
+  50% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-10.png");}
+  55% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-11.png");}
+  60% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-12.png");}
+  65% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-13.png");}
+  70% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-14.png");}
+  75% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-15.png");}
+  80% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-16.png");}
+  85% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-17.png");}
+  90% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-18.png");}
+  95% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-19.png");}
+  100% {background-image: url("Assets/UI/Loading/Animation/Quip-Anim-20.png");}
+}
+.loading-text {
+  animation: loading-dot 1s infinite;
+  animation-delay: var(--i);
+}
+@keyframes loading-dot {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 #main-menu-screen {
   z-index: 1500;
 }

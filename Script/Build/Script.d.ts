@@ -204,7 +204,7 @@ declare namespace Script {
         private setupDomConnection;
         private showStartScreens;
         loadingTextTimeout: number;
-        private updateLoadingText;
+        private hideLoadingScreen;
         private gameWasStarted;
         private startGame;
         private exit;

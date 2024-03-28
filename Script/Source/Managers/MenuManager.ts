@@ -5,7 +5,7 @@ namespace Script {
         loadingScreen: HTMLElement;
         mainMenuScreen: HTMLElement;
         optionsScreen: HTMLElement;
-        private loadingScreenMinimumVisibleTimeMS: number = 2000;
+        private loadingScreenMinimumVisibleTimeMS: number = 4000;
 
         constructor() {
             if (MenuManager.Instance) return MenuManager.Instance;
@@ -18,7 +18,7 @@ namespace Script {
 
         private setupListeners() {
             document.addEventListener("DOMContentLoaded", this.setupDomConnection.bind(this))
-            ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, () => { this.updateLoadingText("Erschaffe Shader..."); })
+            // ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, () => { this.updateLoadingText("Erschaffe Shader..."); })
             document.addEventListener("interactiveViewportStarted", this.gameLoaded.bind(this));
         }
 
@@ -49,22 +49,13 @@ namespace Script {
 
         private showStartScreens() {
             this.mainMenuScreen.classList.remove("hidden");
-            this.updateLoadingText("Lade Ressourcen...");
+            // this.updateLoadingText("Lade Ressourcen...");
+            this.loadingScreen.classList.remove("hidden");
         }
 
         loadingTextTimeout: number;
-        private updateLoadingText(_text?: string) {
-            console.log("update loading text", _text)
-            if (this.loadingTextTimeout) clearTimeout(this.loadingTextTimeout);
-            this.loadingScreen.classList.remove("hidden");
-            if (!_text || _text.length === 0) {
-                console.log("remove loading text")
-                this.loadingScreen.classList.add("hidden");
-                return;
-            }
-
-            (<HTMLElement>this.loadingScreen.querySelector("#loading-text")).innerText = _text;
-            // this.loadingTextTimeout = setTimeout(()=>{this.updateLoadingText(_text + ".")}, 1000);
+        private hideLoadingScreen() {
+            this.loadingScreen.classList.add("hidden");
         }
 
         private gameWasStarted: boolean = false;
@@ -73,7 +64,7 @@ namespace Script {
             setTimeout(() => {
                 this.gameWasStarted = true;
                 if (this.gameIsLoaded) {
-                    this.updateLoadingText();
+                    this.hideLoadingScreen();
                     return;
                 }
             }, this.loadingScreenMinimumVisibleTimeMS);
@@ -112,7 +103,7 @@ namespace Script {
         private gameLoaded() {
             this.gameIsLoaded = true;
             if (this.gameWasStarted) {
-                this.updateLoadingText();
+                this.hideLoadingScreen();
             }
         }
 

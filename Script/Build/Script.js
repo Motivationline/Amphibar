@@ -831,7 +831,7 @@ var Script;
         loadingScreen;
         mainMenuScreen;
         optionsScreen;
-        loadingScreenMinimumVisibleTimeMS = 2000;
+        loadingScreenMinimumVisibleTimeMS = 4000;
         constructor() {
             if (MenuManager.Instance)
                 return MenuManager.Instance;
@@ -842,7 +842,7 @@ var Script;
         }
         setupListeners() {
             document.addEventListener("DOMContentLoaded", this.setupDomConnection.bind(this));
-            ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, () => { this.updateLoadingText("Erschaffe Shader..."); });
+            // ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, () => { this.updateLoadingText("Erschaffe Shader..."); })
             document.addEventListener("interactiveViewportStarted", this.gameLoaded.bind(this));
         }
         setupDomConnection() {
@@ -865,21 +865,12 @@ var Script;
         }
         showStartScreens() {
             this.mainMenuScreen.classList.remove("hidden");
-            this.updateLoadingText("Lade Ressourcen...");
+            // this.updateLoadingText("Lade Ressourcen...");
+            this.loadingScreen.classList.remove("hidden");
         }
         loadingTextTimeout;
-        updateLoadingText(_text) {
-            console.log("update loading text", _text);
-            if (this.loadingTextTimeout)
-                clearTimeout(this.loadingTextTimeout);
-            this.loadingScreen.classList.remove("hidden");
-            if (!_text || _text.length === 0) {
-                console.log("remove loading text");
-                this.loadingScreen.classList.add("hidden");
-                return;
-            }
-            this.loadingScreen.querySelector("#loading-text").innerText = _text;
-            // this.loadingTextTimeout = setTimeout(()=>{this.updateLoadingText(_text + ".")}, 1000);
+        hideLoadingScreen() {
+            this.loadingScreen.classList.add("hidden");
         }
         gameWasStarted = false;
         startGame() {
@@ -887,7 +878,7 @@ var Script;
             setTimeout(() => {
                 this.gameWasStarted = true;
                 if (this.gameIsLoaded) {
-                    this.updateLoadingText();
+                    this.hideLoadingScreen();
                     return;
                 }
             }, this.loadingScreenMinimumVisibleTimeMS);
@@ -921,7 +912,7 @@ var Script;
         gameLoaded() {
             this.gameIsLoaded = true;
             if (this.gameWasStarted) {
-                this.updateLoadingText();
+                this.hideLoadingScreen();
             }
         }
     }
