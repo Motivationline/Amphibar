@@ -247,7 +247,7 @@ canvas.fullscreen {
   box-sizing: border-box;
 }
 .menu-bg {
-  background-image: url(/Assets/UI/MainMenu/Background-Looping.png);
+  background-image: url("Assets/UI/MainMenu/Background-Looping.png");
 }
 
 .click-sign img {
@@ -361,18 +361,18 @@ canvas.fullscreen {
 #options-music {
   right: 10%;
   top: 58%;
-  background-image: url("/Assets/UI/MainMenu/Slider-Empty-1.png");
+  background-image: url("Assets/UI/MainMenu/Slider-Empty-1.png");
 }
 #options-music > .options-background-filled {
-  background-image: url("/Assets/UI/MainMenu/Slider-Full-1.png");
+  background-image: url("Assets/UI/MainMenu/Slider-Full-1.png");
 }
 #options-sounds {
   right: 10%;
   top: 80%;
-  background-image: url("/Assets/UI/MainMenu/Slider-Empty-2.png");
+  background-image: url("Assets/UI/MainMenu/Slider-Empty-2.png");
 }
 #options-sounds > .options-background-filled {
-  background-image: url("/Assets/UI/MainMenu/Slider-Full-2.png");
+  background-image: url("Assets/UI/MainMenu/Slider-Full-2.png");
 }
 .options-background-filled {
   position: absolute;
