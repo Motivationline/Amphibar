@@ -173,86 +173,6 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    // import ƒui = FudgeUserInterface;
-    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class HTMLConnectedScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(HTMLConnectedScript);
-        inventory;
-        constructor() {
-            super();
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            // document.addEventListener("interactiveViewportStarted", <EventListener>this.init);
-        }
-        async init() {
-            this.inventory = new Script.Inventory();
-            return;
-            // for(let i = 0; i < 20; i++){
-            //   this.inventory.addItem(new Interactable("Item " + i, "items/item.png"));
-            // }
-            let dm = new Script.DialogManager();
-            dm.showDialog({
-                icon: "items/item.png",
-                name: "Item",
-                text: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus corporis ipsa eaque earum sint soluta dignissimos ex est, distinctio eveniet sequi nemo ad quas incidunt tempore nulla cum iure. Obcaecati."
-            }, 10);
-            await dm.showDialog({
-                icon: "items/item.png",
-                name: "Item 2",
-                text: "Lorem [bold]ipsum dolor [italic]sit[/italic] amet[/bold], consetetur [shake]sadipscing elitr[/shake], sed diam"
-            });
-            let result = await dm.showDialog({
-                icon: "items/item.png",
-                name: "Item 2",
-                text: "Lorem",
-                options: [
-                    { id: "option 1", text: "This is option 1" },
-                    { id: "option 2", text: "This is a different option" }
-                ]
-            });
-            console.log("chose", result);
-        }
-    }
-    Script.HTMLConnectedScript = HTMLConnectedScript;
-    /*
-    class Item {
-      name: string;
-      image: string;
-      #element: HTMLDivElement;
-  
-      constructor(_name: string, _image: string) {
-        this.name = _name;
-        this.image = _image;
-      }
-  
-      toHTMLElement(): HTMLElement {
-        let div: HTMLDivElement = document.createElement("div");
-        div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
-        div.classList.add("item");
-        div.draggable = true;
-        div.addEventListener("dragstart", this.addData.bind(this));
-        // div.addEventListener("dragend", (_ev) => { div.style.pointerEvents = "initial" });
-        div.addEventListener("drop", this.tryCombine.bind(this));
-        div.addEventListener("dragover", _ev => { _ev.preventDefault() });
-        this.#element = div;
-        return div;
-      }
-      addData(_ev: DragEvent) {
-        _ev.dataTransfer.setData("item", this.name);
-        // this.#element.style.pointerEvents = "none";
-      }
-      tryCombine(_ev: DragEvent) {
-        let otherItem = _ev.dataTransfer.getData("item");
-        console.log("combine items", this.name, otherItem);
-      }
-    }
-    */
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
-    var ƒ = FudgeCore;
     class Interactable extends ƒ.ComponentScript {
         name;
         image;
@@ -335,8 +255,10 @@ var Script;
     document.addEventListener("interactiveViewportStarted", start);
     let mouseIsOverInteractable = false;
     Script.interactableItems = [];
-    Script.progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
-    Script.settings = onChange(JSON.parse(localStorage.getItem("settings")) ?? {}, () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0 } };
+    let settingsDefault = { music: 100, sounds: 100 };
+    Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
+    Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
     function start(_event) {
         Script.mainViewport = _event.detail;
         Script.mainViewport.canvas.addEventListener("dragover", isDroppable);
@@ -345,7 +267,7 @@ var Script;
         Script.mainViewport.canvas.addEventListener("click", mouseclick);
         Script.mainNode = Script.mainViewport.getBranch();
         Script.mainNode.addEventListener("pointermove", foundNode);
-        addInteractionSphere(Script.mainNode);
+        // addInteractionSphere(mainNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
@@ -508,42 +430,16 @@ var Script;
         return new Proxy(object, handler);
     }
     Script.onChange = onChange;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
-    var ƒ = FudgeCore;
-    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class PickableObjectScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(PickableObjectScript);
-        #material;
-        #direction = -1;
-        constructor() {
-            super();
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.#material = this.node.getComponent(ƒ.ComponentMaterial);
-            });
+    function merge(current, updates) {
+        for (let key of Object.keys(updates)) {
+            if (!current.hasOwnProperty(key) || typeof updates[key] !== 'object')
+                current[key] = updates[key];
+            else
+                merge(current[key], updates[key]);
         }
-        frame() {
-            let delay = 4;
-            let color = this.#material.material.coat.color;
-            color.a += ƒ.Loop.timeFrameGame / 1000 / delay * this.#direction;
-            if (color.a >= 1) {
-                this.#direction = -1;
-                color.a = 1;
-            }
-            else if (color.a <= 0) {
-                this.#direction = 1;
-                color.a = 0;
-            }
-            // console.log(color.a);
-        }
+        return current;
     }
-    Script.PickableObjectScript = PickableObjectScript;
+    Script.merge = merge;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -598,6 +494,41 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    class BathroomBucket extends Script.Interactable {
+        text = "...";
+        name = "Bucket";
+        constructor(_name, _image) {
+            super(_name, _image);
+        }
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.LOOK_AT;
+        }
+        interact() {
+            let p = Script.progress.fly?.clean ?? 0;
+            if (p <= 1) {
+                Script.CharacterScript.talkAs("Tadpole", "Ein leerer Eimer.");
+                return;
+            }
+            if (p === 2) {
+                Script.CharacterScript.talkAs("Tadpole", "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!");
+                return;
+            }
+            if (p === 3) {
+                Script.CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.");
+                return;
+            }
+            if (p >= 4) {
+                Script.CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast.");
+                return;
+            }
+        }
+        tryUseWith(_interactable) {
+        }
+    }
+    Script.BathroomBucket = BathroomBucket;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class BathroomValve extends Script.Interactable {
         text = "...";
         name = "Gegenstand";
@@ -611,28 +542,21 @@ var Script;
             return Script.INTERACTION_TYPE.LOOK_AT;
         }
         interact() {
-            let p = Script.progress.fly?.clean ?? 0;
+            let p = Script.progress.fly.clean;
             switch (p) {
                 case 0:
-                    Script.CharacterScript.talkAs("Fly", "Ich brauche gerade kein Wasser.");
-                    break;
                 case 1:
-                    Script.CharacterScript.talkAs("Frog", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
-                    // alert("hier wasser eimer auffüllen einfügen");
+                    Script.CharacterScript.talkAs("Tadpole", "Ich brauche gerade kein Wasser.");
                     break;
                 case 2:
-                    Script.CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.", "neutral", [
-                        { id: "opt1", text: "This is option 1" },
-                        { id: "opt2", text: "This is option 2" },
-                        { id: "opt3", text: "This is option 3" }
-                    ]);
+                    // TODO: hier wasser eimer auffüllen einfügen
+                    // progress.fly.clean = Math.min(2, p + 1);
+                    Script.progress.fly.clean++;
+                    break;
+                case 3:
+                    Script.CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
                     break;
             }
-            //@ts-ignore
-            if (!Script.progress.fly)
-                Script.progress.fly = {};
-            // progress.fly.clean = Math.min(2, p + 1);
-            Script.progress.fly.clean = (p + 1) % 3;
         }
         tryUseWith(_interactable) {
         }
@@ -651,20 +575,10 @@ var Script;
             return Script.INTERACTION_TYPE.LOOK_AT;
         }
         interact() {
-            Script.DialogManager.Instance.showDialog({
-                icon: this.image,
-                name: this.name,
-                text: this.text,
-                position: "right"
-            });
+            Script.CharacterScript.talkAs("Tadpole", this.text);
         }
         tryUseWith(_interactable) {
-            Script.DialogManager.Instance.showDialog({
-                icon: this.image,
-                name: this.name,
-                text: "Das funktioniert nicht.",
-                position: "right"
-            });
+            Script.CharacterScript.talkAs("Tadpole", "Das funktioniert nicht.");
         }
     }
     Script.DefaultViewable = DefaultViewable;
@@ -921,8 +835,10 @@ var Script;
         constructor() {
             if (MenuManager.Instance)
                 return MenuManager.Instance;
-            this.setupListeners();
             MenuManager.Instance = this;
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.setupListeners();
         }
         setupListeners() {
             document.addEventListener("DOMContentLoaded", this.setupDomConnection.bind(this));

@@ -10,20 +10,10 @@ namespace Script {
             return INTERACTION_TYPE.LOOK_AT;
         }
         interact(): void {
-            DialogManager.Instance.showDialog({
-                icon: this.image,
-                name: this.name,
-                text: this.text,
-                position: "right"
-            })
+            CharacterScript.talkAs("Tadpole", this.text);
         }
         tryUseWith(_interactable: Interactable): void {
-            DialogManager.Instance.showDialog({
-                icon: this.image,
-                name: this.name,
-                text: "Das funktioniert nicht.",
-                position: "right"
-            })
+            CharacterScript.talkAs("Tadpole", "Das funktioniert nicht.");
         }
     }
 }

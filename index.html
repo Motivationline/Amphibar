@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>Amphibar</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
 
     <!--Editor settings of this project-->
-    <meta type="settings" autoview="Graph|2024-03-01T13:06:50.608Z|29850" project="{'name':'Amphibar','graphAutoView':'Graph|2024-03-01T13:06:50.608Z|29850'}" />
+    <meta type="settings" autoview="Graph|2024-03-01T13:06:50.608Z|29850"
+        project="{'name':'Amphibar','graphAutoView':'Graph|2024-03-01T13:06:50.608Z|29850'}" />
 
     <!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
     <!--<script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Physics/OimoPhysics.js"></script>-->
@@ -55,8 +57,10 @@
     <div id="dialog" class="hidden">
         <img id="dialog-icon" />
         <img id="dialog-name" />
-        <div id="dialog-text"></div>
-        <div id="dialog-text-bg"></div>
+        <div id="dialog-text">
+        </div>
+        <div id="dialog-text-bg">
+        </div>
         <img id="dialog-text-done" src="Assets/UI/Dialog/Continue.svg" />
     </div>
     <div id="game-overlay" class="fullscreen">
@@ -64,15 +68,29 @@
     </div>
 
     <div id="loading-screen" class="fullscreen menu-bg menu hidden">
-        <span id="loading-spinner"></span>
-        <span id="loading-text"></span>
+        <span id="loading-spinner">
+        </span>
+        <span id="loading-text">
+        </span>
     </div>
     <div id="main-menu-screen" class="fullscreen menu-bg menu hidden">
         <div id="main-menu-wrapper">
-            <div id="main-menu-sign"><img src="/Assets/UI/MainMenu/Logo.png" alt="Amphibar"><img id="logo-shadow" src="/Assets/UI/MainMenu/Logo-Schatten.png"></div>
-            <div id="main-menu-start" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Start.png" alt="Start"></span></div>
-            <div id="main-menu-options" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Optionen.png" alt="Optionen"></span></div>
-            <div id="main-menu-exit" class="click-sign"> <span class="clickable"><img src="/Assets/UI/MainMenu/Exit.png" alt="Exit"></span></div>
+            <div id="main-menu-sign">
+                <img src="/Assets/UI/MainMenu/Logo.png" alt="Amphibar" />
+                <img id="logo-shadow" src="/Assets/UI/MainMenu/Logo-Schatten.png" />
+            </div>
+            <div id="main-menu-start" class="click-sign"> <span class="clickable">
+                    <img src="/Assets/UI/MainMenu/Start.png" alt="Start" />
+                </span>
+            </div>
+            <div id="main-menu-options" class="click-sign"> <span class="clickable">
+                    <img src="/Assets/UI/MainMenu/Optionen.png" alt="Optionen" />
+                </span>
+            </div>
+            <div id="main-menu-exit" class="click-sign"> <span class="clickable">
+                    <img src="/Assets/UI/MainMenu/Exit.png" alt="Exit" />
+                </span>
+            </div>
         </div>
         <div id="snail-1" class="snail">
             <img class="snail" src="Assets/UI/MainMenu/Schnecke-1.png" alt="" />
@@ -87,14 +105,17 @@
             <div class="options-range" id="options-music">
                 <input type="range" min="0" max="100" step="1" data-option="music" />
                 <img class="options-slider" src="Assets/UI/MainMenu/Slider-Handle.png" alt="" />
-                <div class="options-background-filled"></div>
+                <div class="options-background-filled">
+                </div>
             </div>
             <div class="options-range" id="options-sounds">
                 <input type="range" min="0" max="100" step="1" data-option="sounds" />
                 <img class="options-slider" src="Assets/UI/MainMenu/Slider-Handle.png" alt="" />
-                <div class="options-background-filled"></div>
+                <div class="options-background-filled">
+                </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

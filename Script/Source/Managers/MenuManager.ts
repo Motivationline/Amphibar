@@ -9,8 +9,11 @@ namespace Script {
 
         constructor() {
             if (MenuManager.Instance) return MenuManager.Instance;
-            this.setupListeners();
             MenuManager.Instance = this;
+
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.setupListeners();
         }
 
         private setupListeners() {
@@ -67,9 +70,9 @@ namespace Script {
         private gameWasStarted: boolean = false;
         private startGame() {
             this.mainMenuScreen.classList.add("hidden");
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.gameWasStarted = true;
-                if(this.gameIsLoaded) {
+                if (this.gameIsLoaded) {
                     this.updateLoadingText();
                     return;
                 }
@@ -108,7 +111,7 @@ namespace Script {
         private gameIsLoaded: boolean = false;
         private gameLoaded() {
             this.gameIsLoaded = true;
-            if(this.gameWasStarted) {
+            if (this.gameWasStarted) {
                 this.updateLoadingText();
             }
         }

@@ -44,15 +44,6 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
-    class HTMLConnectedScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        inventory: Inventory;
-        constructor();
-        private init;
-    }
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
     abstract class Interactable extends ƒ.ComponentScript {
         name: string;
         image?: string;
@@ -92,29 +83,20 @@ declare namespace Script {
     export let settings: Settings;
     export function foundNode(_event: PointerEvent): void;
     interface Progress {
-        fly?: {
+        fly: {
             intro: boolean;
             clean: number;
             drink: number;
             worm: number;
         };
-        test?: boolean;
     }
     interface Settings {
         music: number;
         sounds: number;
     }
     export function onChange(object: any, onChange: Function): any;
+    export function merge(current: any, updates: any): any;
     export {};
-}
-declare namespace Script {
-    import ƒ = FudgeCore;
-    class PickableObjectScript extends ƒ.ComponentScript {
-        #private;
-        static readonly iSubclass: number;
-        constructor();
-        private frame;
-    }
 }
 declare namespace Script {
     import ƒ = FudgeCore;
@@ -125,6 +107,16 @@ declare namespace Script {
         private hovered;
         private clicked;
         private frame;
+    }
+}
+declare namespace Script {
+    class BathroomBucket extends Interactable {
+        text: string;
+        name: string;
+        constructor(_name: string, _image: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
     }
 }
 declare namespace Script {

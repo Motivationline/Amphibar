@@ -1,10 +1,10 @@
 {
   "Fudge.ResourceFolder": {
     "name": "Resources",
-    "children": [
+    "entries": [
       {
         "name": "main_scenes",
-        "children": [
+        "entries": [
           {
             "idResource": "Graph|2024-03-01T13:06:50.608Z|29850"
           },
@@ -15,9 +15,9 @@
       },
       {
         "name": "bathroom",
-        "children": [
+        "entries": [
           {
-            "idResource": "GraphGLTF|2024-03-01T13:07:15.611Z|57542"
+            "idResource": "GraphGLTF|2024-03-28T09:42:47.761Z|62541"
           },
           {
             "idResource": "GraphGLTF|2024-03-13T13:52:32.535Z|34115"
@@ -41,10 +41,10 @@
       },
       {
         "name": "characters",
-        "children": [
+        "entries": [
           {
             "name": "tadpole",
-            "children": [
+            "entries": [
               {
                 "idResource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
               },
@@ -63,7 +63,7 @@
       },
       {
         "name": "testing",
-        "children": [
+        "entries": [
           {
             "idResource": "MeshCube|2024-02-13T09:21:08.648Z|96287"
           },
@@ -74,10 +74,13 @@
             "idResource": "Material|2024-02-13T12:09:57.963Z|31473"
           },
           {
-            "idResource": "Graph|2024-02-13T08:54:57.615Z|22761"
+            "idResource": "Graph|2024-03-12T13:23:13.773Z|37806"
           },
           {
-            "idResource": "Graph|2024-03-12T13:23:13.773Z|37806"
+            "idResource": "MeshSphere|2024-03-27T14:10:05.539Z|02234"
+          },
+          {
+            "idResource": "Graph|2024-03-28T10:00:19.078Z|91151"
           }
         ]
       }

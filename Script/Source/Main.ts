@@ -11,8 +11,14 @@ namespace Script {
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
-  export let progress: Progress = onChange(JSON.parse(localStorage.getItem("progress")) ?? {}, () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(progress)) }, 1) });
-  export let settings: Settings = onChange(JSON.parse(localStorage.getItem("settings")) ?? {}, () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(settings)) }, 1) });
+  let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0 } };
+  let settingsDefault: Settings = { music: 100, sounds: 100 };
+  export let progress: Progress = onChange(
+    merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})),
+    () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(progress)) }, 1) });
+  export let settings: Settings = onChange(
+    merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})),
+    () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(settings)) }, 1) });
 
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
@@ -25,7 +31,7 @@ namespace Script {
     mainNode = mainViewport.getBranch();
     mainNode.addEventListener("pointermove", <EventListener>foundNode);
 
-    addInteractionSphere(mainNode);
+    // addInteractionSphere(mainNode);
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
@@ -173,13 +179,12 @@ namespace Script {
   }
 
   interface Progress {
-    fly?: {
+    fly: {
       intro: boolean,
       clean: number,
       drink: number,
       worm: number,
     },
-    test?: boolean,
   }
 
   interface Settings {
@@ -208,5 +213,13 @@ namespace Script {
     };
 
     return new Proxy(object, handler);
+  }
+
+  export function merge(current: any, updates: any) {
+    for (let key of Object.keys(updates)) {
+      if (!current.hasOwnProperty(key) || typeof updates[key] !== 'object') current[key] = updates[key];
+      else merge(current[key], updates[key]);
+    }
+    return current;
   }
 }

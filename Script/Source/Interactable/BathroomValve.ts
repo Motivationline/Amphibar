@@ -13,27 +13,21 @@ namespace Script {
             return INTERACTION_TYPE.LOOK_AT;
         }
         interact(): void {
-            let p: number = progress.fly?.clean ?? 0;
+            let p: number = progress.fly.clean;
             switch (p) {
                 case 0:
-                    CharacterScript.talkAs("Fly", "Ich brauche gerade kein Wasser.");
-                    break;
                 case 1:
-                    CharacterScript.talkAs("Frog", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
-                    // alert("hier wasser eimer auffüllen einfügen");
+                    CharacterScript.talkAs("Tadpole", "Ich brauche gerade kein Wasser.");
                     break;
                 case 2:
-                    CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.", "neutral", [
-                        {id: "opt1", text: "This is option 1"},
-                        {id: "opt2", text: "This is option 2"},
-                        {id: "opt3", text: "This is option 3"}
-                    ]);
+                    // TODO: hier wasser eimer auffüllen einfügen
+                    // progress.fly.clean = Math.min(2, p + 1);
+                    progress.fly.clean++;
+                    break;
+                case 3:
+                    CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
                     break;
             }
-            //@ts-ignore
-            if(!progress.fly) progress.fly = {};
-            // progress.fly.clean = Math.min(2, p + 1);
-            progress.fly.clean = (p + 1) % 3;
         }
         tryUseWith(_interactable: Interactable): void {
             
