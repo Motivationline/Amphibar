@@ -1,0 +1,131 @@
+. {
+    background-image: url(loading_anim_spritesheet_v01.png);
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.-Quip-Anim-00 {
+    width: 480px;
+    height: 480px;
+    background-position: 0 0;
+}
+
+.-Quip-Anim-01 {
+    width: 480px;
+    height: 480px;
+    background-position: -480px 0;
+}
+
+.-Quip-Anim-02 {
+    width: 480px;
+    height: 480px;
+    background-position: -960px 0;
+}
+
+.-Quip-Anim-03 {
+    width: 480px;
+    height: 480px;
+    background-position: -1440px 0;
+}
+
+.-Quip-Anim-04 {
+    width: 480px;
+    height: 480px;
+    background-position: 0 -480px;
+}
+
+.-Quip-Anim-05 {
+    width: 480px;
+    height: 480px;
+    background-position: -480px -480px;
+}
+
+.-Quip-Anim-06 {
+    width: 480px;
+    height: 480px;
+    background-position: -960px -480px;
+}
+
+.-Quip-Anim-07 {
+    width: 480px;
+    height: 480px;
+    background-position: -1440px -480px;
+}
+
+.-Quip-Anim-08 {
+    width: 480px;
+    height: 480px;
+    background-position: 0 -960px;
+}
+
+.-Quip-Anim-09 {
+    width: 480px;
+    height: 480px;
+    background-position: -480px -960px;
+}
+
+.-Quip-Anim-10 {
+    width: 480px;
+    height: 480px;
+    background-position: -960px -960px;
+}
+
+.-Quip-Anim-11 {
+    width: 480px;
+    height: 480px;
+    background-position: -1440px -960px;
+}
+
+.-Quip-Anim-12 {
+    width: 480px;
+    height: 480px;
+    background-position: 0 -1440px;
+}
+
+.-Quip-Anim-13 {
+    width: 480px;
+    height: 480px;
+    background-position: -480px -1440px;
+}
+
+.-Quip-Anim-14 {
+    width: 480px;
+    height: 480px;
+    background-position: -960px -1440px;
+}
+
+.-Quip-Anim-15 {
+    width: 480px;
+    height: 480px;
+    background-position: -1440px -1440px;
+}
+
+.-Quip-Anim-16 {
+    width: 480px;
+    height: 480px;
+    background-position: -1920px 0;
+}
+
+.-Quip-Anim-17 {
+    width: 480px;
+    height: 480px;
+    background-position: -1920px -480px;
+}
+
+.-Quip-Anim-18 {
+    width: 480px;
+    height: 480px;
+    background-position: -1920px -960px;
+}
+
+.-Quip-Anim-19 {
+    width: 480px;
+    height: 480px;
+    background-position: -1920px -1440px;
+}
+
+.-Quip-Anim-20 {
+    width: 480px;
+    height: 480px;
+    background-position: 0 -1920px;
+}
