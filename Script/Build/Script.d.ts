@@ -94,8 +94,10 @@ declare namespace Script {
         music: number;
         sounds: number;
     }
+    /** Helper function to set up a (deep) proxy object that calls the onChange function __before__ the element is modified*/
     export function onChange(object: any, onChange: Function): any;
-    export function merge(current: any, updates: any): any;
+    /** Deep merges the _updates object into the _current object. */
+    export function merge(_current: any, _updates: any): any;
     export {};
 }
 declare namespace Script {

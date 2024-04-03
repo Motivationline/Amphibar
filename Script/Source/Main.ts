@@ -6,7 +6,6 @@ namespace Script {
   export let mainViewport: ƒ.Viewport;
   export let mainNode: ƒ.Node;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
-  let mouseIsOverInteractable: boolean = false;
   export let inventory: Inventory;
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
@@ -22,14 +21,16 @@ namespace Script {
 
   function start(_event: CustomEvent): void {
     mainViewport = _event.detail;
-    mainViewport.canvas.addEventListener("dragover", isDroppable)
-    mainViewport.canvas.addEventListener("drop", drop)
+    mainViewport.canvas.addEventListener("dragover", dragOverViewport)
+    mainViewport.canvas.addEventListener("drop", dropOverViewport)
     mainViewport.canvas.addEventListener("pointermove", <EventListener>pointermove);
     mainViewport.canvas.addEventListener("click", <EventListener>mouseclick);
 
 
     mainNode = mainViewport.getBranch();
     mainNode.addEventListener("pointermove", <EventListener>foundNode);
+    mainNode.addEventListener("dragover", <EventListener>dragOverNode);
+    mainNode.addEventListener("drop", <EventListener>dropOverNode);
 
     // addInteractionSphere(mainNode);
 
@@ -69,7 +70,6 @@ namespace Script {
 
   function pointermove(_event: PointerEvent): void {
     mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
-    mouseIsOverInteractable = false;
     mainViewport.dispatchPointerEvent(_event);
   }
 
@@ -97,7 +97,6 @@ namespace Script {
   }
 
   export function foundNode(_event: PointerEvent): void {
-    mouseIsOverInteractable = true;
     let node = <ƒ.Node>_event.target;
     let interactable = findInteractable(node);
     if (!interactable) return;
@@ -124,55 +123,32 @@ namespace Script {
     }
   }
 
-  function isDroppable(_event: DragEvent): void {
-    let pick = findPickable(_event);
-    if (pick) {
-      console.log(pick.node.name);
-      _event.preventDefault();
-    }
+  //#region Drag & Drop
+
+  function dragOverViewport(_event: DragEvent): void {
+    //@ts-ignore
+    mainViewport.dispatchPointerEvent(_event);
   }
-  function drop(_event: DragEvent): void {
-    let pick = findPickable(_event);
-    if (pick) {
-      let interactable: Interactable = findInteractable(pick.node);
-      if (!interactable) return;
-      let otherInteractableName: string = _event.dataTransfer.getData("interactable");
-      let otherInteractable = interactableItems.find(i => i.name === otherInteractableName);
-      console.log("dropped", otherInteractable.name, "onto", interactable.name);
-      interactable.tryUseWith(otherInteractable);
-    }
+  
+  function dragOverNode(_event: DragEvent): void {
+    _event.preventDefault();
+  }
+  
+  function dropOverViewport(_event: DragEvent): void {
+    //@ts-ignore
+    mainViewport.dispatchPointerEvent(_event);
+  }
+  function dropOverNode(_event: DragEvent): void {
+    let node: ƒ.Node = <ƒ.Node>_event.target;
+    let interactable: Interactable = findInteractable(node);
+    if (!interactable) return;
+    let otherInteractableName: string = _event.dataTransfer.getData("interactable");
+    let otherInteractable = interactableItems.find(i => i.name === otherInteractableName);
+    console.log("dropped", otherInteractable.name, "onto", interactable.name);
+    interactable.tryUseWith(otherInteractable);
   }
 
-  function findPickable(_event: MouseEvent): ƒ.ComponentPick {
-    // let picks: ƒ.Pick[] = ƒ.Picker.pickViewport(mainViewport, new ƒ.Vector2(_event.clientX, _event.clientY));
-    // for (let pick of picks) {
-    //   let cmpPick = pick.node.getComponent(ƒ.ComponentPick);
-    //   if (cmpPick && cmpPick.isActive) {
-    //     return pick;
-    //   }
-    // }
-    // return null;
-
-    let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
-    let smallestDistance = Infinity;
-    let closestItem: ƒ.ComponentPick;
-    let items = mainNode.getChildrenByName("items")[0].getChildren()
-    for (let item of items) {
-      let pick = item.getComponent(ƒ.ComponentPick);
-      if (!pick) continue;
-      if (!pick.isActive) continue;
-      let interact = findInteractable(item);
-      if (!interact || !interact.isActive) continue;
-      let distance = ray.getDistance(item.mtxWorld.translation).magnitudeSquared;
-      if (pick.node.radius * pick.node.radius > distance) continue;
-      if (distance < smallestDistance) {
-        smallestDistance = distance;
-        closestItem = pick;
-      }
-    }
-
-    return closestItem;
-  }
+  //#endregion
 
   function findInteractable(_node: ƒ.Node): Interactable {
     return <Interactable>_node.getAllComponents().find(i => i instanceof Interactable);
@@ -193,20 +169,22 @@ namespace Script {
   }
 
 
+  //#region Helper Functions
+  /** Helper function to set up a (deep) proxy object that calls the onChange function __before__ the element is modified*/ 
   export function onChange(object: any, onChange: Function) {
     const handler = {
-      get(target, property, receiver) {
+      get(target: any, property: any, receiver: any): any {
         try {
           return new Proxy(target[property], handler);
         } catch (err) {
           return Reflect.get(target, property, receiver);
         }
       },
-      defineProperty(target, property, descriptor) {
+      defineProperty(target: any, property: any, descriptor: any): boolean {
         onChange();
         return Reflect.defineProperty(target, property, descriptor);
       },
-      deleteProperty(target, property) {
+      deleteProperty(target: any, property: any): boolean {
         onChange();
         return Reflect.deleteProperty(target, property);
       }
@@ -215,11 +193,13 @@ namespace Script {
     return new Proxy(object, handler);
   }
 
-  export function merge(current: any, updates: any) {
-    for (let key of Object.keys(updates)) {
-      if (!current.hasOwnProperty(key) || typeof updates[key] !== 'object') current[key] = updates[key];
-      else merge(current[key], updates[key]);
+  /** Deep merges the _updates object into the _current object. */
+  export function merge(_current: any, _updates: any) {
+    for (let key of Object.keys(_updates)) {
+      if (!_current.hasOwnProperty(key) || typeof _updates[key] !== 'object') _current[key] = _updates[key];
+      else merge(_current[key], _updates[key]);
     }
-    return current;
+    return _current;
   }
+  //#endregion
 }
