@@ -430,74 +430,9 @@
           }
         },
         {
-          "ƒ.Node": {
-            "name": "tadpole",
-            "active": true,
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[0, 0, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[0.9999999403953552, 0.9999999403953552, 0.9999999403953552]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ],
-              "ComponentWalker": [
-                {
-                  "ƒ.ComponentWalker": {
-                    "Component": {
-                      "active": true
-                    },
-                    "speed": 1
-                  }
-                }
-              ],
-              "CharacterScript": [
-                {
-                  "Script.CharacterScript": {
-                    "active": true
-                  }
-                }
-              ]
-            },
-            "children": [
-              {
-                "ƒ.Node": {
-                  "name": "tadpolewrapper",
-                  "active": true,
-                  "components": {
-                    "ComponentTransform": [
-                      {
-                        "ƒ.ComponentTransform": {
-                          "local": {
-                            "translation": "[0, 0, 0]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[0.7999999523162842, 0.7999999523162842, 0.7999999523162842]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.GraphInstance": {
-                        "deserializeFromSource": true,
-                        "idSource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "Graph|2024-04-02T07:38:25.740Z|79965"
           }
         },
         {
@@ -1259,6 +1194,183 @@
       "children": [],
       "idResource": "Graph|2024-03-28T10:00:19.078Z|91151",
       "type": "Graph"
+    }
+  },
+  "MeshQuad|2024-03-28T14:19:47.423Z|82814": {
+    "ƒ.MeshQuad": {
+      "idResource": "MeshQuad|2024-03-28T14:19:47.423Z|82814",
+      "name": "MeshQuad"
+    }
+  },
+  "Material|2024-03-28T14:20:22.998Z|62887": {
+    "ƒ.Material": {
+      "name": "ShaderFlatTextured",
+      "idResource": "Material|2024-03-28T14:20:22.998Z|62887",
+      "shader": "ShaderFlatTextured",
+      "coat": {
+        "ƒ.CoatRemissiveTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2024-04-02T07:37:45.101Z|97621",
+          "diffuse": 1,
+          "specular": 0.5,
+          "intensity": 0.7,
+          "metallic": 0
+        }
+      }
+    }
+  },
+  "TextureImage|2024-04-02T07:37:45.101Z|97621": {
+    "ƒ.TextureImage": {
+      "url": "Assets\\Characters\\Schatten.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2024-04-02T07:37:45.101Z|97621",
+        "name": "Assets\\Characters\\Schatten.png",
+        "mipmap": "CRISP",
+        "wrap": "REPEAT"
+      }
+    }
+  },
+  "Graph|2024-04-02T07:38:25.740Z|79965": {
+    "ƒ.Graph": {
+      "name": "tadpole",
+      "active": true,
+      "components": {
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[0.9999999403953552, 0.9999999403953552, 0.9999999403953552]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentWalker": [
+          {
+            "ƒ.ComponentWalker": {
+              "Component": {
+                "active": true
+              },
+              "speed": 1
+            }
+          }
+        ],
+        "CharacterScript": [
+          {
+            "Script.CharacterScript": {
+              "active": true
+            }
+          }
+        ]
+      },
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "tadpolewrapper",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[0.7999999523162842, 0.7999999523162842, 0.7999999523162842]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "shadow",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshQuad|2024-03-28T14:19:47.423Z|82814",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[-90, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2024-03-28T14:20:22.998Z|62887"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-02T07:38:25.740Z|79965",
+      "type": "Graph"
+    }
+  },
+  "Graph|2024-04-03T07:49:20.788Z|88020": {
+    "ƒ.Graph": {
+      "name": "shelf",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-03T08:01:16.569Z|09229"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-03T07:49:20.788Z|88020",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-03T08:01:16.569Z|09229": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-03T08:01:16.569Z|09229",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Regal.glb"
     }
   }
 }

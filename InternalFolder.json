@@ -10,6 +10,9 @@
           },
           {
             "idResource": "Graph|2024-02-08T13:52:27.562Z|67214"
+          },
+          {
+            "idResource": "Graph|2024-04-03T07:49:20.788Z|88020"
           }
         ]
       },
@@ -46,6 +49,9 @@
             "name": "tadpole",
             "entries": [
               {
+                "idResource": "Graph|2024-04-02T07:38:25.740Z|79965"
+              },
+              {
                 "idResource": "GraphGLTF|2024-03-13T11:00:53.756Z|02015"
               },
               {
@@ -58,6 +64,17 @@
                 "idResource": "AnimationGLTF|2024-03-13T11:00:53.922Z|51427"
               }
             ]
+          },
+          {
+            "idResource": "TextureImage|2024-04-02T07:37:45.101Z|97621"
+          }
+        ]
+      },
+      {
+        "name": "shelf",
+        "entries": [
+          {
+            "idResource": "GraphGLTF|2024-04-03T08:01:16.569Z|09229"
           }
         ]
       },
@@ -81,6 +98,12 @@
           },
           {
             "idResource": "Graph|2024-03-28T10:00:19.078Z|91151"
+          },
+          {
+            "idResource": "MeshQuad|2024-03-28T14:19:47.423Z|82814"
+          },
+          {
+            "idResource": "Material|2024-03-28T14:20:22.998Z|62887"
           }
         ]
       }
