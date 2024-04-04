@@ -6,9 +6,6 @@ namespace Script {
         constructor(_name: string, _image: string) {
             super(_name, _image);
         }
-        getInteractionType(): INTERACTION_TYPE {
-            return INTERACTION_TYPE.LOOK_AT;
-        }
         interact(): void {
             let p: number = progress.fly?.clean ?? 0;
             if(p <= 1) {
@@ -28,8 +25,13 @@ namespace Script {
                 return;
             }
         }
+
         tryUseWith(_interactable: Interactable): void {
-            
+            if(progress.fly.clean >= 3) {
+                this.name = "bucket_full";
+            } 
+            super.tryUseWith(_interactable);
         }
+
     }
 }

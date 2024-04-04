@@ -176,6 +176,7 @@ var Script;
     class Interactable extends ƒ.ComponentScript {
         name;
         image;
+        static textProvider;
         constructor(_name, _image) {
             super();
             this.name = _name;
@@ -184,10 +185,45 @@ var Script;
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
                 this.node.addEventListener("click", this.interact.bind(this));
             });
+            if (!Interactable.textProvider)
+                Interactable.textProvider = new Script.Text();
+        }
+        static getInteractionText(_object, _item) {
+            let base = _object.node.getAncestor();
+            let key = "";
+            if (_item) {
+                key = `${base.name}.${_object.name}.interact.${_item.name}`;
+                let text = Interactable.textProvider.get(key);
+                if (text !== key)
+                    return text;
+            }
+            key = `${base.name}.${_object.name}.interact`;
+            let text = Interactable.textProvider.get(key);
+            if (key !== text)
+                return text;
+            key = `${base.name}.interact`;
+            text = Interactable.textProvider.get(key);
+            if (key !== text)
+                return text;
+            key = `interact`;
+            text = Interactable.textProvider.get(key);
+            if (key !== text)
+                return text;
+            return `${base.name}.${_object.name}.interact.${_item?.name ?? ""}`;
+        }
+        interact() {
+            Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this));
+        }
+        tryUseWith(_interactable) {
+            Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this, _interactable));
+        }
+        getInteractionType() {
+            return INTERACTION_TYPE.LOOK_AT;
         }
         toHTMLElement() {
             let div = document.createElement("div");
-            div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
+            let name = Interactable.textProvider.get(`item.${this.name}.name`);
+            div.innerHTML = `<img src="${this.image}" alt="${name}"><span>${name}</span>`;
             div.classList.add("item");
             div.draggable = true;
             div.addEventListener("dragstart", addData.bind(this));
@@ -272,7 +308,7 @@ var Script;
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
-        Script.inventory.addItem(new Script.DefaultViewable("test", "items/item.png"));
+        Script.inventory.addItem(new Script.Interactable("glas", "items/item.png"));
     }
     function addInteractionSphere(_node) {
         let meshShpere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
@@ -469,14 +505,39 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    class Text {
+        static instance;
+        textData;
+        constructor() {
+            if (Text.instance)
+                return Text.instance;
+            Text.instance = this;
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.load();
+        }
+        async load() {
+            let response = await fetch("./Assets/Text/de_de.json");
+            this.textData = await response.json();
+        }
+        get(identifier) {
+            let text = this.textData[identifier];
+            if (!text)
+                return identifier;
+            if (typeof text === "string")
+                return text;
+            return text[Math.floor(Math.random() * text.length)];
+        }
+    }
+    Script.Text = Text;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class BathroomBucket extends Script.Interactable {
         text = "...";
         name = "Bucket";
         constructor(_name, _image) {
             super(_name, _image);
-        }
-        getInteractionType() {
-            return Script.INTERACTION_TYPE.LOOK_AT;
         }
         interact() {
             let p = Script.progress.fly?.clean ?? 0;
@@ -498,6 +559,10 @@ var Script;
             }
         }
         tryUseWith(_interactable) {
+            if (Script.progress.fly.clean >= 3) {
+                this.name = "bucket_full";
+            }
+            super.tryUseWith(_interactable);
         }
     }
     Script.BathroomBucket = BathroomBucket;
@@ -505,8 +570,6 @@ var Script;
 var Script;
 (function (Script) {
     class BathroomValve extends Script.Interactable {
-        text = "...";
-        name = "Gegenstand";
         constructor(_name, _image) {
             super(_name, _image);
         }
@@ -521,42 +584,21 @@ var Script;
             switch (p) {
                 case 0:
                 case 1:
-                    Script.CharacterScript.talkAs("Tadpole", "Ich brauche gerade kein Wasser.");
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.0"));
                     break;
                 case 2:
                     // TODO: hier wasser eimer auffüllen einfügen
                     // progress.fly.clean = Math.min(2, p + 1);
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.1"));
                     Script.progress.fly.clean++;
                     break;
                 case 3:
-                    Script.CharacterScript.talkAs("Tadpole", "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.");
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.2"));
                     break;
             }
         }
-        tryUseWith(_interactable) {
-        }
     }
     Script.BathroomValve = BathroomValve;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
-    class DefaultViewable extends Script.Interactable {
-        text = "...";
-        name = "Gegenstand";
-        constructor(_name, _image) {
-            super(_name, _image);
-        }
-        getInteractionType() {
-            return Script.INTERACTION_TYPE.LOOK_AT;
-        }
-        interact() {
-            Script.CharacterScript.talkAs("Tadpole", this.text);
-        }
-        tryUseWith(_interactable) {
-            Script.CharacterScript.talkAs("Tadpole", "Das funktioniert nicht.");
-        }
-    }
-    Script.DefaultViewable = DefaultViewable;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {

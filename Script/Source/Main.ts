@@ -38,7 +38,7 @@ namespace Script {
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
 
     inventory = new Inventory();
-    inventory.addItem(new DefaultViewable("test", "items/item.png"))
+    inventory.addItem(new Interactable("glas", "items/item.png"))
   }
 
   function addInteractionSphere(_node: ƒ.Node) {

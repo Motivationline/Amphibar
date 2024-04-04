@@ -560,12 +560,11 @@
                         }
                       }
                     ],
-                    "DefaultViewable": [
+                    "Interactable": [
                       {
-                        "Script.DefaultViewable": {
+                        "Script.Interactable": {
                           "active": true,
-                          "name": "Gegenstand",
-                          "text": "Warum hängt der Spiegel so hoch?"
+                          "name": "mirror"
                         }
                       }
                     ]
@@ -611,7 +610,7 @@
                       {
                         "Script.BathroomValve": {
                           "active": true,
-                          "name": "Valve",
+                          "name": "valve",
                           "text": "..."
                         }
                       }
@@ -691,7 +690,7 @@
                       {
                         "Script.BathroomBucket": {
                           "active": true,
-                          "name": "Bucket",
+                          "name": "bucket",
                           "text": "..."
                         }
                       }
@@ -734,15 +733,6 @@
                         }
                       }
                     ],
-                    "DefaultViewable": [
-                      {
-                        "Script.DefaultViewable": {
-                          "active": true,
-                          "name": "Dreck",
-                          "text": "Bäh, das ist ja ekelig!"
-                        }
-                      }
-                    ],
                     "ComponentMesh": [
                       {
                         "ƒ.ComponentMesh": {
@@ -773,6 +763,14 @@
                             "active": true
                           },
                           "idMaterial": "Material|2024-02-13T12:09:57.963Z|31473"
+                        }
+                      }
+                    ],
+                    "Interactable": [
+                      {
+                        "Script.Interactable": {
+                          "active": true,
+                          "name": "dirt"
                         }
                       }
                     ]
@@ -814,15 +812,6 @@
                         }
                       }
                     ],
-                    "DefaultViewable": [
-                      {
-                        "Script.DefaultViewable": {
-                          "active": true,
-                          "name": "Toilette",
-                          "text": "Ugh, das sieht nicht gerade einladend aus!"
-                        }
-                      }
-                    ],
                     "ComponentMesh": [
                       {
                         "ƒ.ComponentMesh": {
@@ -853,6 +842,14 @@
                             "active": true
                           },
                           "idMaterial": "Material|2024-02-13T12:09:57.963Z|31473"
+                        }
+                      }
+                    ],
+                    "Interactable": [
+                      {
+                        "Script.Interactable": {
+                          "active": true,
+                          "name": "toilet"
                         }
                       }
                     ]
@@ -894,15 +891,6 @@
                         }
                       }
                     ],
-                    "DefaultViewable": [
-                      {
-                        "Script.DefaultViewable": {
-                          "active": true,
-                          "name": "Toilette",
-                          "text": "Ugh, das sieht nicht gerade einladend aus!"
-                        }
-                      }
-                    ],
                     "ComponentMesh": [
                       {
                         "ƒ.ComponentMesh": {
@@ -933,6 +921,14 @@
                             "active": true
                           },
                           "idMaterial": "Material|2024-02-13T12:09:57.963Z|31473"
+                        }
+                      }
+                    ],
+                    "Interactable": [
+                      {
+                        "Script.Interactable": {
+                          "active": true,
+                          "name": "toilet"
                         }
                       }
                     ]

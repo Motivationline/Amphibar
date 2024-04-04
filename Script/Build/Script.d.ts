@@ -44,13 +44,15 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
-    abstract class Interactable extends ƒ.ComponentScript {
+    class Interactable extends ƒ.ComponentScript {
         name: string;
         image?: string;
-        abstract getInteractionType(): INTERACTION_TYPE;
-        abstract interact(): void;
-        abstract tryUseWith(_interactable: Interactable): void;
+        static textProvider: Text;
         constructor(_name: string, _image?: string);
+        static getInteractionText(_object: Interactable, _item?: Interactable): string;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+        getInteractionType(): INTERACTION_TYPE;
         toHTMLElement(): HTMLElement;
         canUseWithItem(): boolean;
     }
@@ -112,33 +114,28 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class Text {
+        private static instance;
+        private textData;
+        constructor();
+        private load;
+        get(identifier: string): string;
+    }
+}
+declare namespace Script {
     class BathroomBucket extends Interactable {
         text: string;
         name: string;
         constructor(_name: string, _image: string);
-        getInteractionType(): INTERACTION_TYPE;
         interact(): void;
         tryUseWith(_interactable: Interactable): void;
     }
 }
 declare namespace Script {
     class BathroomValve extends Interactable {
-        text: string;
-        name: string;
         constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
-        tryUseWith(_interactable: Interactable): void;
-    }
-}
-declare namespace Script {
-    class DefaultViewable extends Interactable {
-        text: string;
-        name: string;
-        constructor(_name: string, _image: string);
-        getInteractionType(): INTERACTION_TYPE;
-        interact(): void;
-        tryUseWith(_interactable: Interactable): void;
     }
 }
 declare namespace Script {

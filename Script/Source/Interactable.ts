@@ -1,26 +1,58 @@
 namespace Script {
     import ƒ = FudgeCore;
-    export abstract class Interactable extends ƒ.ComponentScript {
+    export class Interactable extends ƒ.ComponentScript {
         name: string;
         image?: string;
-        abstract getInteractionType(): INTERACTION_TYPE;
-        abstract interact(): void;
-        abstract tryUseWith(_interactable: Interactable): void;
-
+        static textProvider: Text;
+        
         constructor(_name: string, _image?: string) {
             super();
             this.name = _name;
             this.image = _image;
             interactableItems.push(this);
-
+            
             this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
                 this.node.addEventListener("click", this.interact.bind(this));
             });
+            
+            if(!Interactable.textProvider) Interactable.textProvider = new Text();
         }
-
+        
+        static getInteractionText(_object: Interactable, _item?: Interactable): string { 
+            let base = _object.node.getAncestor();
+            
+            let key: string = "";
+            if(_item) {
+                key = `${base.name}.${_object.name}.interact.${_item.name}`;
+                let text = Interactable.textProvider.get(key);
+                if(text !== key) return text;
+            }
+            key = `${base.name}.${_object.name}.interact`;
+            let text = Interactable.textProvider.get(key);
+            if(key !== text) return text;
+            key = `${base.name}.interact`;
+            text = Interactable.textProvider.get(key);
+            if(key !== text) return text;
+            key = `interact`;
+            text = Interactable.textProvider.get(key);
+            if(key !== text) return text;
+            return `${base.name}.${_object.name}.interact.${_item?.name ?? ""}`
+        }
+        interact(): void {
+            CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this));
+        }
+        
+        tryUseWith(_interactable: Interactable): void {
+            CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this, _interactable));
+        }
+        getInteractionType(): INTERACTION_TYPE {
+            return INTERACTION_TYPE.LOOK_AT;
+        }
+        
         toHTMLElement(): HTMLElement {
             let div: HTMLDivElement = document.createElement("div");
-            div.innerHTML = `<img src="${this.image}" alt="${this.name}"><span>${this.name}</span>`;
+            let name = Interactable.textProvider.get(`item.${this.name}.name`);
+            div.innerHTML = `<img src="${this.image}" alt="${name}"><span>${name}</span>`;
             div.classList.add("item");
             div.draggable = true;
             div.addEventListener("dragstart", addData.bind(this));
@@ -39,7 +71,7 @@ namespace Script {
                 this.tryUseWith(otherInteractable);
             }
         }
-        
+
         canUseWithItem(): boolean {
             return false;
         }
