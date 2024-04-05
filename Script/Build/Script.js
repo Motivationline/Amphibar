@@ -260,25 +260,31 @@ var Script;
 var Script;
 (function (Script) {
     class Inventory {
-        divWrapper = document.getElementById("inventory");
-        items = [];
+        divInventory = document.getElementById("inventory");
+        divWrapper = document.getElementById("inventory-wrapper");
+        itemsToHTMLMap = new Map();
+        constructor() {
+            this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+        }
         addItem(_item) {
-            if (!this.items.includes(_item))
-                this.items.push(_item);
-            this.updateInventory();
+            if (!this.itemsToHTMLMap.has(_item)) {
+                let element = _item.toHTMLElement();
+                this.divInventory.appendChild(element);
+                this.itemsToHTMLMap.set(_item, element);
+            }
         }
         removeItem(_item) {
-            let index = this.items.indexOf(_item);
-            if (index >= 0)
-                this.items.splice(index, 1);
-        }
-        updateInventory() {
-            if (!this.divWrapper)
-                return;
-            this.divWrapper.innerHTML = "";
-            for (let item of this.items) {
-                this.divWrapper.appendChild(item.toHTMLElement());
+            let element = this.itemsToHTMLMap.get(_item);
+            if (element) {
+                this.itemsToHTMLMap.delete(_item);
+                this.divInventory.removeChild(element);
             }
+        }
+        toggleInventory(_event) {
+            let isInventory = _event.target.classList.contains("inventory");
+            if (!isInventory)
+                return;
+            this.divWrapper.classList.toggle("visible");
         }
     }
     Script.Inventory = Inventory;
@@ -848,6 +854,7 @@ var Script;
         loadingScreen;
         mainMenuScreen;
         optionsScreen;
+        gameOverlay;
         loadingScreenMinimumVisibleTimeMS = 4000;
         constructor() {
             if (MenuManager.Instance)
@@ -876,8 +883,8 @@ var Script;
             this.optionsScreen.querySelector("#options-sounds input").value = Script.settings.sounds?.toString() ?? "100";
             this.optionsScreen.querySelector("#options-music input").dispatchEvent(new InputEvent("input"));
             this.optionsScreen.querySelector("#options-sounds input").dispatchEvent(new InputEvent("input"));
-            let gameOverlay = document.getElementById("game-overlay");
-            gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
+            this.gameOverlay = document.getElementById("game-overlay");
+            this.gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
         showStartScreens() {
@@ -888,6 +895,7 @@ var Script;
         loadingTextTimeout;
         hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
+            this.gameOverlay.classList.remove("hidden");
         }
         gameWasStarted = false;
         startGame() {

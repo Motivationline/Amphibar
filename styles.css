@@ -22,23 +22,79 @@ dialog {
 
 canvas.fullscreen {
   width: 100vw;
-  height: 80vh;
+  height: 100vh;
+}
+
+/* inventory */
+
+.inventory {
+  cursor: pointer;
+}
+
+#inventory-wrapper {
+  position: absolute;
+  height: 30vh;
+  width: 100%;
+  top: -2.5vh;
+  display: flex;
+  justify-content: center;
+  transition: top 0.5s;
+}
+
+#inventory-wrapper:not(.visible) {
+  top: -23vh;
 }
 
 #inventory {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  height: 20vh;
-  overflow-y: hidden;
+  pointer-events: all;
+  background-image: url("Assets/UI/Inventar/Inventar.svg");
+  background-size: 100% 100%;
+  display: grid;
+  grid-template-columns: 18vh 18vh 18vh 18vh;
+  grid-template-rows: 18vh;
+  gap: 10vh;
+  padding: 5vh;
+  padding-top: 7vh;
+  position: relative;
+}
+
+#inventory-buckle {
+  background-image: url("Assets/UI/Inventar/Schnalle.svg");
+  width: 9.6vh;
+  height: 10vh;
+  position: absolute;
+  bottom: -5vh;
+  transition: transform 0.25s;
+  transform: rotate(180deg);
+  z-index: 3;
+}
+#inventory-wrapper:not(.visible) #inventory-buckle {
+  transform: rotate(0deg);
+}
+
+#inventory-line {
+  width: 100%;
+  background-image: url("Assets/UI/Inventar/Balken.svg");
+  background-size: 100% 100%;
+  position: absolute;
+  height: 28vh;
+  bottom: 100%;
+  transition: bottom 0.5s;
+  z-index: 2;
+}
+#inventory-wrapper:not(.visible) #inventory-line {
+  bottom: 4vh;
 }
 
 .item {
-  width: 20vh;
-  height: 20vh;
+  width: 18vh;
+  height: 18vh;
   position: relative;
   flex-shrink: 0;
+  place-self: center;
+  z-index: 1;
+  display: grid;
+  place-items: center;
 }
 
 .item>img {
@@ -60,7 +116,10 @@ canvas.fullscreen {
   text-align: center;
   font-size: 3em;
   background-color: rgba(255, 255, 255, 0.5);
+  display: none;
 }
+
+/* cursors */
 
 .cursor-talk {
   cursor: url("cursors/mouth.png"), pointer;
@@ -517,10 +576,12 @@ canvas.fullscreen {
   pointer-events: all;
 }
 
-#game-overlay img {
+#game-overlay img.options {
   position: absolute;
   top: 0;
   right: 0;
   width: 5vw;
+  padding: 1rem;
   cursor: pointer;
+  z-index: 10;
 }

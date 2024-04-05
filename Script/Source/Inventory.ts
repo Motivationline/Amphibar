@@ -1,25 +1,31 @@
 namespace Script {
     export class Inventory {
-        divWrapper: HTMLElement = document.getElementById("inventory");
-        items: Interactable[] = [];
+        divInventory: HTMLElement = document.getElementById("inventory");
+        divWrapper: HTMLElement = document.getElementById("inventory-wrapper");
+        itemsToHTMLMap: Map<Interactable, HTMLElement> = new Map();
+        constructor(){
+            this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+        }
 
         addItem(_item: Interactable) {
-            if (!this.items.includes(_item))
-                this.items.push(_item);
-            this.updateInventory();
+            if (!this.itemsToHTMLMap.has(_item)){
+                let element = _item.toHTMLElement();
+                this.divInventory.appendChild(element);
+                this.itemsToHTMLMap.set(_item, element);
+            }
         }
         removeItem(_item: Interactable) {
-            let index = this.items.indexOf(_item);
-            if (index >= 0)
-                this.items.splice(index, 1);
+            let element = this.itemsToHTMLMap.get(_item);
+            if (element){
+                this.itemsToHTMLMap.delete(_item);
+                this.divInventory.removeChild(element);
+            }
         }
 
-        private updateInventory() {
-            if (!this.divWrapper) return;
-            this.divWrapper.innerHTML = "";
-            for (let item of this.items) {
-                this.divWrapper.appendChild(item.toHTMLElement());
-            }
+        private toggleInventory(_event: MouseEvent){
+            let isInventory: boolean = (<HTMLElement>_event.target).classList.contains("inventory");
+            if(!isInventory) return;
+            this.divWrapper.classList.toggle("visible");
         }
     }
 }
