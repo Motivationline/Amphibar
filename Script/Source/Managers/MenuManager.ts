@@ -5,6 +5,7 @@ namespace Script {
         loadingScreen: HTMLElement;
         mainMenuScreen: HTMLElement;
         optionsScreen: HTMLElement;
+        gameOverlay: HTMLElement;
         private loadingScreenMinimumVisibleTimeMS: number = 4000;
 
         constructor() {
@@ -41,8 +42,8 @@ namespace Script {
             (<HTMLInputElement>this.optionsScreen.querySelector("#options-music input")).dispatchEvent(new InputEvent("input"));
             (<HTMLInputElement>this.optionsScreen.querySelector("#options-sounds input")).dispatchEvent(new InputEvent("input"));
 
-            let gameOverlay = document.getElementById("game-overlay");
-            gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
+            this.gameOverlay = document.getElementById("game-overlay");
+            this.gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
 
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
         }
@@ -56,6 +57,7 @@ namespace Script {
         loadingTextTimeout: number;
         private hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
+            this.gameOverlay.classList.remove("hidden");
         }
 
         private gameWasStarted: boolean = false;

@@ -67,11 +67,13 @@ declare namespace Script {
 }
 declare namespace Script {
     class Inventory {
+        divInventory: HTMLElement;
         divWrapper: HTMLElement;
-        items: Interactable[];
+        itemsToHTMLMap: Map<Interactable, HTMLElement>;
+        constructor();
         addItem(_item: Interactable): void;
         removeItem(_item: Interactable): void;
-        private updateInventory;
+        private toggleInventory;
     }
 }
 declare namespace Script {
@@ -197,6 +199,7 @@ declare namespace Script {
         loadingScreen: HTMLElement;
         mainMenuScreen: HTMLElement;
         optionsScreen: HTMLElement;
+        gameOverlay: HTMLElement;
         private loadingScreenMinimumVisibleTimeMS;
         constructor();
         private setupListeners;
