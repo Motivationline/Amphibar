@@ -457,14 +457,14 @@
                     },
                     "backgroundEnabled": true,
                     "projection": "central",
-                    "fieldOfView": 45,
+                    "fieldOfView": 48,
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 1,
+                    "aspect": 2.0714285714285716,
                     "pivot": {
-                      "translation": "[0, 1.0000001192092896, 4.100000381469727]",
-                      "rotation": "[0, 180, 0]",
+                      "translation": "[-0.10000000149011612, 1.4000000953674316, 2.9000000953674316]",
+                      "rotation": "[9, 180, 0]",
                       "scaling": "[1, 1, 1]"
                     },
                     "Component": {
@@ -475,6 +475,36 @@
               ]
             },
             "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Shelf",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0.9999998807907104, -5]",
+                      "rotation": "[0, -90, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-04-03T08:01:16.569Z|09229"
+                }
+              }
+            ]
           }
         }
       ],
@@ -1588,6 +1618,661 @@
             "deserializeFromSource": true,
             "idSource": "GraphGLTF|2024-04-03T08:01:16.569Z|09229"
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Items",
+            "active": true,
+            "components": {},
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Bachwasser Gruppe",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.15000000596046448, 0, 0.5]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "Bachwasser",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.3100000321865082, 0.017999999225139618, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:46:45.238Z|77998"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Bachwasser",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.25200000405311584, 0.01599999889731407, -0.06400001794099808]",
+                                  "rotation": "[0, -80.4000015258789, 0]",
+                                  "scaling": "[0.8999999761581421, 0.8999999761581421, 0.8999999761581421]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:46:45.238Z|77998"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Bachwasser",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.21000002324581146, 0.01899999938905239, 0.029999999329447746]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1.3000000715255737, 1, 1.3000000715255737]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:46:45.238Z|77998"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Trash",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[1.1700000762939453, -0.5400001406669617, 0.20000001788139343]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T12:54:55.452Z|66290"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Empty Bottle",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.30000001192092896, 0.33799999952316284, 0.20000000298023224]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T12:56:16.567Z|43409"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Empty Glasses Gruppe",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.20000001788139343, -0.2699999511241913, -0.09999991953372955]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.Node": {
+                        "name": "Empty Glass",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[-0.019999999552965164, 0.009999999776482582, -0.10999999940395355]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:58:53.705Z|96567"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Empty Glass",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.009999999776482582, 0.009999999776482582, 0.10000000149011612]",
+                                  "rotation": "[0, 60, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:58:53.705Z|96567"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Empty Glass",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0.10000000149011612, 0.009999999776482582, 0]",
+                                  "rotation": "[0, -100, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-05T12:58:53.705Z|96567"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Goldnektar",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.20000001788139343, 0.07099999487400055, -0.25999999046325684]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T13:05:19.549Z|39030"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Schlammsprudel",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.2499999850988388, -0.24000002443790436, -0.6000000238418579]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T13:07:51.892Z|89308"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Seerosensaft",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0.24400001764297485, -0.2200000286102295, 0.30000001192092896]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T13:09:13.368Z|48243"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Cocktailglas Leer",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[1.4600000381469727, -0.330000102519989, -0.9399999380111694]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-05T13:21:31.982Z|72355"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Theke",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[1.7999998331069946, -1.2000000476837158, 0]",
+                      "rotation": "[0, 90, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Model",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshGLTF|2024-04-05T13:26:21.536Z|67760",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "MaterialGLTF|2024-04-05T13:26:37.038Z|46001"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Backside",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshGLTF|2024-04-05T13:26:21.537Z|68021",
+                          "pivot": {
+                            "translation": "[0, 0.4000000059604645, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "MaterialGLTF|2024-04-05T13:26:37.038Z|46001"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Raum",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[3.9000000953674316, -0.800000011920929, 0]",
+                      "rotation": "[0, 90, 0]",
+                      "scaling": "[5, 5, 5]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.Node": {
+                  "name": "Model",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshGLTF|2024-04-05T13:26:21.531Z|14587",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0, 0]",
+                            "rotation": 0,
+                            "scaling": "[1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "MaterialGLTF|2024-04-05T13:26:37.038Z|48032"
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "camera",
+            "active": true,
+            "components": {
+              "ComponentCamera": [
+                {
+                  "ƒ.ComponentCamera": {
+                    "backgroundColor": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 1
+                    },
+                    "backgroundEnabled": true,
+                    "projection": "central",
+                    "fieldOfView": 45,
+                    "direction": "diagonal",
+                    "near": 0.6000000000000001,
+                    "far": 2000,
+                    "aspect": 2.0714285714285716,
+                    "pivot": {
+                      "translation": "[2.500000476837158, -0.10000000149011612, -0.800000011920929]",
+                      "rotation": "[-1, -78.70000457763672, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "light",
+            "active": true,
+            "components": {
+              "ComponentLight": [
+                {
+                  "ƒ.ComponentLight": {
+                    "pivot": {
+                      "translation": "[0, 0, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "light": {
+                      "ƒ.LightAmbient": {
+                        "color": "[1, 1, 1, 1]"
+                      }
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
+          }
         }
       ],
       "idResource": "Graph|2024-04-03T07:49:20.788Z|88020",
@@ -1622,6 +2307,164 @@
       "idResource": "GraphGLTF|2024-04-05T10:11:31.989Z|23301",
       "type": "GraphGLTF",
       "url": "Assets\\Bar\\Stool.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T12:46:45.238Z|77998": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T12:46:45.238Z|77998",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Bachwasser_bottle.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T12:54:55.452Z|66290": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T12:54:55.452Z|66290",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Bin.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T12:56:16.567Z|43409": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T12:56:16.567Z|43409",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Bottle_empty.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T12:58:53.705Z|96567": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T12:58:53.705Z|96567",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Glas_empty.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T13:05:19.549Z|39030": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T13:05:19.549Z|39030",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Goldnektar_bottle.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T13:07:51.892Z|89308": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T13:07:51.892Z|89308",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Schlammsprudel_bottle.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T13:09:13.368Z|48243": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T13:09:13.368Z|48243",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Seerosensaft_bottle.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T13:21:31.982Z|72355": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T13:21:31.982Z|72355",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Cocktailglass_empty.glb"
+    }
+  },
+  "GraphGLTF|2024-04-05T13:26:21.531Z|18287": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-05T13:26:21.531Z|18287",
+      "type": "GraphGLTF",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb"
+    }
+  },
+  "MeshGLTF|2024-04-05T13:26:21.531Z|14587": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-04-05T13:26:21.531Z|14587",
+      "name": "Cube",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MeshGLTF|2024-04-05T13:26:21.536Z|67760": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-04-05T13:26:21.536Z|67760",
+      "name": "Cube.013",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MeshGLTF|2024-04-05T13:26:21.537Z|68021": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-04-05T13:26:21.537Z|68021",
+      "name": "Cube.012",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MeshGLTF|2024-04-05T13:26:21.538Z|93417": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-04-05T13:26:21.538Z|93417",
+      "name": "MeshFloor",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MeshGLTF|2024-04-05T13:26:21.546Z|04897": {
+    "ƒ.MeshGLTF": {
+      "idResource": "MeshGLTF|2024-04-05T13:26:21.546Z|04897",
+      "name": "Plane.001",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb",
+      "iPrimitive": 0
+    }
+  },
+  "MaterialGLTF|2024-04-05T13:26:37.038Z|48032": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-04-05T13:26:37.038Z|48032",
+      "name": "Background",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb"
+    }
+  },
+  "MaterialGLTF|2024-04-05T13:26:37.038Z|46001": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-04-05T13:26:37.038Z|46001",
+      "name": "Theke",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb"
+    }
+  },
+  "MaterialGLTF|2024-04-05T13:26:37.038Z|11872": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-04-05T13:26:37.038Z|11872",
+      "name": "Plank01.001",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb"
+    }
+  },
+  "MaterialGLTF|2024-04-05T13:26:37.039Z|33173": {
+    "ƒ.MaterialGLTF": {
+      "idResource": "MaterialGLTF|2024-04-05T13:26:37.039Z|33173",
+      "name": "FloorBlack",
+      "url": "Assets\\Bar\\Bar_noninteractable_v01.glb"
     }
   }
 }
