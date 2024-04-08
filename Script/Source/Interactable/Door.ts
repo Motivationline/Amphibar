@@ -3,7 +3,7 @@ namespace Script {
     export class Door extends Interactable {
         public target: string = "main";
 
-        constructor(_name: string, _image: string) {
+        constructor(_name?: string, _image?: string) {
             super(_name, _image);
 
             // Don't start when running in editor

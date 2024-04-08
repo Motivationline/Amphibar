@@ -32,14 +32,26 @@ namespace Script {
         }
 
         private static loadScene(_scene: ƒ.Node) {
-            mainNode.removeEventListener("pointermove", <EventListener>foundNode);
             // for(let waypoint of ƒ.ComponentWaypoint.waypoints){
             //     waypoint.node.removeComponent(waypoint);
             // }
             character = null;
             mainViewport.setBranch(_scene);
-            mainNode = _scene;
+            mainViewport.camera = this.getFirstComponentCamera(_scene);
+            setupNewMainNode(_scene);
+
             _scene.addEventListener("pointermove", <EventListener>foundNode);
+        }
+
+        private static getFirstComponentCamera(node: ƒ.Node): ƒ.ComponentCamera{
+          for(let n of node.getChildren()){
+            let cam = n.getComponent(ƒ.ComponentCamera);
+            if(cam) return cam;
+            
+            let childCam = SceneManager.getFirstComponentCamera(n);
+            if(childCam) return cam;
+          }
+          return null;
         }
     }
 }

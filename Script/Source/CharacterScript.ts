@@ -71,8 +71,18 @@ namespace Script {
       // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
     }
 
+    private initPosition() {      
+      if (!this.currentTarget) {
+        ƒ.Render.prepare(this.node.getAncestor());
+        let closestWaypoint = getClosestWaypoint(this.node.getAncestor(), (_translation) => ƒ.Vector3.DIFFERENCE(_translation, this.node.mtxWorld.translation).magnitudeSquared)
+        if(!closestWaypoint) return;
+        this.moveTo(closestWaypoint);
+      }
+    }
+
     private setCharacter() {
       character = this;
+      this.initPosition();
     }
 
     public moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown> {

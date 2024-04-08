@@ -26,11 +26,7 @@ namespace Script {
     mainViewport.canvas.addEventListener("pointermove", <EventListener>pointermove);
     mainViewport.canvas.addEventListener("click", <EventListener>mouseclick);
 
-
-    mainNode = mainViewport.getBranch();
-    mainNode.addEventListener("pointermove", <EventListener>foundNode);
-    mainNode.addEventListener("dragover", <EventListener>dragOverNode);
-    mainNode.addEventListener("drop", <EventListener>dropOverNode);
+    setupNewMainNode(mainViewport.getBranch());
 
     // addInteractionSphere(mainNode);
 
@@ -39,6 +35,21 @@ namespace Script {
 
     inventory = new Inventory();
     inventory.addItem(new Interactable("glas", "items/item.png"))
+  }
+
+  export function setupNewMainNode(_node: ƒ.Node) {
+    if (mainNode) {
+      mainNode.removeEventListener("pointermove", <EventListener>foundNode);
+      mainNode.removeEventListener("dragover", <EventListener>dragOverNode);
+      mainNode.removeEventListener("drop", <EventListener>dropOverNode);
+      mainNode.removeEventListener("test", <EventListener>test);
+    }
+
+    mainNode = _node;
+    mainNode.addEventListener("pointermove", <EventListener>foundNode);
+    mainNode.addEventListener("dragover", <EventListener>dragOverNode);
+    mainNode.addEventListener("drop", <EventListener>dropOverNode);
+    mainNode.addEventListener("test", <EventListener>test);
   }
 
   function addInteractionSphere(_node: ƒ.Node) {
@@ -73,28 +84,44 @@ namespace Script {
     mainViewport.dispatchPointerEvent(_event);
   }
 
+  let clickedInteractionWaypoint: ƒ.ComponentWaypoint;
   function mouseclick(_event: PointerEvent): void {
     // move character
     if (!character) {
       mainViewport.dispatchPointerEvent(_event);
       return;
     }
-    let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
-    if (ray.direction.y > 0) return;
+    clickedInteractionWaypoint = null;
+    mainViewport.dispatchPointerEvent(new PointerEvent("test", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
+    if(!clickedInteractionWaypoint) {
+      let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+      if (ray.direction.y > 0) return;
+      clickedInteractionWaypoint = getClosestWaypoint(mainNode, (_translation) => ray.getDistance(_translation).magnitudeSquared);
+    }
+    character.moveTo(clickedInteractionWaypoint).then(() => {
+      mainViewport.dispatchPointerEvent(_event);
+    }).catch(() => { });
+  }
+  
+  function test(_event: PointerEvent) {
+    let nodeTranslation = (<ƒ.Node>_event.target).mtxWorld.translation;
+    clickedInteractionWaypoint = getClosestWaypoint(mainNode, (_translation) => ƒ.Vector3.DIFFERENCE(nodeTranslation, _translation).magnitudeSquared);
+  }
+
+  export function getClosestWaypoint(_mainNode: ƒ.Node, distanceFunction: (_waypointTranslation: ƒ.Vector3) => number): ƒ.ComponentWaypoint {
     let smallestDistance = Infinity;
     let closestWaypoint: ƒ.ComponentWaypoint;
-    let waypointNode = mainNode.getChildrenByName("waypoints")[0]
+    let waypointNode = _mainNode.getChildrenByName("waypoints")[0]
     for (let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)) {
-      let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
+      let distance = distanceFunction(waypoint.mtxWorld.translation);
       if (distance < smallestDistance) {
         smallestDistance = distance;
         closestWaypoint = waypoint;
       }
     }
-    character.moveTo(closestWaypoint).then(() => {
-      mainViewport.dispatchPointerEvent(_event);
-    }).catch(() => { });
+    return closestWaypoint;
   }
+
 
   export function foundNode(_event: PointerEvent): void {
     let node = <ƒ.Node>_event.target;
@@ -129,11 +156,11 @@ namespace Script {
     //@ts-ignore
     mainViewport.dispatchPointerEvent(_event);
   }
-  
+
   function dragOverNode(_event: DragEvent): void {
     _event.preventDefault();
   }
-  
+
   function dropOverViewport(_event: DragEvent): void {
     //@ts-ignore
     mainViewport.dispatchPointerEvent(_event);
@@ -170,7 +197,7 @@ namespace Script {
 
 
   //#region Helper Functions
-  /** Helper function to set up a (deep) proxy object that calls the onChange function __before__ the element is modified*/ 
+  /** Helper function to set up a (deep) proxy object that calls the onChange function __before__ the element is modified*/
   export function onChange(object: any, onChange: Function) {
     const handler = {
       get(target: any, property: any, receiver: any): any {

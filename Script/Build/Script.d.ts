@@ -21,6 +21,7 @@ declare namespace Script {
         static talkAs(_character: Character, _text: string, _mood?: Mood, _options?: DialogOption[]): Promise<string | void>;
         constructor();
         private init;
+        private initPosition;
         private setCharacter;
         moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown>;
         private actuallyWalk;
@@ -85,6 +86,8 @@ declare namespace Script {
     export let character: CharacterScript;
     export let progress: Progress;
     export let settings: Settings;
+    export function setupNewMainNode(_node: ƒ.Node): void;
+    export function getClosestWaypoint(_mainNode: ƒ.Node, distanceFunction: (_waypointTranslation: ƒ.Vector3) => number): ƒ.ComponentWaypoint;
     export function foundNode(_event: PointerEvent): void;
     interface Progress {
         fly: {
@@ -143,7 +146,7 @@ declare namespace Script {
 declare namespace Script {
     class Door extends Interactable {
         target: string;
-        constructor(_name: string, _image: string);
+        constructor(_name?: string, _image?: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
         tryUseWith(_interactable: Interactable): void;
@@ -223,5 +226,6 @@ declare namespace Script {
         constructor();
         static load(_name: string): void;
         private static loadScene;
+        private static getFirstComponentCamera;
     }
 }

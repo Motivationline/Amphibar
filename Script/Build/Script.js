@@ -58,8 +58,18 @@ var Script;
             // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
             // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
         }
+        initPosition() {
+            if (!this.currentTarget) {
+                ƒ.Render.prepare(this.node.getAncestor());
+                let closestWaypoint = Script.getClosestWaypoint(this.node.getAncestor(), (_translation) => ƒ.Vector3.DIFFERENCE(_translation, this.node.mtxWorld.translation).magnitudeSquared);
+                if (!closestWaypoint)
+                    return;
+                this.moveTo(closestWaypoint);
+            }
+        }
         setCharacter() {
             Script.character = this;
+            this.initPosition();
         }
         moveTo(_waypoint) {
             this.resolveOrReject(false);
@@ -306,16 +316,27 @@ var Script;
         Script.mainViewport.canvas.addEventListener("drop", dropOverViewport);
         Script.mainViewport.canvas.addEventListener("pointermove", pointermove);
         Script.mainViewport.canvas.addEventListener("click", mouseclick);
-        Script.mainNode = Script.mainViewport.getBranch();
-        Script.mainNode.addEventListener("pointermove", foundNode);
-        Script.mainNode.addEventListener("dragover", dragOverNode);
-        Script.mainNode.addEventListener("drop", dropOverNode);
+        setupNewMainNode(Script.mainViewport.getBranch());
         // addInteractionSphere(mainNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
         Script.inventory = new Script.Inventory();
         Script.inventory.addItem(new Script.Interactable("glas", "items/item.png"));
     }
+    function setupNewMainNode(_node) {
+        if (Script.mainNode) {
+            Script.mainNode.removeEventListener("pointermove", foundNode);
+            Script.mainNode.removeEventListener("dragover", dragOverNode);
+            Script.mainNode.removeEventListener("drop", dropOverNode);
+            Script.mainNode.removeEventListener("test", test);
+        }
+        Script.mainNode = _node;
+        Script.mainNode.addEventListener("pointermove", foundNode);
+        Script.mainNode.addEventListener("dragover", dragOverNode);
+        Script.mainNode.addEventListener("drop", dropOverNode);
+        Script.mainNode.addEventListener("test", test);
+    }
+    Script.setupNewMainNode = setupNewMainNode;
     function addInteractionSphere(_node) {
         let meshShpere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
         let material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
@@ -345,29 +366,43 @@ var Script;
         Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
         Script.mainViewport.dispatchPointerEvent(_event);
     }
+    let clickedInteractionWaypoint;
     function mouseclick(_event) {
         // move character
         if (!Script.character) {
             Script.mainViewport.dispatchPointerEvent(_event);
             return;
         }
-        let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
-        if (ray.direction.y > 0)
-            return;
+        clickedInteractionWaypoint = null;
+        Script.mainViewport.dispatchPointerEvent(new PointerEvent("test", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
+        if (!clickedInteractionWaypoint) {
+            let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
+            if (ray.direction.y > 0)
+                return;
+            clickedInteractionWaypoint = getClosestWaypoint(Script.mainNode, (_translation) => ray.getDistance(_translation).magnitudeSquared);
+        }
+        Script.character.moveTo(clickedInteractionWaypoint).then(() => {
+            Script.mainViewport.dispatchPointerEvent(_event);
+        }).catch(() => { });
+    }
+    function test(_event) {
+        let nodeTranslation = _event.target.mtxWorld.translation;
+        clickedInteractionWaypoint = getClosestWaypoint(Script.mainNode, (_translation) => ƒ.Vector3.DIFFERENCE(nodeTranslation, _translation).magnitudeSquared);
+    }
+    function getClosestWaypoint(_mainNode, distanceFunction) {
         let smallestDistance = Infinity;
         let closestWaypoint;
-        let waypointNode = Script.mainNode.getChildrenByName("waypoints")[0];
+        let waypointNode = _mainNode.getChildrenByName("waypoints")[0];
         for (let waypoint of waypointNode.getComponents(ƒ.ComponentWaypoint)) {
-            let distance = ray.getDistance(waypoint.mtxWorld.translation).magnitudeSquared;
+            let distance = distanceFunction(waypoint.mtxWorld.translation);
             if (distance < smallestDistance) {
                 smallestDistance = distance;
                 closestWaypoint = waypoint;
             }
         }
-        Script.character.moveTo(closestWaypoint).then(() => {
-            Script.mainViewport.dispatchPointerEvent(_event);
-        }).catch(() => { });
+        return closestWaypoint;
     }
+    Script.getClosestWaypoint = getClosestWaypoint;
     function foundNode(_event) {
         let node = _event.target;
         let interactable = findInteractable(node);
@@ -975,14 +1010,25 @@ var Script;
             }, 1999);
         }
         static loadScene(_scene) {
-            Script.mainNode.removeEventListener("pointermove", Script.foundNode);
             // for(let waypoint of ƒ.ComponentWaypoint.waypoints){
             //     waypoint.node.removeComponent(waypoint);
             // }
             Script.character = null;
             Script.mainViewport.setBranch(_scene);
-            Script.mainNode = _scene;
+            Script.mainViewport.camera = this.getFirstComponentCamera(_scene);
+            Script.setupNewMainNode(_scene);
             _scene.addEventListener("pointermove", Script.foundNode);
+        }
+        static getFirstComponentCamera(node) {
+            for (let n of node.getChildren()) {
+                let cam = n.getComponent(ƒ.ComponentCamera);
+                if (cam)
+                    return cam;
+                let childCam = SceneManager.getFirstComponentCamera(n);
+                if (childCam)
+                    return cam;
+            }
+            return null;
         }
     }
     Script.SceneManager = SceneManager;
