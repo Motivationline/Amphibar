@@ -96,6 +96,7 @@ declare namespace Script {
             drink: number;
             worm: number;
         };
+        scene: string;
     }
     interface Settings {
         music: number;
@@ -224,7 +225,7 @@ declare namespace Script {
     class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean;
         constructor();
-        static load(_name: string): void;
+        static load(_name: string, _noTransition?: boolean): void;
         private static loadScene;
         private static getFirstComponentCamera;
     }

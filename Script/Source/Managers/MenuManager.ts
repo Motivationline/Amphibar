@@ -58,6 +58,7 @@ namespace Script {
         private hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
             this.gameOverlay.classList.remove("hidden");
+            SceneManager.load(progress.scene, true);
         }
 
         private gameWasStarted: boolean = false;

@@ -8,16 +8,19 @@ namespace Script {
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
 
-            // this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
-            //     this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.node.broadcastEvent.bind(this.node));
-            // });
         }
 
-        static load(_name: string) {
+        static load(_name: string, _noTransition: boolean = false) {
             if (this.isTransitioning) return;
             console.log("load scene", _name);
             let sceneToLoad = ƒ.Project.getResourcesByName(_name)[0];
             if (!sceneToLoad || !(sceneToLoad instanceof ƒ.Node)) return console.error(`scene ${_name} not found.`);
+            progress.scene = _name;
+
+            if(_noTransition) {
+                this.loadScene(sceneToLoad);
+                return;
+            }
             this.isTransitioning = true;
             let overlay = document.getElementById("scene-overlay");
             overlay.classList.add("active");

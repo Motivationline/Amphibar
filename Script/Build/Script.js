@@ -306,7 +306,7 @@ var Script;
     ƒ.Debug.info("Main Program Template running!");
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
-    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0 } };
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0 }, scene: "bath" };
     let settingsDefault = { music: 100, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
@@ -931,6 +931,7 @@ var Script;
         hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
             this.gameOverlay.classList.remove("hidden");
+            Script.SceneManager.load(Script.progress.scene, true);
         }
         gameWasStarted = false;
         startGame() {
@@ -986,17 +987,19 @@ var Script;
             super();
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-            // this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
-            //     this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.node.broadcastEvent.bind(this.node));
-            // });
         }
-        static load(_name) {
+        static load(_name, _noTransition = false) {
             if (this.isTransitioning)
                 return;
             console.log("load scene", _name);
             let sceneToLoad = ƒ.Project.getResourcesByName(_name)[0];
             if (!sceneToLoad || !(sceneToLoad instanceof ƒ.Node))
                 return console.error(`scene ${_name} not found.`);
+            Script.progress.scene = _name;
+            if (_noTransition) {
+                this.loadScene(sceneToLoad);
+                return;
+            }
             this.isTransitioning = true;
             let overlay = document.getElementById("scene-overlay");
             overlay.classList.add("active");
