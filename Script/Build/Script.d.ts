@@ -74,6 +74,7 @@ declare namespace Script {
         private itemsToHTMLMap;
         constructor();
         private toggleInventory;
+        private updateStorage;
         addItem(_item: Interactable): void;
         removeItem(_item: Interactable): void;
         hasItem(_item: Interactable): Interactable;

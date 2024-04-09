@@ -1,7 +1,6 @@
 namespace Script {
   import ƒ = FudgeCore;
   import ƒAid = FudgeAid;
-  ƒ.Debug.info("Main Program Template running!");
 
   export let mainViewport: ƒ.Viewport;
   export let mainNode: ƒ.Node;
@@ -18,7 +17,12 @@ namespace Script {
     merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})),
     () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(settings)) }, 1) });
 
-  function start(_event: CustomEvent): void {
+    
+    function start(_event: CustomEvent): void {
+    let invFromStorage = JSON.parse(localStorage.getItem("inventory")) ?? [];
+    for (let item of invFromStorage) {
+      Inventory.Instance.addItem(new Interactable(item.name, item.image));
+    }
     mainViewport = _event.detail;
     mainViewport.canvas.addEventListener("dragover", dragOverViewport)
     mainViewport.canvas.addEventListener("drop", dropOverViewport)
@@ -89,7 +93,7 @@ namespace Script {
     }
     clickedInteractionWaypoint = null;
     mainViewport.dispatchPointerEvent(new PointerEvent("test", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
-    if(!clickedInteractionWaypoint) {
+    if (!clickedInteractionWaypoint) {
       let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
       if (ray.direction.y > 0) return;
       clickedInteractionWaypoint = getClosestWaypoint(mainNode, (_translation) => ray.getDistance(_translation).magnitudeSquared);
@@ -98,7 +102,7 @@ namespace Script {
       mainViewport.dispatchPointerEvent(_event);
     }).catch(() => { });
   }
-  
+
   function test(_event: PointerEvent) {
     let nodeTranslation = (<ƒ.Node>_event.target).mtxWorld.translation;
     clickedInteractionWaypoint = getClosestWaypoint(mainNode, (_translation) => ƒ.Vector3.DIFFERENCE(nodeTranslation, _translation).magnitudeSquared);
