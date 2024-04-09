@@ -270,11 +270,25 @@ var Script;
 var Script;
 (function (Script) {
     class Inventory {
-        divInventory = document.getElementById("inventory");
-        divWrapper = document.getElementById("inventory-wrapper");
+        static Instance = new Inventory();
+        divInventory;
+        divWrapper;
         itemsToHTMLMap = new Map();
         constructor() {
-            this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            if (Inventory.Instance)
+                return Inventory.Instance;
+            Inventory.Instance = this;
+            document.addEventListener("DOMContentLoaded", () => {
+                this.divInventory = document.getElementById("inventory");
+                this.divWrapper = document.getElementById("inventory-wrapper");
+                this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            });
+        }
+        toggleInventory(_event) {
+            let isInventory = _event.target.classList.contains("inventory");
+            if (!isInventory)
+                return;
+            this.divWrapper.classList.toggle("visible");
         }
         addItem(_item) {
             if (!this.itemsToHTMLMap.has(_item)) {
@@ -290,11 +304,26 @@ var Script;
                 this.divInventory.removeChild(element);
             }
         }
-        toggleInventory(_event) {
-            let isInventory = _event.target.classList.contains("inventory");
-            if (!isInventory)
-                return;
-            this.divWrapper.classList.toggle("visible");
+        hasItem(_nameOrItem) {
+            if (typeof _nameOrItem === "string") {
+                for (let item of this.itemsToHTMLMap.keys()) {
+                    if (item.name === _nameOrItem)
+                        return item;
+                }
+            }
+            else {
+                if (this.itemsToHTMLMap.has(_nameOrItem)) {
+                    return _nameOrItem;
+                }
+            }
+            return null;
+        }
+        hasItemThatStartsWith(_name) {
+            for (let item of this.itemsToHTMLMap.keys()) {
+                if (item.name.startsWith(_name))
+                    return item;
+            }
+            return null;
         }
     }
     Script.Inventory = Inventory;
@@ -320,8 +349,6 @@ var Script;
         // addInteractionSphere(mainNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
-        Script.inventory = new Script.Inventory();
-        Script.inventory.addItem(new Script.Interactable("glas", "items/item.png"));
     }
     function setupNewMainNode(_node) {
         if (Script.mainNode) {
@@ -547,7 +574,7 @@ var Script;
 var Script;
 (function (Script) {
     class Text {
-        static instance;
+        static instance = new Text();
         textData;
         constructor() {
             if (Text.instance)
@@ -890,6 +917,7 @@ var Script;
         mainMenuScreen;
         optionsScreen;
         gameOverlay;
+        disableOverlay;
         loadingScreenMinimumVisibleTimeMS = 4000;
         constructor() {
             if (MenuManager.Instance)
@@ -908,6 +936,7 @@ var Script;
             this.loadingScreen = document.getElementById("loading-screen");
             this.mainMenuScreen = document.getElementById("main-menu-screen");
             this.optionsScreen = document.getElementById("options-screen");
+            this.disableOverlay = document.getElementById("disable-overlay");
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
@@ -927,7 +956,6 @@ var Script;
             // this.updateLoadingText("Lade Ressourcen...");
             this.loadingScreen.classList.remove("hidden");
         }
-        loadingTextTimeout;
         hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
             this.gameOverlay.classList.remove("hidden");
@@ -975,6 +1003,12 @@ var Script;
             if (this.gameWasStarted) {
                 this.hideLoadingScreen();
             }
+        }
+        inputDisable() {
+            this.disableOverlay.classList.remove("hidden");
+        }
+        inputEnable() {
+            this.disableOverlay.classList.add("hidden");
         }
     }
     Script.MenuManager = MenuManager;
@@ -1035,5 +1069,155 @@ var Script;
         }
     }
     Script.SceneManager = SceneManager;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class CocktailGlass extends Script.Interactable {
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.USE;
+        }
+        async interact() {
+            if (Script.CocktailManager.Instance.ingredients.length === 0) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("cocktail.glass.empty"));
+                return;
+            }
+            let result = await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("cocktail.glass.take"), "neutral", [
+                { id: "confirm", text: Script.Interactable.textProvider.get("cocktail.glass.take.confirm") },
+                { id: "cancel", text: Script.Interactable.textProvider.get("cocktail.glass.take.cancel") },
+            ]);
+            if (result !== "confirm")
+                return;
+            Script.CocktailManager.Instance.takeCocktail();
+        }
+    }
+    Script.CocktailGlass = CocktailGlass;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class CocktailInteractableIngredient extends Script.Interactable {
+        ingredient = CocktailIngredient.Bachwasser;
+        getInteractionType() {
+            if (Script.CocktailManager.Instance.ingredients.length >= 3)
+                return Script.INTERACTION_TYPE.LOOK_AT;
+            return Script.INTERACTION_TYPE.PICK_UP;
+        }
+        // tryUseWith(_interactable: Interactable): void {
+        // }
+        interact() {
+            if (Script.CocktailManager.Instance.ingredients.length >= 3) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktails.full"));
+                return;
+            }
+            if (!Script.CocktailManager.Instance.addIngredient(this.ingredient)) {
+                return;
+            }
+            Script.MenuManager.Instance.inputDisable();
+            //TODO: play animation and enable interaction after animation instead of after timeout
+            setTimeout(() => { Script.MenuManager.Instance.inputEnable(); }, 1000);
+        }
+        getMutatorAttributeTypes(_mutator) {
+            let types = super.getMutatorAttributeTypes(_mutator);
+            if (types.ingredient)
+                types.ingredient = CocktailIngredient;
+            return types;
+        }
+    }
+    Script.CocktailInteractableIngredient = CocktailInteractableIngredient;
+    let CocktailIngredient;
+    (function (CocktailIngredient) {
+        CocktailIngredient[CocktailIngredient["Bachwasser"] = 1] = "Bachwasser";
+        CocktailIngredient[CocktailIngredient["Goldnektar"] = 2] = "Goldnektar";
+        CocktailIngredient[CocktailIngredient["Schlammsprudel"] = 4] = "Schlammsprudel";
+        CocktailIngredient[CocktailIngredient["Seerosenextrakt"] = 8] = "Seerosenextrakt";
+    })(CocktailIngredient = Script.CocktailIngredient || (Script.CocktailIngredient = {}));
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    class CocktailManager extends ƒ.ComponentScript {
+        static Instance = new CocktailManager();
+        static mixTable = [
+            /*1*/ "bachwasser",
+            /*2*/ "goldnektar",
+            /*3*/ "goldwasser",
+            /*4*/ "schlammsprudel",
+            /*5*/ "schlammfluss",
+            /*6*/ "matschsaft",
+            /*7*/ "nektarquelle",
+            /*8*/ "seerosenextrakt",
+            /*9*/ "bachblütenzauber",
+            /*10*/ "goldrosenelixir",
+            /*11*/ "bachblütennektar",
+            /*12*/ "sumpfrosensprudel",
+            /*13*/ "supfrosenschorle",
+            /*14*/ "goldrosenmatsch",
+        ];
+        currentIngredients = [];
+        constructor() {
+            super();
+            if (CocktailManager.Instance)
+                return CocktailManager.Instance;
+            CocktailManager.Instance = this;
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+        }
+        get currentCocktail() {
+            return CocktailManager.mix(...this.currentIngredients);
+        }
+        addIngredient(_ingredient) {
+            if (this.currentIngredients.length >= 3) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktail.full"));
+                return false;
+            }
+            this.currentIngredients.push(_ingredient);
+            return true;
+        }
+        static mix(..._ingredients) {
+            let set = new Set(_ingredients);
+            let result = Array.from(set).reduce((prev, current) => prev + current, -1);
+            if (this.mixTable[result])
+                return this.mixTable[result];
+            return "unknown";
+        }
+        get ingredients() {
+            return Array.from(this.currentIngredients);
+        }
+        resetCocktail() {
+            let glassInInventory = Script.Inventory.Instance.hasItemThatStartsWith("glass");
+            if (glassInInventory) {
+                Script.Inventory.Instance.removeItem(glassInInventory);
+            }
+            this.currentIngredients.length = 0;
+            // TODO update visuals of glass
+        }
+        takeCocktail() {
+            let current = this.currentCocktail;
+            this.resetCocktail();
+            Script.Inventory.Instance.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
+        }
+    }
+    Script.CocktailManager = CocktailManager;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class CocktailTrash extends Script.Interactable {
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.USE;
+        }
+        async interact() {
+            let result = await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("cocktail.trash.confirm"), "neutral", [
+                { id: "confirm", text: Script.Interactable.textProvider.get("cocktail.trash.option.confirm") },
+                { id: "cancel", text: Script.Interactable.textProvider.get("cocktail.trash.option.cancel") },
+            ]);
+            if (result !== "confirm")
+                return;
+            Script.CocktailManager.Instance.resetCocktail();
+        }
+        tryUseWith(_interactable) {
+            if (_interactable.name.startsWith("glass"))
+                this.interact();
+        }
+    }
+    Script.CocktailTrash = CocktailTrash;
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
