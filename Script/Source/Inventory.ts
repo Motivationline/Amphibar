@@ -4,11 +4,12 @@ namespace Script {
         private divInventory: HTMLElement;
         private divWrapper: HTMLElement;
         private itemsToHTMLMap: Map<Interactable, HTMLElement> = new Map();
+
         constructor() {
-            if(Inventory.Instance) return Inventory.Instance;
+            if (Inventory.Instance) return Inventory.Instance;
             Inventory.Instance = this;
 
-            document.addEventListener("DOMContentLoaded", ()=> {
+            document.addEventListener("DOMContentLoaded", () => {
                 this.divInventory = document.getElementById("inventory");
                 this.divWrapper = document.getElementById("inventory-wrapper");
                 this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
@@ -21,19 +22,29 @@ namespace Script {
             this.divWrapper.classList.toggle("visible");
         }
 
+        private updateStorage(){
+            let inv = [];
+            for (let item of this.itemsToHTMLMap.keys()) {
+                inv.push({ name: item.name, image: item.image });
+            }
+            localStorage.setItem("inventory", JSON.stringify(inv));
+        }
+
         addItem(_item: Interactable) {
             if (!this.itemsToHTMLMap.has(_item)) {
                 let element = _item.toHTMLElement();
                 this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
+                this.updateStorage();
             }
         }
-
+        
         removeItem(_item: Interactable) {
             let element = this.itemsToHTMLMap.get(_item);
             if (element) {
                 this.itemsToHTMLMap.delete(_item);
                 this.divInventory.removeChild(element);
+                this.updateStorage();
             }
         }
 
@@ -51,7 +62,7 @@ namespace Script {
             }
             return null;
         }
-        
+
         hasItemThatStartsWith(_name: string): Interactable {
             for (let item of this.itemsToHTMLMap.keys()) {
                 if (item.name.startsWith(_name)) return item;

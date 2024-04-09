@@ -290,11 +290,19 @@ var Script;
                 return;
             this.divWrapper.classList.toggle("visible");
         }
+        updateStorage() {
+            let inv = [];
+            for (let item of this.itemsToHTMLMap.keys()) {
+                inv.push({ name: item.name, image: item.image });
+            }
+            localStorage.setItem("inventory", JSON.stringify(inv));
+        }
         addItem(_item) {
             if (!this.itemsToHTMLMap.has(_item)) {
                 let element = _item.toHTMLElement();
                 this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
+                this.updateStorage();
             }
         }
         removeItem(_item) {
@@ -302,6 +310,7 @@ var Script;
             if (element) {
                 this.itemsToHTMLMap.delete(_item);
                 this.divInventory.removeChild(element);
+                this.updateStorage();
             }
         }
         hasItem(_nameOrItem) {
@@ -332,7 +341,6 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     var ƒAid = FudgeAid;
-    ƒ.Debug.info("Main Program Template running!");
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
     let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0 }, scene: "bath" };
@@ -340,6 +348,10 @@ var Script;
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
     function start(_event) {
+        let invFromStorage = JSON.parse(localStorage.getItem("inventory")) ?? [];
+        for (let item of invFromStorage) {
+            Script.Inventory.Instance.addItem(new Script.Interactable(item.name, item.image));
+        }
         Script.mainViewport = _event.detail;
         Script.mainViewport.canvas.addEventListener("dragover", dragOverViewport);
         Script.mainViewport.canvas.addEventListener("drop", dropOverViewport);
