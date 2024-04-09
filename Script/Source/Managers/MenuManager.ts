@@ -2,10 +2,11 @@ namespace Script {
     import ƒ = FudgeCore;
     export class MenuManager {
         public static Instance = new MenuManager();
-        loadingScreen: HTMLElement;
-        mainMenuScreen: HTMLElement;
-        optionsScreen: HTMLElement;
-        gameOverlay: HTMLElement;
+        private loadingScreen: HTMLElement;
+        private mainMenuScreen: HTMLElement;
+        private optionsScreen: HTMLElement;
+        private gameOverlay: HTMLElement;
+        private disableOverlay: HTMLElement;
         private loadingScreenMinimumVisibleTimeMS: number = 4000;
 
         constructor() {
@@ -27,6 +28,7 @@ namespace Script {
             this.loadingScreen = document.getElementById("loading-screen");
             this.mainMenuScreen = document.getElementById("main-menu-screen");
             this.optionsScreen = document.getElementById("options-screen");
+            this.disableOverlay = document.getElementById("disable-overlay");
 
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
@@ -54,7 +56,6 @@ namespace Script {
             this.loadingScreen.classList.remove("hidden");
         }
 
-        loadingTextTimeout: number;
         private hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
             this.gameOverlay.classList.remove("hidden");
@@ -108,6 +109,13 @@ namespace Script {
             if (this.gameWasStarted) {
                 this.hideLoadingScreen();
             }
+        }
+
+        public inputDisable(){
+            this.disableOverlay.classList.remove("hidden");
+        }
+        public inputEnable(){
+            this.disableOverlay.classList.add("hidden");
         }
 
     }

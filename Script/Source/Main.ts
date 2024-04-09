@@ -6,7 +6,6 @@ namespace Script {
   export let mainViewport: ƒ.Viewport;
   export let mainNode: ƒ.Node;
   document.addEventListener("interactiveViewportStarted", <EventListener>start);
-  export let inventory: Inventory;
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
@@ -32,9 +31,6 @@ namespace Script {
 
     ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, update);
     ƒ.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
-
-    inventory = new Inventory();
-    inventory.addItem(new Interactable("glas", "items/item.png"))
   }
 
   export function setupNewMainNode(_node: ƒ.Node) {
