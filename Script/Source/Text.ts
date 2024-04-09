@@ -1,6 +1,6 @@
 namespace Script {
     export class Text {
-        private static instance: Text;
+        public static instance: Text = new Text();
         private textData: { [key: string]: string | string[] };
         constructor() {
             if (Text.instance) return Text.instance;

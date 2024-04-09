@@ -68,13 +68,16 @@ declare namespace Script {
 }
 declare namespace Script {
     class Inventory {
-        divInventory: HTMLElement;
-        divWrapper: HTMLElement;
-        itemsToHTMLMap: Map<Interactable, HTMLElement>;
+        private divInventory;
+        private divWrapper;
+        private itemsToHTMLMap;
         constructor();
+        private toggleInventory;
         addItem(_item: Interactable): void;
         removeItem(_item: Interactable): void;
-        private toggleInventory;
+        hasItem(_item: Interactable): Interactable;
+        hasItem(_name: string): Interactable;
+        hasItemThatStartsWith(_name: string): Interactable;
     }
 }
 declare namespace Script {
@@ -121,7 +124,7 @@ declare namespace Script {
 }
 declare namespace Script {
     class Text {
-        private static instance;
+        static instance: Text;
         private textData;
         constructor();
         private load;
@@ -200,16 +203,16 @@ declare namespace Script {
 declare namespace Script {
     class MenuManager {
         static Instance: MenuManager;
-        loadingScreen: HTMLElement;
-        mainMenuScreen: HTMLElement;
-        optionsScreen: HTMLElement;
-        gameOverlay: HTMLElement;
+        private loadingScreen;
+        private mainMenuScreen;
+        private optionsScreen;
+        private gameOverlay;
+        private disableOverlay;
         private loadingScreenMinimumVisibleTimeMS;
         constructor();
         private setupListeners;
         private setupDomConnection;
         private showStartScreens;
-        loadingTextTimeout: number;
         private hideLoadingScreen;
         private gameWasStarted;
         private startGame;
@@ -219,6 +222,8 @@ declare namespace Script {
         private updateSlider;
         private gameIsLoaded;
         private gameLoaded;
+        inputDisable(): void;
+        inputEnable(): void;
     }
 }
 declare namespace Script {
@@ -228,5 +233,48 @@ declare namespace Script {
         static load(_name: string, _noTransition?: boolean): void;
         private static loadScene;
         private static getFirstComponentCamera;
+    }
+}
+declare namespace Script {
+    class CocktailGlass extends Interactable {
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): Promise<void>;
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class CocktailInteractableIngredient extends Interactable {
+        ingredient: CocktailIngredient;
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        getMutatorAttributeTypes(_mutator: ƒ.Mutator): ƒ.MutatorAttributeTypes;
+    }
+    enum CocktailIngredient {
+        Bachwasser = 1,
+        Goldnektar = 2,
+        Schlammsprudel = 4,
+        Seerosenextrakt = 8
+    }
+}
+declare namespace Script {
+    import ƒ = FudgeCore;
+    class CocktailManager extends ƒ.ComponentScript {
+        static Instance: CocktailManager;
+        private static mixTable;
+        private currentIngredients;
+        constructor();
+        get currentCocktail(): string;
+        addIngredient(_ingredient: CocktailIngredient): boolean;
+        static mix(..._ingredients: CocktailIngredient[]): string;
+        get ingredients(): CocktailIngredient[];
+        resetCocktail(): void;
+        takeCocktail(): void;
+    }
+}
+declare namespace Script {
+    class CocktailTrash extends Interactable {
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): Promise<void>;
+        tryUseWith(_interactable: Interactable): void;
     }
 }

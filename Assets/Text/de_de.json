@@ -33,6 +33,8 @@
     "bath.mirror.interact.glas": [
         "Das kommt mir nicht richtig vor...",
         "Ob ich in einem anderen Universum das Glas gegen den Spiegel schmeiße?"
-    ]
+    ],
 
+
+    "item.glass.schlammsprudel.name": "Schlammsprudel"
 }
