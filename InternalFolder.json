@@ -144,6 +144,25 @@
         ]
       },
       {
+        "name": "Environment",
+        "entries": [
+          {
+            "name": "Outside",
+            "entries": [
+              {
+                "idResource": "MeshQuad|2024-03-28T14:19:47.423Z|82814"
+              },
+              {
+                "idResource": "Material|2024-04-09T10:32:16.519Z|01646"
+              },
+              {
+                "idResource": "Material|2024-04-09T10:34:21.420Z|01183"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "name": "testing",
         "entries": [
           {
@@ -165,10 +184,19 @@
             "idResource": "Graph|2024-03-28T10:00:19.078Z|91151"
           },
           {
-            "idResource": "MeshQuad|2024-03-28T14:19:47.423Z|82814"
+            "idResource": "Material|2024-03-28T14:20:22.998Z|62887"
           },
           {
-            "idResource": "Material|2024-03-28T14:20:22.998Z|62887"
+            "idResource": "TextureImage|2024-04-09T08:33:35.558Z|92644"
+          },
+          {
+            "idResource": "Material|2024-04-09T08:34:12.967Z|24076"
+          },
+          {
+            "idResource": "AnimationSprite|2024-04-09T08:34:55.843Z|50615"
+          },
+          {
+            "idResource": "MeshSprite|2024-04-09T08:35:46.599Z|62497"
           }
         ]
       }
