@@ -55,9 +55,9 @@ namespace Script {
         }
 
         public resetCocktail() {
-            let glassInInventory = inventory.hasItemThatStartsWith("glass");
+            let glassInInventory = Inventory.Instance.hasItemThatStartsWith("glass");
             if (glassInInventory) {
-                inventory.removeItem(glassInInventory);
+                Inventory.Instance.removeItem(glassInInventory);
             }
 
             this.currentIngredients.length = 0;
@@ -68,7 +68,7 @@ namespace Script {
         public takeCocktail() {
             let current = this.currentCocktail;
             this.resetCocktail();
-            inventory.addItem(new Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
+            Inventory.Instance.addItem(new Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
         }
     }
 }

@@ -270,11 +270,19 @@ var Script;
 var Script;
 (function (Script) {
     class Inventory {
-        divInventory = document.getElementById("inventory");
-        divWrapper = document.getElementById("inventory-wrapper");
+        static Instance = new Inventory();
+        divInventory;
+        divWrapper;
         itemsToHTMLMap = new Map();
         constructor() {
-            this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            if (Inventory.Instance)
+                return Inventory.Instance;
+            Inventory.Instance = this;
+            document.addEventListener("DOMContentLoaded", () => {
+                this.divInventory = document.getElementById("inventory");
+                this.divWrapper = document.getElementById("inventory-wrapper");
+                this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            });
         }
         toggleInventory(_event) {
             let isInventory = _event.target.classList.contains("inventory");
@@ -341,8 +349,6 @@ var Script;
         // addInteractionSphere(mainNode);
         ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, update);
         ƒ.Loop.start(); // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
-        Script.inventory = new Script.Inventory();
-        Script.inventory.addItem(new Script.Interactable("glass", "items/item.png"));
     }
     function setupNewMainNode(_node) {
         if (Script.mainNode) {
@@ -1177,9 +1183,9 @@ var Script;
             return Array.from(this.currentIngredients);
         }
         resetCocktail() {
-            let glassInInventory = Script.inventory.hasItemThatStartsWith("glass");
+            let glassInInventory = Script.Inventory.Instance.hasItemThatStartsWith("glass");
             if (glassInInventory) {
-                Script.inventory.removeItem(glassInInventory);
+                Script.Inventory.Instance.removeItem(glassInInventory);
             }
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
@@ -1187,7 +1193,7 @@ var Script;
         takeCocktail() {
             let current = this.currentCocktail;
             this.resetCocktail();
-            Script.inventory.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
+            Script.Inventory.Instance.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
         }
     }
     Script.CocktailManager = CocktailManager;

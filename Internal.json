@@ -201,7 +201,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-2.692639112472534, 0.17909421026706696, -2.3525638580322266]",
+                      "translation": "[-2.692639112472534, 0.13009418547153473, -2.3525638580322266]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -574,7 +574,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-2.500000238418579, 0.1499999761581421, -3]",
+                      "translation": "[-2.500000238418579, 0.12999996542930603, -3]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -865,7 +865,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[-1, 0.03999999910593033, 0]",
+                      "translation": "[-1, 0.029999999329447746, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -1868,6 +1868,36 @@
               }
             ]
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "character",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 0.029999999329447746, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "Graph|2024-04-02T07:38:25.740Z|79965"
+                }
+              }
+            ]
+          }
         }
       ],
       "idResource": "Graph|2024-03-01T13:06:50.608Z|29850",
@@ -2169,13 +2199,7 @@
           "ƒ.Node": {
             "name": "Items",
             "active": true,
-            "components": {
-              "ComponentMesh": [],
-              "ComponentMaterial": [],
-              "ComponentPick": [],
-              "Door": [],
-              "ComponentTransform": []
-            },
+            "components": {},
             "children": [
               {
                 "ƒ.Node": {

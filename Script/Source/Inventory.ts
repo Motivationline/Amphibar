@@ -1,10 +1,18 @@
 namespace Script {
     export class Inventory {
-        private divInventory: HTMLElement = document.getElementById("inventory");
-        private divWrapper: HTMLElement = document.getElementById("inventory-wrapper");
+        public static Instance: Inventory = new Inventory();
+        private divInventory: HTMLElement;
+        private divWrapper: HTMLElement;
         private itemsToHTMLMap: Map<Interactable, HTMLElement> = new Map();
         constructor() {
-            this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            if(Inventory.Instance) return Inventory.Instance;
+            Inventory.Instance = this;
+
+            document.addEventListener("DOMContentLoaded", ()=> {
+                this.divInventory = document.getElementById("inventory");
+                this.divWrapper = document.getElementById("inventory-wrapper");
+                this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+            });
         }
 
         private toggleInventory(_event: MouseEvent) {

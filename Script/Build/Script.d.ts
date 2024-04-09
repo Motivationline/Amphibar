@@ -68,6 +68,7 @@ declare namespace Script {
 }
 declare namespace Script {
     class Inventory {
+        static Instance: Inventory;
         private divInventory;
         private divWrapper;
         private itemsToHTMLMap;
@@ -84,7 +85,6 @@ declare namespace Script {
     import ƒ = FudgeCore;
     export let mainViewport: ƒ.Viewport;
     export let mainNode: ƒ.Node;
-    export let inventory: Inventory;
     export const interactableItems: Interactable[];
     export let character: CharacterScript;
     export let progress: Progress;
