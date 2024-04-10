@@ -1833,7 +1833,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.12403100728988647, 0.03875968977808952]",
+                            "translation": "[0.7441860437393188, 0]",
                             "rotation": 0,
                             "scaling": "[0.12403100728988647, 0.12403100728988647]"
                           },
@@ -4119,33 +4119,9 @@
       "components": {},
       "children": [
         {
-          "ƒ.Node": {
-            "name": "New Node",
-            "active": true,
-            "components": {
-              "ComponentTransform": [
-                {
-                  "ƒ.ComponentTransform": {
-                    "local": {
-                      "translation": "[-0.5429999828338623, -0.6970000267028809, 0]",
-                      "rotation": "[0, 0, 0]",
-                      "scaling": "[1, 1, 1]"
-                    },
-                    "Component": {
-                      "active": true
-                    }
-                  }
-                }
-              ]
-            },
-            "children": [
-              {
-                "ƒ.GraphInstance": {
-                  "deserializeFromSource": true,
-                  "idSource": "GraphGLTF|2024-04-10T13:50:44.573Z|47783"
-                }
-              }
-            ]
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T14:41:00.237Z|04109"
           }
         }
       ],
@@ -4153,14 +4129,14 @@
       "type": "Graph"
     }
   },
-  "GraphGLTF|2024-04-10T13:50:44.573Z|47783": {
+  "GraphGLTF|2024-04-10T14:41:00.237Z|04109": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
       "active": true,
       "components": {},
-      "idResource": "GraphGLTF|2024-04-10T13:50:44.573Z|47783",
+      "idResource": "GraphGLTF|2024-04-10T14:41:00.237Z|04109",
       "type": "GraphGLTF",
-      "url": "Assets\\Theke\\Cocktails\\TestCocktail.glb"
+      "url": "Assets\\Theke\\Cocktails\\Bachwasser_Cocktail_v01.glb"
     }
   }
 }
