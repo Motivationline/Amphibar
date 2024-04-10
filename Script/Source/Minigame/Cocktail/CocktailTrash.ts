@@ -4,8 +4,8 @@ namespace Script {
             return INTERACTION_TYPE.USE;
         }
 
-        async interact(): Promise<void> {
-            if (CocktailManager.Instance.ingredients.length === 0) {
+        async interact(_fromInventory: boolean = false): Promise<void> {
+            if (CocktailManager.Instance.ingredients.length === 0 && !_fromInventory) {
                 CharacterScript.talkAs("Tadpole", Text.instance.get("cocktail.trash.info"));
                 return;
             }
@@ -18,7 +18,7 @@ namespace Script {
         }
 
         tryUseWith(_interactable: Interactable): void {
-            if(_interactable.name.startsWith("glass")) this.interact();
+            if(_interactable.name.startsWith("glass")) this.interact(true);
         }
     }
 }

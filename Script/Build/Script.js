@@ -1214,7 +1214,7 @@ var Script;
             /*10*/ "goldrosenelixir",
             /*11*/ "bachblütennektar",
             /*12*/ "sumpfrosensprudel",
-            /*13*/ "supfrosenschorle",
+            /*13*/ "sumpfrosenschorle",
             /*14*/ "goldrosenmatsch",
         ];
         currentIngredients = [];
@@ -1279,8 +1279,8 @@ var Script;
         getInteractionType() {
             return Script.INTERACTION_TYPE.USE;
         }
-        async interact() {
-            if (Script.CocktailManager.Instance.ingredients.length === 0) {
+        async interact(_fromInventory = false) {
+            if (Script.CocktailManager.Instance.ingredients.length === 0 && !_fromInventory) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktail.trash.info"));
                 return;
             }
@@ -1294,7 +1294,7 @@ var Script;
         }
         tryUseWith(_interactable) {
             if (_interactable.name.startsWith("glass"))
-                this.interact();
+                this.interact(true);
         }
     }
     Script.CocktailTrash = CocktailTrash;

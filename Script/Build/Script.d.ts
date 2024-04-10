@@ -282,7 +282,7 @@ declare namespace Script {
 declare namespace Script {
     class CocktailTrash extends Interactable {
         getInteractionType(): INTERACTION_TYPE;
-        interact(): Promise<void>;
+        interact(_fromInventory?: boolean): Promise<void>;
         tryUseWith(_interactable: Interactable): void;
     }
 }

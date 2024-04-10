@@ -15,7 +15,7 @@ namespace Script {
             /*10*/ "goldrosenelixir",
             /*11*/ "bachblütennektar",
             /*12*/ "sumpfrosensprudel",
-            /*13*/ "supfrosenschorle",
+            /*13*/ "sumpfrosenschorle",
             /*14*/ "goldrosenmatsch",
         ]
 
