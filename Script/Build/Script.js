@@ -256,7 +256,6 @@ var Script;
             return div;
             function addData(_event) {
                 _event.dataTransfer.setData("interactable", this.name);
-                _event.dataTransfer.setDragImage(img, 50, 50);
             }
             function tryUseWithEvent(_event) {
                 let otherInteractableName = _event.dataTransfer.getData("interactable");
@@ -382,13 +381,13 @@ var Script;
             Script.mainNode.removeEventListener("pointermove", foundNode);
             Script.mainNode.removeEventListener("dragover", dragOverNode);
             Script.mainNode.removeEventListener("drop", dropOverNode);
-            Script.mainNode.removeEventListener("test", test);
+            Script.mainNode.removeEventListener("clickOnInteraction", clickOnInteraction);
         }
         Script.mainNode = _node;
         Script.mainNode.addEventListener("pointermove", foundNode);
         Script.mainNode.addEventListener("dragover", dragOverNode);
         Script.mainNode.addEventListener("drop", dropOverNode);
-        Script.mainNode.addEventListener("test", test);
+        Script.mainNode.addEventListener("clickOnInteraction", clickOnInteraction);
     }
     Script.setupNewMainNode = setupNewMainNode;
     function addInteractionSphere(_node) {
@@ -452,7 +451,7 @@ var Script;
             return;
         }
         clickedInteractionWaypoint = null;
-        Script.mainViewport.dispatchPointerEvent(new PointerEvent("test", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
+        Script.mainViewport.dispatchPointerEvent(new PointerEvent("clickOnInteraction", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
         if (!clickedInteractionWaypoint) {
             let ray = Script.mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
             if (ray.direction.y > 0)
@@ -463,7 +462,7 @@ var Script;
             Script.mainViewport.dispatchPointerEvent(_event);
         }).catch(() => { });
     }
-    function test(_event) {
+    function clickOnInteraction(_event) {
         let nodeTranslation = _event.target.mtxWorld.translation;
         clickedInteractionWaypoint = getClosestWaypoint(Script.mainNode, (_translation) => ƒ.Vector3.DIFFERENCE(nodeTranslation, _translation).magnitudeSquared);
     }
@@ -1131,7 +1130,7 @@ var Script;
         getInteractionType() {
             if (Script.CocktailManager.Instance.ingredients.length >= 3)
                 return Script.INTERACTION_TYPE.LOOK_AT;
-            return Script.INTERACTION_TYPE.PICK_UP;
+            return Script.INTERACTION_TYPE.USE;
         }
         // tryUseWith(_interactable: Interactable): void {
         // }

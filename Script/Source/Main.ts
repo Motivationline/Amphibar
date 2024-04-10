@@ -42,14 +42,14 @@ namespace Script {
       mainNode.removeEventListener("pointermove", <EventListener>foundNode);
       mainNode.removeEventListener("dragover", <EventListener>dragOverNode);
       mainNode.removeEventListener("drop", <EventListener>dropOverNode);
-      mainNode.removeEventListener("test", <EventListener>test);
+      mainNode.removeEventListener("clickOnInteraction", <EventListener>clickOnInteraction);
     }
 
     mainNode = _node;
     mainNode.addEventListener("pointermove", <EventListener>foundNode);
     mainNode.addEventListener("dragover", <EventListener>dragOverNode);
     mainNode.addEventListener("drop", <EventListener>dropOverNode);
-    mainNode.addEventListener("test", <EventListener>test);
+    mainNode.addEventListener("clickOnInteraction", <EventListener>clickOnInteraction);
   }
 
   function addInteractionSphere(_node: ƒ.Node) {
@@ -116,7 +116,7 @@ namespace Script {
       return;
     }
     clickedInteractionWaypoint = null;
-    mainViewport.dispatchPointerEvent(new PointerEvent("test", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
+    mainViewport.dispatchPointerEvent(new PointerEvent("clickOnInteraction", { clientX: _event.clientX, clientY: _event.clientY, bubbles: true }));
     if (!clickedInteractionWaypoint) {
       let ray = mainViewport.getRayFromClient(new ƒ.Vector2(_event.clientX, _event.clientY));
       if (ray.direction.y > 0) return;
@@ -127,7 +127,7 @@ namespace Script {
     }).catch(() => { });
   }
 
-  function test(_event: PointerEvent) {
+  function clickOnInteraction(_event: PointerEvent) {
     let nodeTranslation = (<ƒ.Node>_event.target).mtxWorld.translation;
     clickedInteractionWaypoint = getClosestWaypoint(mainNode, (_translation) => ƒ.Vector3.DIFFERENCE(nodeTranslation, _translation).magnitudeSquared);
   }
