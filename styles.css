@@ -318,6 +318,14 @@ canvas.fullscreen {
   max-width: 30vw;
 }
 
+.click-sign:hover {
+  filter: brightness(0.9);
+}
+
+.click-sign:active {
+  filter: brightness(0.8);
+}
+
 #loading-screen {
   z-index: 1499;
   display: grid;
@@ -589,4 +597,10 @@ canvas.fullscreen {
   padding: 1rem;
   cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
   z-index: 10;
+}
+#game-overlay img.options:hover {
+  filter: brightness(0.9);
+}
+#game-overlay img.options:active {
+  filter: brightness(0.8);
 }
