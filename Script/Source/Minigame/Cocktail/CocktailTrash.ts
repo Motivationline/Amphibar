@@ -1,5 +1,4 @@
 namespace Script {
-    import ƒ = FudgeCore;
     export class CocktailTrash extends Interactable {
         getInteractionType(): INTERACTION_TYPE {
             return INTERACTION_TYPE.USE;

@@ -20,6 +20,7 @@ namespace Script {
         ]
 
         private currentIngredients: CocktailIngredient[] = [];
+        public static glass: CocktailGlass;
 
         constructor() {
             super();
@@ -40,6 +41,9 @@ namespace Script {
                 return false;
             }
             this.currentIngredients.push(_ingredient);
+            if(CocktailManager.glass){
+                CocktailManager.glass.setCocktail(this.currentCocktail);
+            }
             return true;
         }
 
@@ -54,6 +58,10 @@ namespace Script {
             return Array.from(this.currentIngredients);
         }
 
+        public static get allCocktails() {
+            return Array.from(this.mixTable);
+        }
+
         public resetCocktail() {
             let glassInInventory = Inventory.Instance.hasItemThatStartsWith("glass");
             if (glassInInventory) {
@@ -62,7 +70,9 @@ namespace Script {
 
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
-
+            if(CocktailManager.glass){
+                CocktailManager.glass.setCocktail();
+            }
         }
 
         public takeCocktail() {

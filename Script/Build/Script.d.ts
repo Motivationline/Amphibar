@@ -238,8 +238,13 @@ declare namespace Script {
 }
 declare namespace Script {
     class CocktailGlass extends Interactable {
+        private emptyGlass;
+        private cocktails;
+        private currentCocktail;
+        constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): Promise<void>;
+        setCocktail(_name?: string): void;
     }
 }
 declare namespace Script {
@@ -263,11 +268,13 @@ declare namespace Script {
         static Instance: CocktailManager;
         private static mixTable;
         private currentIngredients;
+        static glass: CocktailGlass;
         constructor();
         get currentCocktail(): string;
         addIngredient(_ingredient: CocktailIngredient): boolean;
         static mix(..._ingredients: CocktailIngredient[]): string;
         get ingredients(): CocktailIngredient[];
+        static get allCocktails(): string[];
         resetCocktail(): void;
         takeCocktail(): void;
     }
