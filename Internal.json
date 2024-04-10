@@ -1833,7 +1833,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.7441860437393188, 0.03875968977808952]",
+                            "translation": "[0.12403100728988647, 0.03875968977808952]",
                             "rotation": 0,
                             "scaling": "[0.12403100728988647, 0.12403100728988647]"
                           },
@@ -4110,6 +4110,57 @@
       "idResource": "GraphGLTF|2024-04-10T12:27:59.355Z|32800",
       "type": "GraphGLTF",
       "url": "Assets\\Theke\\Cocktails\\Sumpfrosensprudel_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T13:50:18.521Z|77502": {
+    "ƒ.Graph": {
+      "name": "bachwasser",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.Node": {
+            "name": "New Node",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[-0.5429999828338623, -0.6970000267028809, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-04-10T13:50:44.573Z|47783"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T13:50:18.521Z|77502",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T13:50:44.573Z|47783": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T13:50:44.573Z|47783",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\TestCocktail.glb"
     }
   }
 }

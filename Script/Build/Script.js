@@ -1103,9 +1103,30 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class CocktailGlass extends Script.Interactable {
+        emptyGlass;
+        cocktails = new Map();
+        currentCocktail;
+        constructor(_name, _image) {
+            super(_name, _image);
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.emptyGlass = this.node.getChild(0);
+            });
+            Script.CocktailManager.glass = this;
+            ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, () => {
+                for (let name of Script.CocktailManager.allCocktails) {
+                    this.cocktails.set(name, ƒ.Project.getResourcesByName(name)[0]);
+                }
+            });
+        }
         getInteractionType() {
-            return Script.INTERACTION_TYPE.USE;
+            if (Script.CocktailManager.Instance.ingredients.length === 0) {
+                return Script.INTERACTION_TYPE.LOOK_AT;
+            }
+            return Script.INTERACTION_TYPE.PICK_UP;
         }
         async interact() {
             if (Script.CocktailManager.Instance.ingredients.length === 0) {
@@ -1119,6 +1140,19 @@ var Script;
             if (result !== "confirm")
                 return;
             Script.CocktailManager.Instance.takeCocktail();
+        }
+        setCocktail(_name) {
+            if (this.currentCocktail)
+                this.node.removeChild(this.currentCocktail);
+            if (!_name || !this.cocktails.has(_name)) {
+                this.emptyGlass.activate(true);
+                this.currentCocktail = null;
+                return;
+            }
+            this.emptyGlass.activate(false);
+            let newCocktail = this.cocktails.get(_name);
+            this.node.addChild(newCocktail);
+            this.currentCocktail = newCocktail;
         }
     }
     Script.CocktailGlass = CocktailGlass;
@@ -1184,6 +1218,7 @@ var Script;
             /*14*/ "goldrosenmatsch",
         ];
         currentIngredients = [];
+        static glass;
         constructor() {
             super();
             if (CocktailManager.Instance)
@@ -1201,6 +1236,9 @@ var Script;
                 return false;
             }
             this.currentIngredients.push(_ingredient);
+            if (CocktailManager.glass) {
+                CocktailManager.glass.setCocktail(this.currentCocktail);
+            }
             return true;
         }
         static mix(..._ingredients) {
@@ -1213,6 +1251,9 @@ var Script;
         get ingredients() {
             return Array.from(this.currentIngredients);
         }
+        static get allCocktails() {
+            return Array.from(this.mixTable);
+        }
         resetCocktail() {
             let glassInInventory = Script.Inventory.Instance.hasItemThatStartsWith("glass");
             if (glassInInventory) {
@@ -1220,6 +1261,9 @@ var Script;
             }
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
+            if (CocktailManager.glass) {
+                CocktailManager.glass.setCocktail();
+            }
         }
         takeCocktail() {
             let current = this.currentCocktail;
