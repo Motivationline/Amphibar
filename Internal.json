@@ -3713,5 +3713,403 @@
       "idResource": "Graph|2024-04-09T10:42:51.874Z|51845",
       "type": "Graph"
     }
+  },
+  "GraphGLTF|2024-04-10T12:18:58.479Z|82957": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:18:58.479Z|82957",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Bachbluetennektar_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:19:00.554Z|61849": {
+    "ƒ.Graph": {
+      "name": "bachblütennektar",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:18:58.479Z|82957"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:19:00.554Z|61849",
+      "type": "Graph"
+    }
+  },
+  "Graph|2024-04-10T12:19:45.265Z|25985": {
+    "ƒ.Graph": {
+      "name": "bachblütenzauber",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:20:22.709Z|01280"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:19:45.265Z|25985",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:20:18.341Z|95281": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:20:18.341Z|95281",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Bachbluetenzauber_Cokctail.glb"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:20:22.709Z|01280": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:20:22.709Z|01280",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Bachbluetenzauber_Cokctail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:21:05.003Z|60878": {
+    "ƒ.Graph": {
+      "name": "goldnektar",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:21:15.019Z|89552"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:21:05.003Z|60878",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:21:15.019Z|89552": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:21:15.019Z|89552",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldnektar_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:21:29.330Z|34819": {
+    "ƒ.Graph": {
+      "name": "goldrosenelexir",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:21:43.514Z|77524"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:21:29.330Z|34819",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:21:43.514Z|77524": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:21:43.514Z|77524",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldrosenelixier_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:21:57.110Z|15092": {
+    "ƒ.Graph": {
+      "name": "goldrosenelixir",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:22:36.444Z|63248"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:21:57.110Z|15092",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:22:08.669Z|36097": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:22:08.669Z|36097",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldrosenelixier_Cocktail.glb"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:22:36.444Z|63248": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:22:36.444Z|63248",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldrosenelixier_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:23:11.752Z|30706": {
+    "ƒ.Graph": {
+      "name": "goldrosenmatsch",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:23:24.750Z|17711"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:23:11.752Z|30706",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:23:24.750Z|17711": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:23:24.750Z|17711",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldrosenmatsch_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:23:36.974Z|38339": {
+    "ƒ.Graph": {
+      "name": "goldwasser",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:23:51.628Z|09760"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:23:36.974Z|38339",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:23:51.628Z|09760": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:23:51.628Z|09760",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Goldwasser_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:24:03.613Z|64021": {
+    "ƒ.Graph": {
+      "name": "matschsaft",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:24:16.018Z|71917"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:24:03.613Z|64021",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:24:16.018Z|71917": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:24:16.018Z|71917",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Matschsaft_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:24:32.305Z|37059": {
+    "ƒ.Graph": {
+      "name": "nektarquelle",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:25:06.510Z|18067"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:24:32.305Z|37059",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:25:06.510Z|18067": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:25:06.510Z|18067",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\NeckarquelleImSchlammfluss_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:25:17.051Z|85932": {
+    "ƒ.Graph": {
+      "name": "schlammfluss",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:25:40.835Z|90137"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:25:17.051Z|85932",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:25:40.835Z|90137": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:25:40.835Z|90137",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Schlammfluss_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:26:25.018Z|18728": {
+    "ƒ.Graph": {
+      "name": "schlammsprudel",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:26:45.385Z|30059"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:26:25.018Z|18728",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:26:45.385Z|30059": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:26:45.385Z|30059",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Schlammsprudel_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:26:53.823Z|08994": {
+    "ƒ.Graph": {
+      "name": "seerosenextrakt",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:27:11.432Z|37944"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:26:53.823Z|08994",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:27:11.432Z|37944": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:27:11.432Z|37944",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Seerpsenextrakt_Cocktail.glb"
+    }
+  },
+  "Graph|2024-04-10T12:27:19.572Z|47618": {
+    "ƒ.Graph": {
+      "name": "sumpfrosenschorle",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:27:46.103Z|27166"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:27:19.572Z|47618",
+      "type": "Graph"
+    }
+  },
+  "Graph|2024-04-10T12:27:28.376Z|99705": {
+    "ƒ.Graph": {
+      "name": "sumpfrosensprudel",
+      "active": true,
+      "components": {},
+      "children": [
+        {
+          "ƒ.GraphInstance": {
+            "deserializeFromSource": true,
+            "idSource": "GraphGLTF|2024-04-10T12:27:59.355Z|32800"
+          }
+        }
+      ],
+      "idResource": "Graph|2024-04-10T12:27:28.376Z|99705",
+      "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:27:46.103Z|27166": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:27:46.103Z|27166",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Sumpfrosenschorle_Cocktail.glb"
+    }
+  },
+  "GraphGLTF|2024-04-10T12:27:59.355Z|32800": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-10T12:27:59.355Z|32800",
+      "type": "GraphGLTF",
+      "url": "Assets\\Theke\\Cocktails\\Sumpfrosensprudel_Cocktail.glb"
+    }
   }
 }
