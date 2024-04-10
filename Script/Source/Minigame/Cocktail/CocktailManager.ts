@@ -68,7 +68,7 @@ namespace Script {
         public takeCocktail() {
             let current = this.currentCocktail;
             this.resetCocktail();
-            Inventory.Instance.addItem(new Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
+            Inventory.Instance.addItem(new Interactable(`glass.${current}`, `Assets/UI/Inventar/Cocktail/${current}.png`));
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Script {
         getInteractionType(): INTERACTION_TYPE {
             if (CocktailManager.Instance.ingredients.length >= 3)
                 return INTERACTION_TYPE.LOOK_AT;
-            return INTERACTION_TYPE.PICK_UP;
+            return INTERACTION_TYPE.USE;
         }
 
         // tryUseWith(_interactable: Interactable): void {

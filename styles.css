@@ -7,6 +7,7 @@ body {
   overflow: hidden;
   font-family: "Chilanka", cursive;
   user-select: none;
+  cursor: url("Assets/UI/Cursors/Cursor_Normal.svg"), default;
 }
 
 div.fullscreen {
@@ -29,7 +30,7 @@ canvas.fullscreen {
 /* inventory */
 
 .inventory {
-  cursor: pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 #inventory-wrapper {
@@ -68,6 +69,7 @@ canvas.fullscreen {
   transition: transform 0.25s;
   transform: rotate(180deg);
   z-index: 3;
+  background-size: 100% 100%;
 }
 #inventory-wrapper:not(.visible) #inventory-buckle {
   transform: rotate(0deg);
@@ -96,6 +98,8 @@ canvas.fullscreen {
   z-index: 1;
   display: grid;
   place-items: center;
+  
+  cursor: url("Assets/UI/Cursors/Cursor_Grab.svg"), url("Assets/UI/Cursors/Cursor_Point.svg"), pointer; 
 }
 
 .item>img {
@@ -123,23 +127,23 @@ canvas.fullscreen {
 /* cursors */
 
 .cursor-talk {
-  cursor: url("cursors/mouth.png"), pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Speak.svg"), url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 .cursor-take {
-  cursor: url("cursors/take.png"), grab;
+  cursor: url("Assets/UI/Cursors/Cursor_Grab.svg"), url("Assets/UI/Cursors/Cursor_Point.svg"), pointer; 
 }
 
 .cursor-look {
-  cursor: url("cursors/eye.png"), pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Look.svg"), url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 .cursor-door {
-  cursor: url("cursors/door.png"), pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Door.svg"), url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 .cursor-use {
-  cursor: url("cursors/use.png"), pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 .hidden {
@@ -147,7 +151,7 @@ canvas.fullscreen {
 }
 
 .clickable {
-  cursor: pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
 }
 
 /* Dialog */
@@ -236,7 +240,7 @@ canvas.fullscreen {
 }
 
 .dialog-options-option {
-  cursor: pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
   display: block;
   padding: 1rem;
   font-size: min(6vh, 3em, 2vw);
@@ -467,7 +471,7 @@ canvas.fullscreen {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  cursor: pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
   outline: none;
   background: none;
 }
@@ -583,6 +587,6 @@ canvas.fullscreen {
   right: 0;
   width: 5vw;
   padding: 1rem;
-  cursor: pointer;
+  cursor: url("Assets/UI/Cursors/Cursor_Point.svg"), pointer;
   z-index: 10;
 }

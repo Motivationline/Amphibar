@@ -17,8 +17,8 @@ namespace Script {
     merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})),
     () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(settings)) }, 1) });
 
-    
-    function start(_event: CustomEvent): void {
+
+  function start(_event: CustomEvent): void {
     let invFromStorage = JSON.parse(localStorage.getItem("inventory")) ?? [];
     for (let item of invFromStorage) {
       Inventory.Instance.addItem(new Interactable(item.name, item.image));
@@ -79,9 +79,33 @@ namespace Script {
     ƒ.AudioManager.default.update();
   }
 
+  let hoveredInteractable: Interactable;
   function pointermove(_event: PointerEvent): void {
-    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
+    hoveredInteractable = null;
     mainViewport.dispatchPointerEvent(_event);
+    mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
+    if (!hoveredInteractable) return;
+    let type = hoveredInteractable.getInteractionType();
+    switch (type) {
+      case INTERACTION_TYPE.LOOK_AT:
+        mainViewport.canvas.classList.add("cursor-look");
+        break;
+      case INTERACTION_TYPE.PICK_UP:
+        mainViewport.canvas.classList.add("cursor-take");
+        break;
+      case INTERACTION_TYPE.TALK_TO:
+        mainViewport.canvas.classList.add("cursor-talk");
+        break;
+      case INTERACTION_TYPE.DOOR:
+        mainViewport.canvas.classList.add("cursor-door");
+        break;
+      case INTERACTION_TYPE.USE:
+        mainViewport.canvas.classList.add("cursor-use");
+        break;
+
+      default:
+        break;
+    }
   }
 
   let clickedInteractionWaypoint: ƒ.ComponentWaypoint;
@@ -127,27 +151,7 @@ namespace Script {
     let node = <ƒ.Node>_event.target;
     let interactable = findInteractable(node);
     if (!interactable) return;
-    let type = interactable.getInteractionType();
-    switch (type) {
-      case INTERACTION_TYPE.LOOK_AT:
-        mainViewport.canvas.classList.add("cursor-look");
-        break;
-      case INTERACTION_TYPE.PICK_UP:
-        mainViewport.canvas.classList.add("cursor-take");
-        break;
-      case INTERACTION_TYPE.TALK_TO:
-        mainViewport.canvas.classList.add("cursor-talk");
-        break;
-      case INTERACTION_TYPE.DOOR:
-        mainViewport.canvas.classList.add("cursor-door");
-        break;
-      case INTERACTION_TYPE.USE:
-        mainViewport.canvas.classList.add("cursor-use");
-        break;
-
-      default:
-        break;
-    }
+    hoveredInteractable = interactable;
   }
 
   //#region Drag & Drop

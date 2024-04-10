@@ -199,6 +199,17 @@ var Script;
                 Interactable.textProvider = new Script.Text();
         }
         static getInteractionText(_object, _item) {
+            if (!_object.node) {
+                let key = `${_object.name}.interact`;
+                let text = Interactable.textProvider.get(key);
+                if (text !== key)
+                    return text;
+                key = `interact`;
+                text = Interactable.textProvider.get(key);
+                if (text !== key)
+                    return text;
+                return `${_object.name}.interact`;
+            }
             let base = _object.node.getAncestor();
             let key = "";
             if (_item) {
@@ -233,7 +244,10 @@ var Script;
         toHTMLElement() {
             let div = document.createElement("div");
             let name = Interactable.textProvider.get(`item.${this.name}.name`);
-            div.innerHTML = `<img src="${this.image}" alt="${name}"><span>${name}</span>`;
+            let img = document.createElement("img");
+            img.src = this.image;
+            img.alt = name;
+            div.appendChild(img);
             div.classList.add("item");
             div.draggable = true;
             div.addEventListener("dragstart", addData.bind(this));
@@ -242,6 +256,7 @@ var Script;
             return div;
             function addData(_event) {
                 _event.dataTransfer.setData("interactable", this.name);
+                _event.dataTransfer.setDragImage(img, 50, 50);
             }
             function tryUseWithEvent(_event) {
                 let otherInteractableName = _event.dataTransfer.getData("interactable");
@@ -401,9 +416,33 @@ var Script;
         Script.mainViewport.draw();
         ƒ.AudioManager.default.update();
     }
+    let hoveredInteractable;
     function pointermove(_event) {
-        Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
+        hoveredInteractable = null;
         Script.mainViewport.dispatchPointerEvent(_event);
+        Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
+        if (!hoveredInteractable)
+            return;
+        let type = hoveredInteractable.getInteractionType();
+        switch (type) {
+            case Script.INTERACTION_TYPE.LOOK_AT:
+                Script.mainViewport.canvas.classList.add("cursor-look");
+                break;
+            case Script.INTERACTION_TYPE.PICK_UP:
+                Script.mainViewport.canvas.classList.add("cursor-take");
+                break;
+            case Script.INTERACTION_TYPE.TALK_TO:
+                Script.mainViewport.canvas.classList.add("cursor-talk");
+                break;
+            case Script.INTERACTION_TYPE.DOOR:
+                Script.mainViewport.canvas.classList.add("cursor-door");
+                break;
+            case Script.INTERACTION_TYPE.USE:
+                Script.mainViewport.canvas.classList.add("cursor-use");
+                break;
+            default:
+                break;
+        }
     }
     let clickedInteractionWaypoint;
     function mouseclick(_event) {
@@ -447,26 +486,7 @@ var Script;
         let interactable = findInteractable(node);
         if (!interactable)
             return;
-        let type = interactable.getInteractionType();
-        switch (type) {
-            case Script.INTERACTION_TYPE.LOOK_AT:
-                Script.mainViewport.canvas.classList.add("cursor-look");
-                break;
-            case Script.INTERACTION_TYPE.PICK_UP:
-                Script.mainViewport.canvas.classList.add("cursor-take");
-                break;
-            case Script.INTERACTION_TYPE.TALK_TO:
-                Script.mainViewport.canvas.classList.add("cursor-talk");
-                break;
-            case Script.INTERACTION_TYPE.DOOR:
-                Script.mainViewport.canvas.classList.add("cursor-door");
-                break;
-            case Script.INTERACTION_TYPE.USE:
-                Script.mainViewport.canvas.classList.add("cursor-use");
-                break;
-            default:
-                break;
-        }
+        hoveredInteractable = interactable;
     }
     Script.foundNode = foundNode;
     //#region Drag & Drop
@@ -1205,7 +1225,7 @@ var Script;
         takeCocktail() {
             let current = this.currentCocktail;
             this.resetCocktail();
-            Script.Inventory.Instance.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/${current}.png`));
+            Script.Inventory.Instance.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/Cocktail/${current}.png`));
         }
     }
     Script.CocktailManager = CocktailManager;
