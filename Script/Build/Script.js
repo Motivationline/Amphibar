@@ -1280,6 +1280,10 @@ var Script;
             return Script.INTERACTION_TYPE.USE;
         }
         async interact() {
+            if (Script.CocktailManager.Instance.ingredients.length === 0) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktail.trash.info"));
+                return;
+            }
             let result = await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("cocktail.trash.confirm"), "neutral", [
                 { id: "confirm", text: Script.Interactable.textProvider.get("cocktail.trash.option.confirm") },
                 { id: "cancel", text: Script.Interactable.textProvider.get("cocktail.trash.option.cancel") },

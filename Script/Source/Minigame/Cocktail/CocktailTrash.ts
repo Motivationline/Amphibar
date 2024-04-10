@@ -5,6 +5,10 @@ namespace Script {
         }
 
         async interact(): Promise<void> {
+            if (CocktailManager.Instance.ingredients.length === 0) {
+                CharacterScript.talkAs("Tadpole", Text.instance.get("cocktail.trash.info"));
+                return;
+            }
             let result = await CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("cocktail.trash.confirm"), "neutral", [
                 { id: "confirm", text: Interactable.textProvider.get("cocktail.trash.option.confirm") },
                 { id: "cancel", text: Interactable.textProvider.get("cocktail.trash.option.cancel") },
