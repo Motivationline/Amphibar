@@ -251,7 +251,11 @@ declare namespace Script {
     import ƒ = FudgeCore;
     class CocktailInteractableIngredient extends Interactable {
         ingredient: CocktailIngredient;
+        cmpAnimator: ƒ.ComponentAnimator;
+        constructor(_name: string);
+        private animationDone;
         getInteractionType(): INTERACTION_TYPE;
+        private promiseResolver;
         interact(): void;
         getMutatorAttributeTypes(_mutator: ƒ.Mutator): ƒ.MutatorAttributeTypes;
     }
@@ -271,7 +275,7 @@ declare namespace Script {
         static glass: CocktailGlass;
         constructor();
         get currentCocktail(): string;
-        addIngredient(_ingredient: CocktailIngredient): boolean;
+        addIngredient(_ingredient: CocktailIngredient, _waitFor?: Promise<void>): boolean;
         static mix(..._ingredients: CocktailIngredient[]): string;
         get ingredients(): CocktailIngredient[];
         static get allCocktails(): string[];

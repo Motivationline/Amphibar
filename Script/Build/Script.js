@@ -217,6 +217,11 @@ var Script;
                 let text = Interactable.textProvider.get(key);
                 if (text !== key)
                     return text;
+                let itemname = _item.name.split(".")[0];
+                key = `${base.name}.${_object.name}.interact.${itemname}`;
+                text = Interactable.textProvider.get(key);
+                if (text !== key)
+                    return text;
             }
             key = `${base.name}.${_object.name}.interact`;
             let text = Interactable.textProvider.get(key);
@@ -641,19 +646,19 @@ var Script;
         interact() {
             let p = Script.progress.fly?.clean ?? 0;
             if (p <= 1) {
-                Script.CharacterScript.talkAs("Tadpole", "Ein leerer Eimer.");
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.0"));
                 return;
             }
             if (p === 2) {
-                Script.CharacterScript.talkAs("Tadpole", "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!");
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.1"));
                 return;
             }
             if (p === 3) {
-                Script.CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.");
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.0"));
                 return;
             }
             if (p >= 4) {
-                Script.CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast.");
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.1"));
                 return;
             }
         }
@@ -723,6 +728,22 @@ var Script;
     }
     Script.Door = Door;
 })(Script || (Script = {}));
+// namespace Script {
+//     export class Fly extends Interactable {
+//         tryUseWith(_interactable: Interactable): void {
+//             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
+//         }
+//         interact(): void {
+//             // fly dialogue
+//             if(!progress.fly.intro){
+//                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.intro"));
+//                 progress.fly.intro = true;
+//             }
+//             if(progress.fly.clean)
+//             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly."))
+//         }
+//     }
+// }
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
@@ -1159,8 +1180,32 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class CocktailInteractableIngredient extends Script.Interactable {
         ingredient = CocktailIngredient.Bachwasser;
+        cmpAnimator;
+        constructor(_name) {
+            super(_name);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.cmpAnimator = this.node.getComponent(ƒ.ComponentAnimator);
+                if (!this.cmpAnimator) {
+                    for (let child of this.node.getChildren()) {
+                        this.cmpAnimator = child.getComponent(ƒ.ComponentAnimator);
+                        if (this.cmpAnimator)
+                            break;
+                    }
+                }
+                this.cmpAnimator?.addEventListener("LiquidPour", this.animationDone.bind(this));
+            });
+        }
+        animationDone() {
+            if (this.promiseResolver) {
+                this.promiseResolver();
+                this.promiseResolver = null;
+            }
+        }
         getInteractionType() {
             if (Script.CocktailManager.Instance.ingredients.length >= 3)
                 return Script.INTERACTION_TYPE.LOOK_AT;
@@ -1168,17 +1213,32 @@ var Script;
         }
         // tryUseWith(_interactable: Interactable): void {
         // }
+        promiseResolver;
         interact() {
             if (Script.CocktailManager.Instance.ingredients.length >= 3) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktails.full"));
                 return;
             }
-            if (!Script.CocktailManager.Instance.addIngredient(this.ingredient)) {
+            let promise = new Promise((resolve) => {
+                this.promiseResolver = resolve;
+            });
+            if (!Script.CocktailManager.Instance.addIngredient(this.ingredient, promise)) {
                 return;
             }
             Script.MenuManager.Instance.inputDisable();
             //TODO: play animation and enable interaction after animation instead of after timeout
-            setTimeout(() => { Script.MenuManager.Instance.inputEnable(); }, 1000);
+            if (this.cmpAnimator) {
+                this.cmpAnimator.jumpTo(0);
+                setTimeout(() => {
+                    Script.MenuManager.Instance.inputEnable();
+                }, this.cmpAnimator.animation.totalTime);
+            }
+            else {
+                setTimeout(() => {
+                    this.animationDone();
+                    Script.MenuManager.Instance.inputEnable();
+                }, 1000);
+            }
         }
         getMutatorAttributeTypes(_mutator) {
             let types = super.getMutatorAttributeTypes(_mutator);
@@ -1230,14 +1290,21 @@ var Script;
         get currentCocktail() {
             return CocktailManager.mix(...this.currentIngredients);
         }
-        addIngredient(_ingredient) {
+        addIngredient(_ingredient, _waitFor) {
             if (this.currentIngredients.length >= 3) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktail.full"));
                 return false;
             }
             this.currentIngredients.push(_ingredient);
             if (CocktailManager.glass) {
-                CocktailManager.glass.setCocktail(this.currentCocktail);
+                if (_waitFor) {
+                    _waitFor.then(() => {
+                        CocktailManager.glass.setCocktail(this.currentCocktail);
+                    });
+                }
+                else {
+                    CocktailManager.glass.setCocktail(this.currentCocktail);
+                }
             }
             return true;
         }
