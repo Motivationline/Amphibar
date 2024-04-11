@@ -2563,7 +2563,9 @@
       "idResource": "Animation|2024-04-11T09:49:27.783Z|35533",
       "name": "BachwasserAnimation",
       "labels": {},
-      "events": {},
+      "events": {
+        "LiquidPour": 1005.2274825979955
+      },
       "framesPerSecond": 60,
       "animationStructure": {
         "components": {
@@ -2581,8 +2583,15 @@
                         "slopeOut": 0
                       },
                       {
-                        "time": 30.114030494887214,
+                        "time": 16.66666603088379,
                         "value": 1.3099999999999996,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": 1.3100173121664003,
                         "interpolation": 2,
                         "slopeIn": 0,
                         "slopeOut": 0
@@ -2607,8 +2616,43 @@
                         "slopeOut": 0
                       },
                       {
-                        "time": 30.114030494887214,
-                        "value": -0.2579999999999994,
+                        "time": 16.66666603088379,
+                        "value": -0.1579999999999994,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 366.6666564941406,
+                        "value": -0.18800106571021474,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 933.3333129882812,
+                        "value": -0.0680014168338349,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1212.0144652753804,
+                        "value": -0.15395498148868125,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1733.3333740234375,
+                        "value": -0.21800304694128644,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -0.2080050790296562,
                         "interpolation": 2,
                         "slopeIn": 0,
                         "slopeOut": 0
@@ -2633,14 +2677,91 @@
                         "slopeOut": 0
                       },
                       {
-                        "time": 30.114030494887214,
-                        "value": -1.34,
+                        "time": 16.66666603088379,
+                        "value": -1.2600000000000011,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 250,
+                        "value": -1.239992698074004,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 583.3333129882812,
+                        "value": -1.2698835994054378,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1072.8357706983031,
+                        "value": -1.2669906578911225,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1666.6666259765625,
+                        "value": -1.2926966401631204,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -1.2929236397469441,
                         "interpolation": 2,
                         "slopeIn": 0,
                         "slopeOut": 0
                       },
                       {
                         "time": 1999.571624860511,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                },
+                "rotation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 166.6666717529297,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0.02458933391500245,
+                        "slopeOut": 0.02458933391500245
+                      },
+                      {
+                        "time": 550,
+                        "value": -100,
+                        "interpolation": 2,
+                        "slopeIn": -0.12105617646614027,
+                        "slopeOut": -0.12105617646614027
+                      },
+                      {
+                        "time": 1083.3333740234375,
+                        "value": -110,
+                        "interpolation": 2,
+                        "slopeIn": 0.029116143256503083,
+                        "slopeOut": 0.029116143256503083
+                      },
+                      {
+                        "time": 1750,
+                        "value": 10,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1866.6666259765625,
                         "value": 0,
                         "interpolation": 2,
                         "slopeIn": 0,
@@ -2761,8 +2882,8 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0.3100000023841858, 0.017999999225139618, 0]",
-                                  "rotation": "[0, 0, 0]",
+                                  "translation": "[1.3100084066390991, -0.07523271441459656, -1.267246961593628]",
+                                  "rotation": "[-112.85075378417969, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
                                 "Component": {
@@ -3747,7 +3868,7 @@
                     "direction": "diagonal",
                     "near": 0.6000000000000001,
                     "far": 2000,
-                    "aspect": 1.5819521178637201,
+                    "aspect": 2.3173333333333335,
                     "pivot": {
                       "translation": "[2.500000476837158, -0.10000000149011612, -0.800000011920929]",
                       "rotation": "[-1, -78.70000457763672, 0]",
