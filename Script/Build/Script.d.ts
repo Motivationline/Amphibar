@@ -96,6 +96,7 @@ declare namespace Script {
     interface Progress {
         fly: {
             intro: boolean;
+            done: boolean;
             clean: number;
             drink: number;
             worm: number;
@@ -129,7 +130,7 @@ declare namespace Script {
         private textData;
         constructor();
         private load;
-        get(identifier: string): string;
+        get(identifier: string, ...replacements: string[]): string;
     }
 }
 declare namespace Script {
@@ -155,6 +156,14 @@ declare namespace Script {
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
         tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class Fly extends Interactable {
+        #private;
+        getInteractionType(): INTERACTION_TYPE;
+        tryUseWith(_interactable: Interactable): void;
+        interact(): Promise<void>;
     }
 }
 declare namespace Script {
@@ -253,7 +262,7 @@ declare namespace Script {
         ingredient: CocktailIngredient;
         cmpAnimator: ƒ.ComponentAnimator;
         constructor(_name: string);
-        private animationDone;
+        private pouringDone;
         getInteractionType(): INTERACTION_TYPE;
         private promiseResolver;
         interact(): void;
@@ -277,6 +286,7 @@ declare namespace Script {
         get currentCocktail(): string;
         addIngredient(_ingredient: CocktailIngredient, _waitFor?: Promise<void>): boolean;
         static mix(..._ingredients: CocktailIngredient[]): string;
+        static unmix(_cocktail: string): string[];
         get ingredients(): CocktailIngredient[];
         static get allCocktails(): string[];
         resetCocktail(): void;

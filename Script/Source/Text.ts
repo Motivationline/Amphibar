@@ -16,11 +16,15 @@ namespace Script {
             this.textData = await response.json();
         }
 
-        public get(identifier: string): string {
+        public get(identifier: string, ...replacements: string[]): string {
             let text: string | string[] = this.textData[identifier];
             if (!text) return identifier;
-            if (typeof text === "string") return text;
-            return text[Math.floor(Math.random() * text.length)];
+            if (typeof text !== "string") 
+                text = text[Math.floor(Math.random() * text.length)];
+            while(replacements.length > 0){
+                text = text.replace("%s", replacements.shift());
+            }
+            return text;
         }
     }
 }

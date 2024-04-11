@@ -8,7 +8,7 @@ namespace Script {
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
-  let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0 }, scene: "bath" };
+  let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false }, scene: "bath" };
   let settingsDefault: Settings = { music: 100, sounds: 100 };
   export let progress: Progress = onChange(
     merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})),
@@ -188,6 +188,7 @@ namespace Script {
   interface Progress {
     fly: {
       intro: boolean,
+      done: boolean,
       clean: number,
       drink: number,
       worm: number,

@@ -362,7 +362,7 @@ var Script;
     var ƒAid = FudgeAid;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
-    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0 }, scene: "bath" };
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false }, scene: "bath" };
     let settingsDefault = { music: 100, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
@@ -624,13 +624,16 @@ var Script;
             let response = await fetch("./Assets/Text/de_de.json");
             this.textData = await response.json();
         }
-        get(identifier) {
+        get(identifier, ...replacements) {
             let text = this.textData[identifier];
             if (!text)
                 return identifier;
-            if (typeof text === "string")
-                return text;
-            return text[Math.floor(Math.random() * text.length)];
+            if (typeof text !== "string")
+                text = text[Math.floor(Math.random() * text.length)];
+            while (replacements.length > 0) {
+                text = text.replace("%s", replacements.shift());
+            }
+            return text;
         }
     }
     Script.Text = Text;
@@ -728,22 +731,132 @@ var Script;
     }
     Script.Door = Door;
 })(Script || (Script = {}));
-// namespace Script {
-//     export class Fly extends Interactable {
-//         tryUseWith(_interactable: Interactable): void {
-//             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
-//         }
-//         interact(): void {
-//             // fly dialogue
-//             if(!progress.fly.intro){
-//                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.intro"));
-//                 progress.fly.intro = true;
-//             }
-//             if(progress.fly.clean)
-//             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly."))
-//         }
-//     }
-// }
+var Script;
+(function (Script) {
+    class Fly extends Script.Interactable {
+        #wantedIngredients = ["goldnektar", "bachwasser"];
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.TALK_TO;
+        }
+        tryUseWith(_interactable) {
+            if (!_interactable.name.startsWith("glass.")) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.no_item"));
+                return;
+            }
+            if (Script.progress.fly.drink == 2) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.drink.done"));
+                return;
+            }
+            Script.Inventory.Instance.removeItem(_interactable);
+            let cocktail = _interactable.name.split(".")[1];
+            let ingredients = new Set(Script.CocktailManager.unmix(cocktail));
+            let wanted = new Set(this.#wantedIngredients);
+            for (let ingredient of wanted) {
+                if (ingredients.has(ingredient)) {
+                    ingredients.delete(ingredient);
+                    wanted.delete(ingredient);
+                }
+            }
+            if (wanted.size > 0) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.drink.too_little", Script.Interactable.textProvider.get(`item.glass.${[...wanted][0]}.name`)));
+                return;
+            }
+            if (ingredients.size > 0) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.drink.too_much", Script.Interactable.textProvider.get(`item.glass.${[...ingredients][0]}.name`)));
+                return;
+            }
+            Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.drink.like"));
+            Script.progress.fly.drink = 2;
+        }
+        async interact() {
+            // fly dialogue
+            // intro
+            if (!Script.progress.fly.intro) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.0"));
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.1"));
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.2"));
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.3"));
+                let result = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.4"), "neutral", [
+                    { id: "offer", text: Script.Interactable.textProvider.get("character.fly.intro.offer_help") },
+                    { id: "request", text: Script.Interactable.textProvider.get("character.fly.intro.request_help") },
+                ]);
+                if (result === "request") {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.5"));
+                    Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.6"));
+                }
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.7"));
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.8"));
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.9"));
+            }
+            // is there still something to help with?
+            let options = [];
+            // cleaning?
+            if (Script.progress.fly.clean <= 4) {
+                options.push({ id: "clean", "text": Script.Interactable.textProvider.get("character.fly.intro.option.clean") });
+            }
+            else if (Script.progress.fly.clean === 5) {
+                options.push({ id: "clean-done", "text": Script.Interactable.textProvider.get("character.fly.intro.option.clean.done") });
+            }
+            // drink?
+            if (Script.progress.fly.drink <= 1) {
+                options.push({ id: "drink", "text": Script.Interactable.textProvider.get("character.fly.intro.option.drink") });
+            }
+            // polite or not?
+            if (Script.progress.fly.intro) {
+                options.push({ id: "cancel", "text": Script.Interactable.textProvider.get("character.fly.intro.option.cancel") });
+            }
+            else {
+                options.push({ id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") });
+            }
+            if (options.length > 1) {
+                let choice;
+                while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
+                    if (!Script.progress.fly.intro) {
+                        choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
+                    }
+                    else {
+                        choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"), "neutral", options);
+                    }
+                    switch (choice) {
+                        case "clean":
+                            Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.clean.question"));
+                            Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.clean.info"));
+                            Script.progress.fly.clean = 1;
+                            break;
+                        case "drink":
+                            Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.drink.question"));
+                            Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.drink.info"));
+                            Script.progress.fly.drink = 1;
+                            break;
+                        case "clean-done":
+                            Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.clean.done.1"));
+                            Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.clean.done.2"));
+                            options.splice(options.findIndex((opt) => opt.id === "clean-done"));
+                            Script.progress.fly.clean = 6;
+                            break;
+                    }
+                    options[options.length - 1] = { id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") };
+                    Script.progress.fly.intro = true;
+                }
+                if (choice === "cancel")
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.cancel"));
+                if (choice === "bye")
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.bye"));
+                return;
+            }
+            // nothing to help with anymore but text wasn't seen yet.
+            if (!Script.progress.fly.done) {
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"));
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.dialog.done.0"));
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.1"));
+                Script.progress.fly.done = true;
+                return;
+            }
+            Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.filler"));
+        }
+    }
+    Script.Fly = Fly;
+})(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
@@ -824,7 +937,7 @@ var Script;
             }
         }
         showText(_delay = 10) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (_delay <= 0) {
                     this.#textProgress = Infinity;
                 }
@@ -906,7 +1019,7 @@ var Script;
         showOptions() {
             this.#continueIcon.classList.add("hidden");
             this.#optionBox.classList.remove("hidden");
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 this.#optionBox.innerHTML = "";
                 for (let option of this.#currentDialog.options) {
                     let button = document.createElement("span");
@@ -940,7 +1053,7 @@ var Script;
             await this.showText(_delay);
             if (_dialog.options)
                 return this.showOptions();
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 this.#currentPromiseResolver = resolve;
             });
         }
@@ -1197,10 +1310,10 @@ var Script;
                             break;
                     }
                 }
-                this.cmpAnimator?.addEventListener("LiquidPour", this.animationDone.bind(this));
+                this.cmpAnimator?.addEventListener("LiquidPour", this.pouringDone.bind(this));
             });
         }
-        animationDone() {
+        pouringDone() {
             if (this.promiseResolver) {
                 this.promiseResolver();
                 this.promiseResolver = null;
@@ -1235,7 +1348,7 @@ var Script;
             }
             else {
                 setTimeout(() => {
-                    this.animationDone();
+                    this.pouringDone();
                     Script.MenuManager.Instance.inputEnable();
                 }, 1000);
             }
@@ -1314,6 +1427,22 @@ var Script;
             if (this.mixTable[result])
                 return this.mixTable[result];
             return "unknown";
+        }
+        static unmix(_cocktail) {
+            let index = this.mixTable.indexOf(_cocktail) + 1;
+            if (index === 0)
+                return [];
+            let pow = getPowersOf2(index);
+            let ingredients = [];
+            pow.forEach(p => ingredients.push(this.mixTable[p - 1]));
+            return ingredients;
+            function getPowersOf2(_num) {
+                let factors = [];
+                let nums = _num.toString(2).split("");
+                nums.forEach((element, index) => { if (Number(element) > 0)
+                    factors.push(Math.pow(2, nums.length - 1 - index)); });
+                return factors;
+            }
         }
         get ingredients() {
             return Array.from(this.currentIngredients);

@@ -295,7 +295,7 @@ canvas.fullscreen {
 }
 #scene-overlay.active {
   display: block;
-  animation: scene 2.0s;
+  animation: scene 2.0s forwards;
 }
 
 @keyframes scene {

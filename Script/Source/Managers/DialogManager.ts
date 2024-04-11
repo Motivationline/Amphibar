@@ -66,7 +66,7 @@ namespace Script {
         }
 
         private showText(_delay: number = 10): Promise<void> {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (_delay <= 0) {
                     this.#textProgress = Infinity;
                 }
@@ -151,7 +151,7 @@ namespace Script {
         private showOptions(): Promise<string> {
             this.#continueIcon.classList.add("hidden");
             this.#optionBox.classList.remove("hidden");
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 this.#optionBox.innerHTML = "";
                 for (let option of this.#currentDialog.options) {
                     let button = document.createElement("span");
@@ -191,7 +191,7 @@ namespace Script {
             await this.showText(_delay);
             if (_dialog.options)
                 return this.showOptions();
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 this.#currentPromiseResolver = resolve;
             });
         }

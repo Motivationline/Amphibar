@@ -16,11 +16,11 @@ namespace Script {
                         if(this.cmpAnimator) break;
                     }
                 }
-                this.cmpAnimator?.addEventListener("LiquidPour", this.animationDone.bind(this))
+                this.cmpAnimator?.addEventListener("LiquidPour", this.pouringDone.bind(this))
             });
         }
 
-        private animationDone() {
+        private pouringDone() {
             if (this.promiseResolver) {
                 this.promiseResolver();
                 this.promiseResolver = null;
@@ -59,7 +59,7 @@ namespace Script {
                 }, this.cmpAnimator.animation.totalTime);
             } else {
                 setTimeout(() => {
-                    this.animationDone();
+                    this.pouringDone();
                     MenuManager.Instance.inputEnable();
                 }, 1000);
             }
