@@ -1,8 +1,8 @@
 {
-    "item.glas.name": "Glas", 
+    "item.glass.name": "Glas", 
     "interact": "Das funktioniert nicht.",
 
-    "bath.valve.interact.glas": "Frisches Wasser fürs Glässchen.",
+    "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
     "bath.valve.interact.rag": "Ganz schön rostig...",
     "bath.valve.interact.0": "Ich brauche gerade kein Wasser.",
     "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
@@ -10,7 +10,7 @@
 
     "bath.bucket.interact.0": "Ein leerer Eimer.",
     "bath.bucket.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
-    "bath.bucket.interact.glas": [
+    "bath.bucket.interact.glass": [
         "Soll ich das Glass in den Eimer reinstellen..?",
         "Dieser Eimer sollte mal befüllt werden, genau so wie der Wurm mit gutherzigkeit überflutet werden sollte."
     ],
@@ -21,7 +21,7 @@
     
     "bath.bucket_full.interact.0": "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.",
     "bath.bucket_full.interact.1": "Wow, ein riesiger Pool zum Planschen! Naja, fast.",
-    "bath.bucket_full.interact.glas": "Ich habe schon etwas in meinem Glas.",
+    "bath.bucket_full.interact.glass": "Ich habe schon etwas in meinem Glas.",
     "bath.bucket_full.interact.rug": [
         "Schade das es kein blubberbläschen Wasser ist...",
         "Splitsch-Splatsch!"
@@ -30,7 +30,7 @@
     "bath.toilet.interact": "Ugh, das sieht nicht gerade einladend aus!",
     "bath.dirt.interact": "Bäh, das ist ja ekelig!",
     "bath.mirror.interact": "Warum hängt der Spiegel so hoch?",
-    "bath.mirror.interact.glas": [
+    "bath.mirror.interact.glass": [
         "Das kommt mir nicht richtig vor...",
         "Ob ich in einem anderen Universum das Glas gegen den Spiegel schmeiße?"
     ],
