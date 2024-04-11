@@ -35,6 +35,8 @@
         "Ob ich in einem anderen Universum das Glas gegen den Spiegel schmeiße?"
     ],
 
+    "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... %s würde das viel besser machen.",
+    "character.fly.drink.too_much": "Mhhh ne da ist irgendwas drin was ich gar nicht mag. %s glaube ich.",
 
     "item.glass.schlammsprudel.name": "Schlammsprudel"
 }

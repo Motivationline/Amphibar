@@ -9,19 +9,19 @@ namespace Script {
         interact(): void {
             let p: number = progress.fly?.clean ?? 0;
             if(p <= 1) {
-                CharacterScript.talkAs("Tadpole", "Ein leerer Eimer.")
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.bucket.interact.0"));
                 return;
             }
             if(p === 2) {
-                CharacterScript.talkAs("Tadpole", "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!");
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.bucket.interact.1"));
                 return;
             }
             if(p === 3) {
-                CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.");
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.bucket_full.interact.0"));
                 return;
             }
             if(p >= 4) {
-                CharacterScript.talkAs("Tadpole", "Wow, ein riesiger Pool zum Planschen! Naja, fast.");
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.bucket_full.interact.1"));
                 return;
             }
         }

@@ -41,9 +41,9 @@ namespace Script {
                 return false;
             }
             this.currentIngredients.push(_ingredient);
-            if(CocktailManager.glass){
-                if(_waitFor){
-                    _waitFor.then(()=>{
+            if (CocktailManager.glass) {
+                if (_waitFor) {
+                    _waitFor.then(() => {
                         CocktailManager.glass.setCocktail(this.currentCocktail);
                     })
                 } else {
@@ -58,6 +58,22 @@ namespace Script {
             let result = Array.from(set).reduce((prev, current) => prev + current, -1);
             if (this.mixTable[result]) return this.mixTable[result];
             return "unknown";
+        }
+
+        public static unmix(_cocktail: string): string[] {
+            let index = this.mixTable.indexOf(_cocktail) + 1;
+            if (index === 0) return [];
+            let pow = getPowersOf2(index);
+            let ingredients: string[] = [];
+            pow.forEach(p => ingredients.push(this.mixTable[p - 1]));
+            return ingredients;
+
+            function getPowersOf2(_num: number): number[] {
+                let factors: number[] = [];
+                let nums = _num.toString(2).split("");
+                nums.forEach((element, index)=> {if(Number(element) > 0) factors.push(Math.pow(2, nums.length - 1 - index))});
+                return factors;
+            }
         }
 
         public get ingredients() {
@@ -76,7 +92,7 @@ namespace Script {
 
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
-            if(CocktailManager.glass){
+            if (CocktailManager.glass) {
                 CocktailManager.glass.setCocktail();
             }
         }
