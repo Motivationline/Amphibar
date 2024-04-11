@@ -5075,36 +5075,6 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[1.625, -0.30799996852874756, -0.1900000274181366]",
-                            "rotation": "[-10.800000190734863, 0, 8]",
-                            "scaling": "[1, 1, 1]"
-                          },
-                          "Component": {
-                            "active": true
-                          }
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.GraphInstance": {
-                        "deserializeFromSource": true,
-                        "idSource": "GraphGLTF|2024-04-11T15:00:12.042Z|10908"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "ƒ.Node": {
-                  "name": "Plates",
-                  "active": true,
-                  "components": {
-                    "ComponentTransform": [
-                      {
-                        "ƒ.ComponentTransform": {
-                          "local": {
                             "translation": "[0.38999974727630615, -0.32099995017051697, -1.3500001430511475]",
                             "rotation": "[0, 40, 0]",
                             "scaling": "[1, 1, 1]"
