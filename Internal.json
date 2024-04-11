@@ -2785,6 +2785,245 @@
       "data": {}
     }
   },
+  "Animation|2024-04-11T13:36:17.776Z|27132": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2024-04-11T13:36:17.776Z|27132",
+      "name": "SchlammsprudelAnimation",
+      "labels": {},
+      "events": {
+        "LiquidPour": 840.2366875759055
+      },
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "components": {
+          "ComponentTransform": {
+            "0": {
+              "mtxLocal": {
+                "translation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0.25000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": 1.2100000000000002,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": 1.210242263657032,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": 0.25000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "y": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": -0.24000000000000005,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": -0.16999999999999993,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 218.93491155146836,
+                        "value": -0.16999956413105902,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 816.6666870117188,
+                        "value": -0.18999650051254727,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1390.532546340407,
+                        "value": -0.15935867600459996,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1698.224854466795,
+                        "value": -0.17497544646783825,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -0.16998525351652854,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": -0.24000000000000005,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "z": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": -0.6,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": -0.8099999999999999,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -0.8100337062479349,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": -0.6,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                },
+                "rotation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 16.678285541945346,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 600,
+                        "value": -50,
+                        "interpolation": 2,
+                        "slopeIn": -0.0595933994818224,
+                        "slopeOut": -0.0595933994818224
+                      },
+                      {
+                        "time": 1009.8156092728758,
+                        "value": -60,
+                        "interpolation": 2,
+                        "slopeIn": 0.03166514055297608,
+                        "slopeOut": 0.03166514055297608
+                      },
+                      {
+                        "time": 1398.206228223982,
+                        "value": 10,
+                        "interpolation": 2,
+                        "slopeIn": 0.05450294555997404,
+                        "slopeOut": 0.05450294555997404
+                      },
+                      {
+                        "time": 1610.055656742767,
+                        "value": -8,
+                        "interpolation": 2,
+                        "slopeIn": 0.04846705099593854,
+                        "slopeOut": 0.04846705099593854
+                      },
+                      {
+                        "time": 1772.4735519405024,
+                        "value": 5,
+                        "interpolation": 2,
+                        "slopeIn": 0.0529022125057369,
+                        "slopeOut": 0.0529022125057369
+                      },
+                      {
+                        "time": 1913.706504286359,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": -0.08280390448086748,
+                        "slopeOut": -0.08280390448086748
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "y": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": -40,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -40,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "Graph|2024-04-03T07:49:20.788Z|88020": {
     "ƒ.Graph": {
       "name": "shelf",
@@ -2882,8 +3121,8 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[1.3100014925003052, -0.18800102174282074, -1.2483853101730347]",
-                                  "rotation": "[-46.00446319580078, 0, 0]",
+                                  "translation": "[0.3100000023841858, 0.017999999225139618, 0]",
+                                  "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
                                 "Component": {
@@ -3344,8 +3583,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0.2499999850988388, -0.24000002443790436, -0.6000000238418579]",
-                            "rotation": "[0, 0, 0]",
+                            "translation": "[1.2100884914398193, -0.1899907886981964, -0.8100122809410095]",
+                            "rotation": "[-60.127376556396484, -40, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -3400,6 +3639,21 @@
                             "active": true
                           },
                           "idMaterial": "Material|2024-02-13T09:21:21.936Z|45616"
+                        }
+                      }
+                    ],
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "Animation|2024-04-11T13:36:17.776Z|27132",
+                          "playmode": "playOnce",
+                          "quantization": "continous",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": false
                         }
                       }
                     ]
