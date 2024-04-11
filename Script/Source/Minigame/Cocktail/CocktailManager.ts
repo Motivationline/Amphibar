@@ -35,14 +35,20 @@ namespace Script {
             return CocktailManager.mix(...this.currentIngredients);
         }
 
-        public addIngredient(_ingredient: CocktailIngredient): boolean {
+        public addIngredient(_ingredient: CocktailIngredient, _waitFor?: Promise<void>): boolean {
             if (this.currentIngredients.length >= 3) {
                 CharacterScript.talkAs("Tadpole", Text.instance.get("cocktail.full"));
                 return false;
             }
             this.currentIngredients.push(_ingredient);
             if(CocktailManager.glass){
-                CocktailManager.glass.setCocktail(this.currentCocktail);
+                if(_waitFor){
+                    _waitFor.then(()=>{
+                        CocktailManager.glass.setCocktail(this.currentCocktail);
+                    })
+                } else {
+                    CocktailManager.glass.setCocktail(this.currentCocktail);
+                }
             }
             return true;
         }

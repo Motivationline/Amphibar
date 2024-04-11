@@ -23,19 +23,23 @@ namespace Script {
                 let key = `${_object.name}.interact`;
                 let text = Interactable.textProvider.get(key);
                 if (text !== key) return text;
-
+                
                 key = `interact`;
                 text = Interactable.textProvider.get(key);
                 if (text !== key) return text;
-
+                
                 return `${_object.name}.interact`;
             }
             let base = _object.node.getAncestor();
-
+            
             let key: string = "";
             if (_item) {
                 key = `${base.name}.${_object.name}.interact.${_item.name}`;
                 let text = Interactable.textProvider.get(key);
+                if (text !== key) return text;
+                let itemname: string = _item.name.split(".")[0];
+                key = `${base.name}.${_object.name}.interact.${itemname}`;
+                text = Interactable.textProvider.get(key);
                 if (text !== key) return text;
             }
             key = `${base.name}.${_object.name}.interact`;
