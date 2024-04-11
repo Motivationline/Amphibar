@@ -2211,9 +2211,235 @@
       "idResource": "Animation|2024-04-11T08:06:38.059Z|87224",
       "name": "GoldnektarAnimation",
       "labels": {},
-      "events": {},
+      "events": {
+        "LiquidPour": 1176.7981102548101
+      },
       "framesPerSecond": 60,
-      "animationStructure": {}
+      "animationStructure": {
+        "components": {
+          "ComponentTransform": {
+            "0": {
+              "mtxLocal": {
+                "translation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0.2000000000000002,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": 1.439792545538518,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": 1.4401267573394536,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": 0.2000806316336563,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "y": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0.07100000000000001,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": -0.099,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 400,
+                        "value": -0.1190009668966016,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1200,
+                        "value": -0.0649901342677492,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1366.6666259765625,
+                        "value": -0.06886134028290955,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1683.3333740234375,
+                        "value": -0.1295969617582866,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -0.09900632515497952,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": 0.07100000000000001,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "z": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": -0.26000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 16.66666603088379,
+                        "value": -0.7999999999999999,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 401.91386344818704,
+                        "value": -0.7980020108431991,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1196.1722126434138,
+                        "value": -0.8354538922953655,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1983.3333740234375,
+                        "value": -0.8321434956721908,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 2000,
+                        "value": -0.26000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                },
+                "rotation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 116.66666412353516,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 766.6666870117188,
+                        "value": -110,
+                        "interpolation": 2,
+                        "slopeIn": -0.16677238073096123,
+                        "slopeOut": -0.16677238073096123
+                      },
+                      {
+                        "time": 1183.3333740234375,
+                        "value": -120,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1216.6666259765625,
+                        "value": -120.25121307373047,
+                        "interpolation": 2,
+                        "slopeIn": -0.0007241712724687667,
+                        "slopeOut": -0.0007241712724687667
+                      },
+                      {
+                        "time": 1650,
+                        "value": 10,
+                        "interpolation": 2,
+                        "slopeIn": 0.0036208565055320025,
+                        "slopeOut": 0.0036208565055320025
+                      },
+                      {
+                        "time": 1783.3333740234375,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "MeshCube|2024-04-11T08:54:48.975Z|72327": {
+    "ƒ.MeshCube": {
+      "idResource": "MeshCube|2024-04-11T08:54:48.975Z|72327",
+      "name": "Liquid",
+      "type": "MeshCube"
+    }
+  },
+  "Material|2024-04-11T08:56:16.264Z|63043": {
+    "ƒ.Material": {
+      "name": "GoldLiquid",
+      "idResource": "Material|2024-04-11T08:56:16.264Z|63043",
+      "shader": "ShaderFlat",
+      "coat": {
+        "ƒ.CoatRemissive": {
+          "color": "[0.8470588235294118, 0.6823529411764706, 0.09411764705882353, 1]",
+          "diffuse": 1,
+          "specular": 0.5,
+          "intensity": 0.7,
+          "metallic": 0
+        }
+      }
     }
   },
   "Graph|2024-04-03T07:49:20.788Z|88020": {
@@ -2628,8 +2854,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0.20000000298023224, 0.07100000232458115, -0.25999999046325684]",
-                            "rotation": "[0, 0, 0]",
+                            "translation": "[1.4400980472564697, -0.12481372058391571, -0.8335531949996948]",
+                            "rotation": "[9.02509880065918, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -2691,7 +2917,7 @@
                       {
                         "ƒ.ComponentAnimator": {
                           "Component": {
-                            "active": false
+                            "active": true
                           },
                           "idAnimation": "Animation|2024-04-11T08:06:38.059Z|87224",
                           "playmode": "loop",
@@ -4204,29 +4430,6 @@
       "idResource": "GraphGLTF|2024-04-10T14:41:00.237Z|04109",
       "type": "GraphGLTF",
       "url": "Assets\\Theke\\Cocktails\\Bachwasser_Cocktail_v01.glb"
-    }
-  },
-  "MeshCube|2024-04-11T08:54:48.975Z|72327": {
-    "ƒ.MeshCube": {
-      "idResource": "MeshCube|2024-04-11T08:54:48.975Z|72327",
-      "name": "Liquid",
-      "type": "MeshCube"
-    }
-  },
-  "Material|2024-04-11T08:56:16.264Z|63043": {
-    "ƒ.Material": {
-      "name": "GoldLiquid",
-      "idResource": "Material|2024-04-11T08:56:16.264Z|63043",
-      "shader": "ShaderFlat",
-      "coat": {
-        "ƒ.CoatRemissive": {
-          "color": "[0.8470588235294118, 0.6823529411764706, 0.09411764705882353, 1]",
-          "diffuse": 1,
-          "specular": 0.5,
-          "intensity": 0.7,
-          "metallic": 0
-        }
-      }
     }
   }
 }
