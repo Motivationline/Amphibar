@@ -2564,7 +2564,7 @@
       "name": "BachwasserAnimation",
       "labels": {},
       "events": {
-        "LiquidPour": 1005.2274825979955
+        "LiquidPour": 916.9632966931445
       },
       "framesPerSecond": 60,
       "animationStructure": {
@@ -2882,8 +2882,8 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[1.3100084066390991, -0.07523271441459656, -1.267246961593628]",
-                                  "rotation": "[-112.85075378417969, 0, 0]",
+                                  "translation": "[1.3100014925003052, -0.18800102174282074, -1.2483853101730347]",
+                                  "rotation": "[-46.00446319580078, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
                                 "Component": {
@@ -3316,7 +3316,7 @@
                             "active": true
                           },
                           "idAnimation": "Animation|2024-04-11T08:06:38.059Z|87224",
-                          "playmode": "loop",
+                          "playmode": "playOnce",
                           "quantization": "continous",
                           "scale": 1,
                           "scaleWithGameTime": true,
