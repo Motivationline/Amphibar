@@ -1093,11 +1093,11 @@
     "ƒ.AnimationSprite": {
       "idResource": "AnimationSprite|2024-04-09T08:34:55.843Z|50615",
       "idTexture": "TextureImage|2024-04-09T08:33:35.558Z|92644",
-      "frames": 14,
-      "wrapAfter": 7,
+      "frames": 39,
+      "wrapAfter": 40,
       "start": "[0, 0]",
-      "size": "[256, 256]",
-      "next": "[256, 0]",
+      "size": "[70, 256]",
+      "next": "[70, 0]",
       "wrap": "[0, 80]",
       "Animation": {
         "idResource": "AnimationSprite|2024-04-09T08:34:55.843Z|50615",
@@ -1173,7 +1173,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 1.0794392523364487,
+                    "aspect": 1.343157894736842,
                     "pivot": {
                       "translation": "[0, 1, 4.900000095367432]",
                       "rotation": "[5, 179, 0]",
@@ -1833,9 +1833,9 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.7441860437393188, 0]",
+                            "translation": "[0.7894737124443054, 0]",
                             "rotation": 0,
-                            "scaling": "[0.12403100728988647, 0.12403100728988647]"
+                            "scaling": "[0.02631578966975212, 1]"
                           },
                           "Component": {
                             "active": true
@@ -1863,9 +1863,80 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-1.5390008687973022, 0.3700000047683716, 0.8999999761581421]",
+                            "translation": "[-1.4090007543563843, 0.5579999089241028, 0.7900000810623169]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[0.1399998962879181, 0.13999995589256287, 0.1399998813867569]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "WaterFall",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSprite|2024-04-09T08:35:46.599Z|62497",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0.22448979318141937, 0]",
+                            "rotation": 0,
+                            "scaling": "[0.020408162847161293, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2024-04-11T09:22:42.439Z|33550"
+                        }
+                      }
+                    ],
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
+                          "playmode": "loop",
+                          "quantization": "discrete",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": true
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[-1.3529998064041138, 0.4739999771118164, 0.9000000953674316]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[0.16999992728233337, 0.3399999141693115, 1]"
                           },
                           "Component": {
                             "active": true
@@ -4137,6 +4208,51 @@
       "idResource": "GraphGLTF|2024-04-10T14:41:00.237Z|04109",
       "type": "GraphGLTF",
       "url": "Assets\\Theke\\Cocktails\\Bachwasser_Cocktail_v01.glb"
+    }
+  },
+  "TextureImage|2024-04-11T09:20:37.988Z|18092": {
+    "ƒ.TextureImage": {
+      "url": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092",
+        "name": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
+        "mipmap": "CRISP",
+        "wrap": "REPEAT"
+      }
+    }
+  },
+  "AnimationSprite|2024-04-11T09:20:53.593Z|44000": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
+      "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092",
+      "frames": 49,
+      "wrapAfter": 55,
+      "start": "[0, 0]",
+      "size": "[179, 256]",
+      "next": "[179, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
+        "name": "WaterFallSprite",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 25,
+        "animationStructure": {}
+      }
+    }
+  },
+  "Material|2024-04-11T09:22:42.439Z|33550": {
+    "ƒ.Material": {
+      "name": "WaterFallTexture",
+      "idResource": "Material|2024-04-11T09:22:42.439Z|33550",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092"
+        }
+      }
     }
   }
 }
