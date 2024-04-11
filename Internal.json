@@ -1133,6 +1133,51 @@
       }
     }
   },
+  "Material|2024-04-11T09:22:42.439Z|33550": {
+    "ƒ.Material": {
+      "name": "WaterFallTexture",
+      "idResource": "Material|2024-04-11T09:22:42.439Z|33550",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092"
+        }
+      }
+    }
+  },
+  "TextureImage|2024-04-11T09:20:37.988Z|18092": {
+    "ƒ.TextureImage": {
+      "url": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092",
+        "name": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
+        "mipmap": "CRISP",
+        "wrap": "REPEAT"
+      }
+    }
+  },
+  "AnimationSprite|2024-04-11T09:20:53.593Z|44000": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
+      "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092",
+      "frames": 49,
+      "wrapAfter": 55,
+      "start": "[0, 0]",
+      "size": "[179, 256]",
+      "next": "[179, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
+        "name": "WaterFallSprite",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 25,
+        "animationStructure": {}
+      }
+    }
+  },
   "Graph|2024-03-01T13:06:50.608Z|29850": {
     "ƒ.Graph": {
       "name": "bath",
@@ -2513,6 +2558,112 @@
       }
     }
   },
+  "Animation|2024-04-11T09:49:27.783Z|35533": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2024-04-11T09:49:27.783Z|35533",
+      "name": "BachwasserAnimation",
+      "labels": {},
+      "events": {},
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "components": {
+          "ComponentTransform": {
+            "0": {
+              "mtxLocal": {
+                "translation": {
+                  "x": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0.31000000000000005,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 30.114030494887214,
+                        "value": 1.3099999999999996,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1999.571624860511,
+                        "value": 0.31000000000000005,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "y": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0.018000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 30.114030494887214,
+                        "value": -0.2579999999999994,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1999.571624860511,
+                        "value": 0.018000000000000006,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  },
+                  "z": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 30.114030494887214,
+                        "value": -1.34,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1999.571624860511,
+                        "value": 0,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "ParticleSystem|2024-04-11T10:01:56.481Z|30244": {
+    "ƒ.ParticleSystem": {
+      "idResource": "ParticleSystem|2024-04-11T10:01:56.481Z|30244",
+      "name": "Fliegen",
+      "data": {}
+    }
+  },
   "Graph|2024-04-03T07:49:20.788Z|88020": {
     "ƒ.Graph": {
       "name": "shelf",
@@ -2610,13 +2761,28 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0.3100000321865082, 0.017999999225139618, 0]",
+                                  "translation": "[0.3100000023841858, 0.017999999225139618, 0]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
+                              }
+                            }
+                          ],
+                          "ComponentAnimator": [
+                            {
+                              "ƒ.ComponentAnimator": {
+                                "Component": {
+                                  "active": true
+                                },
+                                "idAnimation": "Animation|2024-04-11T09:49:27.783Z|35533",
+                                "playmode": "playOnce",
+                                "quantization": "continous",
+                                "scale": 1,
+                                "scaleWithGameTime": true,
+                                "animateInEditor": false
                               }
                             }
                           ]
@@ -2670,7 +2836,7 @@
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[0.21000002324581146, 0.01899999938905239, 0.029999999329447746]",
+                                  "translation": "[0.21000006794929504, 0.01899999938905239, 0.029999999329447746]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1.3000000715255737, 1, 1.3000000715255737]"
                                 },
@@ -2767,6 +2933,44 @@
                       "ƒ.GraphInstance": {
                         "deserializeFromSource": true,
                         "idSource": "GraphGLTF|2024-04-05T12:54:55.452Z|66290"
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Fliegen Particles",
+                        "active": true,
+                        "components": {
+                          "ComponentParticleSystem": [
+                            {
+                              "ƒ.ComponentParticleSystem": {
+                                "Component": {
+                                  "active": true
+                                },
+                                "idParticleSystem": "ParticleSystem|2024-04-11T10:01:56.481Z|30244",
+                                "depthMask": true,
+                                "blendMode": 2,
+                                "playMode": 0,
+                                "duration": 1000,
+                                "size": 10
+                              }
+                            }
+                          ],
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[0, 0.20000001788139343, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": []
                       }
                     }
                   ]
@@ -2925,8 +3129,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[1.4400980472564697, -0.12481372058391571, -0.8335531949996948]",
-                            "rotation": "[9.02509880065918, 0, 0]",
+                            "translation": "[0.20000000298023224, 0.07100000232458115, -0.25999999046325684]",
+                            "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -3543,7 +3747,7 @@
                     "direction": "diagonal",
                     "near": 0.6000000000000001,
                     "far": 2000,
-                    "aspect": 1.8950276243093922,
+                    "aspect": 1.5819521178637201,
                     "pivot": {
                       "translation": "[2.500000476837158, -0.10000000149011612, -0.800000011920929]",
                       "rotation": "[-1, -78.70000457763672, 0]",
@@ -4501,51 +4705,6 @@
       "idResource": "GraphGLTF|2024-04-10T14:41:00.237Z|04109",
       "type": "GraphGLTF",
       "url": "Assets\\Theke\\Cocktails\\Bachwasser_Cocktail_v01.glb"
-    }
-  },
-  "TextureImage|2024-04-11T09:20:37.988Z|18092": {
-    "ƒ.TextureImage": {
-      "url": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
-      "type": "TextureImage",
-      "Texture": {
-        "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092",
-        "name": "Assets\\Spritesheets\\waterfall_spritesheet_v01.png",
-        "mipmap": "CRISP",
-        "wrap": "REPEAT"
-      }
-    }
-  },
-  "AnimationSprite|2024-04-11T09:20:53.593Z|44000": {
-    "ƒ.AnimationSprite": {
-      "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
-      "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092",
-      "frames": 49,
-      "wrapAfter": 55,
-      "start": "[0, 0]",
-      "size": "[179, 256]",
-      "next": "[179, 0]",
-      "wrap": "[0, 80]",
-      "Animation": {
-        "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000",
-        "name": "WaterFallSprite",
-        "labels": {},
-        "events": {},
-        "framesPerSecond": 25,
-        "animationStructure": {}
-      }
-    }
-  },
-  "Material|2024-04-11T09:22:42.439Z|33550": {
-    "ƒ.Material": {
-      "name": "WaterFallTexture",
-      "idResource": "Material|2024-04-11T09:22:42.439Z|33550",
-      "shader": "ShaderLitTextured",
-      "coat": {
-        "ƒ.CoatTextured": {
-          "color": "[1, 1, 1, 1]",
-          "idTexture": "TextureImage|2024-04-11T09:20:37.988Z|18092"
-        }
-      }
     }
   }
 }

@@ -333,6 +333,17 @@
         "entries": [
           {
             "idResource": "Animation|2024-04-11T08:06:38.059Z|87224"
+          },
+          {
+            "idResource": "Animation|2024-04-11T09:49:27.783Z|35533"
+          }
+        ]
+      },
+      {
+        "name": "particles",
+        "entries": [
+          {
+            "idResource": "ParticleSystem|2024-04-11T10:01:56.481Z|30244"
           }
         ]
       }
