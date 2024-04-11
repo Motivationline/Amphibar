@@ -294,6 +294,9 @@
             "idResource": "TextureImage|2024-04-09T08:33:35.558Z|92644"
           },
           {
+            "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092"
+          },
+          {
             "idResource": "Material|2024-04-09T08:34:12.967Z|24076"
           },
           {
@@ -304,6 +307,12 @@
           },
           {
             "idResource": "Material|2024-04-09T08:51:19.169Z|58429"
+          },
+          {
+            "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000"
+          },
+          {
+            "idResource": "Material|2024-04-11T09:22:42.439Z|33550"
           }
         ]
       },
