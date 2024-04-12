@@ -3217,7 +3217,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.21052631735801697, 0]",
+                            "translation": "[0.5526315569877625, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -3288,7 +3288,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.5306122303009033, 0]",
+                            "translation": "[0.8979591727256775, 0]",
                             "rotation": 0,
                             "scaling": "[0.020408162847161293, 1]"
                           },
@@ -5391,7 +5391,8 @@
                     "CocktailGlass": [
                       {
                         "Script.CocktailGlass": {
-                          "active": true
+                          "active": true,
+                          "name": "Cocktailglas"
                         }
                       }
                     ]
