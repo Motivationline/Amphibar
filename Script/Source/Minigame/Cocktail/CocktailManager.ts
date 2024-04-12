@@ -84,12 +84,13 @@ namespace Script {
             return Array.from(this.mixTable);
         }
 
-        public resetCocktail() {
+        public resetCocktail(_bar: boolean, _inventory: boolean) {
             let glassInInventory = Inventory.Instance.hasItemThatStartsWith("glass");
-            if (glassInInventory) {
+            if (glassInInventory && _inventory) {
                 Inventory.Instance.removeItem(glassInInventory);
             }
 
+            if(!_bar) return;
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
             if (CocktailManager.glass) {
@@ -99,7 +100,7 @@ namespace Script {
 
         public takeCocktail() {
             let current = this.currentCocktail;
-            this.resetCocktail();
+            this.resetCocktail(true, true);
             Inventory.Instance.addItem(new Interactable(`glass.${current}`, `Assets/UI/Inventar/Cocktail/${current}.png`));
         }
     }

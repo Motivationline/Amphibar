@@ -177,6 +177,7 @@ declare namespace Script {
 declare namespace Script {
     class Fly extends Interactable {
         #private;
+        private randomDrinkOrLoad;
         getInteractionType(): INTERACTION_TYPE;
         tryUseWith(_interactable: Interactable): void;
         interact(): Promise<void>;
@@ -312,14 +313,14 @@ declare namespace Script {
         static unmix(_cocktail: string): string[];
         get ingredients(): CocktailIngredient[];
         static get allCocktails(): string[];
-        resetCocktail(): void;
+        resetCocktail(_bar: boolean, _inventory: boolean): void;
         takeCocktail(): void;
     }
 }
 declare namespace Script {
     class CocktailTrash extends Interactable {
         getInteractionType(): INTERACTION_TYPE;
-        interact(_fromInventory?: boolean): Promise<void>;
+        interact(_event?: Event, _fromInventory?: boolean): Promise<void>;
         tryUseWith(_interactable: Interactable): void;
     }
 }

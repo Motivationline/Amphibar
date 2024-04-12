@@ -1,7 +1,21 @@
 namespace Script {
     export class Fly extends Interactable {
-        #wantedIngredients: string[] = ["goldnektar","bachwasser"];
+        #wantedIngredients: string[] = this.randomDrinkOrLoad();
 
+        private randomDrinkOrLoad(): string[] {
+            let result: string[] = JSON.parse(localStorage.getItem("fly_wants") ?? "[]");
+            if (result.length >= 2) return result;
+
+            let amtIngredients: number = Math.floor(Math.random() * 2) + 2;
+            let allIngredients: string[] = ["bachwasser", "goldnektar", "schlammsprudel", "seerosenextrakt"];
+            let ingredients: string[] = [];
+            while (amtIngredients > 0) {
+                ingredients.push(...allIngredients.splice(Math.floor(Math.random() * allIngredients.length), 1));
+                amtIngredients--;
+            }
+            localStorage.setItem("fly_wants", JSON.stringify(ingredients));
+            return ingredients;
+        }
         getInteractionType(): INTERACTION_TYPE {
             return INTERACTION_TYPE.TALK_TO;
         }
@@ -11,26 +25,26 @@ namespace Script {
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
                 return;
             }
-            if(progress.fly.drink == 2){
+            if (progress.fly.drink == 2) {
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.drink.done"));
                 return;
             }
-            
+
             Inventory.Instance.removeItem(_interactable);
             let cocktail = _interactable.name.split(".")[1];
             let ingredients = new Set(CocktailManager.unmix(cocktail));
             let wanted = new Set(this.#wantedIngredients);
-            for(let ingredient of wanted){
-                if(ingredients.has(ingredient)){
+            for (let ingredient of wanted) {
+                if (ingredients.has(ingredient)) {
                     ingredients.delete(ingredient);
                     wanted.delete(ingredient);
                 }
             }
-            if(wanted.size > 0){
+            if (wanted.size > 0) {
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_little", Interactable.textProvider.get(`item.glass.${[...wanted][0]}.name`)));
                 return;
             }
-            if(ingredients.size > 0){
+            if (ingredients.size > 0) {
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_much", Interactable.textProvider.get(`item.glass.${[...ingredients][0]}.name`)));
                 return;
             }
@@ -124,6 +138,8 @@ namespace Script {
                 CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.dialog.done.0"));
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.1"));
                 progress.fly.done = true;
+                progress.frog.music = true;
+                // TODO: play music animation
                 return;
             }
             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.filler"));

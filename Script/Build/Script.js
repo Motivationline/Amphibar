@@ -766,7 +766,21 @@ var Script;
 var Script;
 (function (Script) {
     class Fly extends Script.Interactable {
-        #wantedIngredients = ["goldnektar", "bachwasser"];
+        #wantedIngredients = this.randomDrinkOrLoad();
+        randomDrinkOrLoad() {
+            let result = JSON.parse(localStorage.getItem("fly_wants") ?? "[]");
+            if (result.length >= 2)
+                return result;
+            let amtIngredients = Math.floor(Math.random() * 2) + 2;
+            let allIngredients = ["bachwasser", "goldnektar", "schlammsprudel", "seerosenextrakt"];
+            let ingredients = [];
+            while (amtIngredients > 0) {
+                ingredients.push(...allIngredients.splice(Math.floor(Math.random() * allIngredients.length), 1));
+                amtIngredients--;
+            }
+            localStorage.setItem("fly_wants", JSON.stringify(ingredients));
+            return ingredients;
+        }
         getInteractionType() {
             return Script.INTERACTION_TYPE.TALK_TO;
         }
@@ -882,6 +896,8 @@ var Script;
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.dialog.done.0"));
                 Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.1"));
                 Script.progress.fly.done = true;
+                Script.progress.frog.music = true;
+                // TODO: play music animation
                 return;
             }
             Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.filler"));
@@ -1563,11 +1579,13 @@ var Script;
         static get allCocktails() {
             return Array.from(this.mixTable);
         }
-        resetCocktail() {
+        resetCocktail(_bar, _inventory) {
             let glassInInventory = Script.Inventory.Instance.hasItemThatStartsWith("glass");
-            if (glassInInventory) {
+            if (glassInInventory && _inventory) {
                 Script.Inventory.Instance.removeItem(glassInInventory);
             }
+            if (!_bar)
+                return;
             this.currentIngredients.length = 0;
             // TODO update visuals of glass
             if (CocktailManager.glass) {
@@ -1576,7 +1594,7 @@ var Script;
         }
         takeCocktail() {
             let current = this.currentCocktail;
-            this.resetCocktail();
+            this.resetCocktail(true, true);
             Script.Inventory.Instance.addItem(new Script.Interactable(`glass.${current}`, `Assets/UI/Inventar/Cocktail/${current}.png`));
         }
     }
@@ -1588,7 +1606,7 @@ var Script;
         getInteractionType() {
             return Script.INTERACTION_TYPE.USE;
         }
-        async interact(_fromInventory = false) {
+        async interact(_event, _fromInventory = false) {
             if (Script.CocktailManager.Instance.ingredients.length === 0 && !_fromInventory) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktail.trash.info"));
                 return;
@@ -1599,11 +1617,11 @@ var Script;
             ]);
             if (result !== "confirm")
                 return;
-            Script.CocktailManager.Instance.resetCocktail();
+            Script.CocktailManager.Instance.resetCocktail(!_fromInventory, _fromInventory);
         }
         tryUseWith(_interactable) {
             if (_interactable.name.startsWith("glass"))
-                this.interact(true);
+                this.interact(null, true);
         }
     }
     Script.CocktailTrash = CocktailTrash;
