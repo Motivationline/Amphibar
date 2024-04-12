@@ -661,7 +661,7 @@
               {
                 "ƒ.Node": {
                   "name": "Unterschrank",
-                  "active": true,
+                  "active": false,
                   "components": {
                     "ComponentTransform": [
                       {
@@ -1075,7 +1075,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[1.899999976158142, 2, -3.700000286102295]",
+                            "translation": "[0.5999995470046997, 1.9999998807907104, 1.2000001668930054]",
                             "rotation": "[0, -60, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -1121,6 +1121,126 @@
                             }
                           }
                         ]
+                      }
+                    },
+                    {
+                      "ƒ.Node": {
+                        "name": "Plants1",
+                        "active": true,
+                        "components": {
+                          "ComponentTransform": [
+                            {
+                              "ƒ.ComponentTransform": {
+                                "local": {
+                                  "translation": "[1.899999976158142, 2, -3.700000286102295]",
+                                  "rotation": "[0, -60, 0]",
+                                  "scaling": "[1, 1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ]
+                        },
+                        "children": [
+                          {
+                            "ƒ.GraphInstance": {
+                              "deserializeFromSource": true,
+                              "idSource": "GraphGLTF|2024-04-11T15:29:33.580Z|70024"
+                            }
+                          },
+                          {
+                            "ƒ.Node": {
+                              "name": "Plants1",
+                              "active": true,
+                              "components": {
+                                "ComponentTransform": [
+                                  {
+                                    "ƒ.ComponentTransform": {
+                                      "local": {
+                                        "translation": "[-0.00699999975040555, -0.30000030994415283, -0.017999999225139618]",
+                                        "rotation": "[0, -140, 0]",
+                                        "scaling": "[1, 1, 1]"
+                                      },
+                                      "Component": {
+                                        "active": true
+                                      }
+                                    }
+                                  }
+                                ]
+                              },
+                              "children": [
+                                {
+                                  "ƒ.GraphInstance": {
+                                    "deserializeFromSource": true,
+                                    "idSource": "GraphGLTF|2024-04-11T15:29:33.580Z|70024"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "DoorBath",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[-3.2199997901916504, 0.6700000762939453, -2.2699997425079346]",
+                            "rotation": "[0, -5, 0]",
+                            "scaling": "[-1, 1, -1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-03-13T14:33:05.788Z|69655"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Grammophon",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[1.5000001192092896, 0.23000001907348633, -1.3400002717971802]",
+                            "rotation": "[0, 171, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-11T14:54:11.209Z|61497"
                       }
                     }
                   ]
@@ -1188,7 +1308,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 1.8688172043010753,
+                    "aspect": 2.3489583333333335,
                     "pivot": {
                       "translation": "[-0.10000000149011612, 1.4000000953674316, 2.9000000953674316]",
                       "rotation": "[9, 180, 0]",
