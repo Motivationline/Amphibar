@@ -1,5 +1,6 @@
 {
   "item.Cocktailglas.name": "Cocktailglas",
+  "item.glass.name": "Cocktailglas",
   "interact": "Das funktioniert nicht.",
 
   "item.Wasserhahn.name": "Wasserhahn",
@@ -37,7 +38,7 @@
     "Das klebt ja richtig."
   ],
 
-  "item.Spiegel.name": "",
+  "item.Spiegel.name": "Spiegel",
   "bath.Spiegel.interact": [
     "Warum hängt der Spiegel so hoch?",
     "Och menno, ich kann ja gar nichts sehen."
@@ -96,7 +97,8 @@
 
   "item.Mülleimer.name": "Mülleimer",
 
-  "item.Badezimmer.name": "Badezimmer",
+  "item.Bar.name": "Bartür",
+  "item.Badezimmer.name": "Badezimmertür",
   "item.Getränkebar.name": "Getränkebar",
   "item.Zurück.name": "Zurück",
 
@@ -116,5 +118,6 @@
     "Schütte ich den Mix lieber weg?"
   ],
   "cocktail.trash.option.confirm": "Wegschütten",
-  "cocktail.trash.option.cancel": "Abbrechen"
+  "cocktail.trash.option.cancel": "Abbrechen",
+  "cocktail.trash.info": "Ein Mülleimer! Da kann ich meine Sachen wegwerfen wenn ich etwas falsch gemacht habe!"
 }
