@@ -267,6 +267,23 @@
                 "idResource": "AnimationGLTF|2024-04-12T11:52:47.734Z|92517"
               }
             ]
+          },
+          {
+            "name": "fly",
+            "entries": [
+              {
+                "idResource": "GraphGLTF|2024-04-12T12:14:43.423Z|92087"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T12:14:43.669Z|12812"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T12:14:43.842Z|12798"
+              }
+            ]
           }
         ]
       },

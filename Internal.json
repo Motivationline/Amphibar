@@ -2298,46 +2298,6 @@
               }
             ]
           }
-        },
-        {
-          "ƒ.Node": {
-            "name": "barkeeper",
-            "active": true,
-            "components": {},
-            "children": [
-              {
-                "ƒ.Node": {
-                  "name": "Frog",
-                  "active": true,
-                  "components": {
-                    "ComponentAnimator": [
-                      {
-                        "ƒ.ComponentAnimator": {
-                          "Component": {
-                            "active": true
-                          },
-                          "idAnimation": "AnimationGLTF|2024-04-12T11:52:47.433Z|69403",
-                          "playmode": "loop",
-                          "quantization": "continous",
-                          "scale": 1,
-                          "scaleWithGameTime": true,
-                          "animateInEditor": true
-                        }
-                      }
-                    ]
-                  },
-                  "children": [
-                    {
-                      "ƒ.GraphInstance": {
-                        "deserializeFromSource": true,
-                        "idSource": "GraphGLTF|2024-04-12T11:52:47.407Z|99836"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
         }
       ],
       "idResource": "Graph|2024-02-08T13:52:27.562Z|67214",
@@ -5143,6 +5103,7 @@
                       {
                         "Script.CocktailInteractableIngredient": {
                           "active": true,
+                          "name": "Goldnektar",
                           "ingredient": 2
                         }
                       }
@@ -5196,6 +5157,7 @@
                       {
                         "Script.CocktailInteractableIngredient": {
                           "active": true,
+                          "name": "Schlammsprudel",
                           "ingredient": 4
                         }
                       }
@@ -7027,6 +6989,40 @@
       "idResource": "AnimationGLTF|2024-04-12T11:52:47.734Z|92517",
       "name": "WiggleTEst",
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-12T12:14:43.423Z|92087": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-12T12:14:43.423Z|92087",
+      "type": "GraphGLTF",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb"
+    }
+  },
+  "AnimationGLTF|2024-04-12T12:14:43.423Z|34969": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+      "name": "Handle",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "AnimationGLTF|2024-04-12T12:14:43.669Z|12812": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T12:14:43.669Z|12812",
+      "name": "rootAction",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "AnimationGLTF|2024-04-12T12:14:43.842Z|12798": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T12:14:43.842Z|12798",
+      "name": "WingFlap",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
       "framesPerSecond": 60
     }
   }
