@@ -2,19 +2,20 @@
   "item.glass.name": "Glas",
   "interact": "Das funktioniert nicht.",
 
-  "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
-  "bath.valve.interact.rag": "Ganz schön rostig...",
-  "bath.valve.interact.0": "Ich brauche gerade kein Wasser.",
-  "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
-  "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
+  "item.Wasserhahn.name": "Wasserhahn",
+  "bath.Wasserhahn.interact.glass": "Frisches Wasser fürs Glässchen.",
+  "bath.Wasserhahn.interact.rag": "Ganz schön rostig...",
+  "bath.Wasserhahn.interact.0": "Ich brauche gerade kein Wasser.",
+  "bath.Wasserhahn.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
+  "bath.Wasserhahn.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
 
-  "bath.bucket.interact.0": "Ein leerer Eimer.",
-  "bath.bucket.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
-  "bath.bucket.interact.glass": [
+  "bath.Eimer.interact.0": "Ein leerer Eimer.",
+  "bath.Eimer.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
+  "bath.Eimer.interact.glass": [
     "Soll ich das Glass in den Eimer reinstellen..?",
     "Dieser Eimer sollte mal befüllt werden, genau so wie der Wurm mit gutherzigkeit überflutet werden sollte."
   ],
-  "bath.bucket.interact.rag": [
+  "bath.Eimer.interact.rag": [
     "Vielleicht wäre Wasser eine gute Idee, um den Lappen zu befeuchten..",
     "Sieht so leer aus wie die Seele des Wurmes."
   ],
@@ -27,10 +28,10 @@
     "Splitsch-Splatsch!"
   ],
 
-  "bath.toilet.interact": "Ugh, das sieht nicht gerade einladend aus!",
-  "bath.dirt.interact": "Bäh, das ist ja ekelig!",
-  "bath.mirror.interact": "Warum hängt der Spiegel so hoch?",
-  "bath.mirror.interact.glass": [
+  "bath.Toilette.interact": "Ugh, das sieht nicht gerade einladend aus!",
+  "bath.Schleim.interact": "Bäh, das ist ja ekelig!",
+  "bath.Spiegel.interact": "Warum hängt der Spiegel so hoch?",
+  "bath.Spiegel.interact.glass": [
     "Das kommt mir nicht richtig vor...",
     "Ob ich in einem anderen Universum das Glas gegen den Spiegel schmeiße?"
   ],
@@ -47,12 +48,35 @@
   "item.glass.nektarquelle.name": "Nektarquelle",
   "item.glass.seerosenextrakt.name": "Seerosenextrakt",
   "item.glass.bachblütenzauber.name": "Bachblütenzauber",
+  "item.glass.bachblütennektar.name": "Bachblütennektar",
   "item.glass.sumpfrosensprudel.name": "Sumpfrosensprudel",
   "item.glass.sumpfrosenschorle.name": "Sumpfrosenschorle",
   "item.glass.goldrosenmatsch.name": "Goldrosenmatsch",
+  "item.glass.goldrosenelixir.name": "Goldrosenelixir",
 
-  "shelf.cocktail.glass.empty": "Das Glas ist noch leer...",
-  "shelf.cocktail.glass.take": "Soll ich das Glas nehmen?",
-  "shelf.cocktail.glass.take.confirm": "Glas nehmen",
-  "shelf.cocktail.glass.take.cancel": "Abbrechen"
+  "item.Bachwasser.name": "Bachwasser",
+  "item.Goldnektar.name": "Goldnektar",
+  "item.Goldwasser.name": "Goldwasser",
+  "item.Schlammsprudel.name": "Schlammsprudel",
+  "item.Schlammfluss.name": "Schlammfluss",
+  "item.Matschsaft.name": "Matschsaft",
+  "item.Nektarquelle.name": "Nektarquelle",
+  "item.Seerosenextrakt.name": "Seerosenextrakt",
+  "item.Bachblütenzauber.name": "Bachblütenzauber",
+  "item.Bachblütennektar.name": "Bachblütennektar",
+  "item.Sumpfrosensprudel.name": "Sumpfrosensprudel",
+  "item.Sumpfrosenschorle.name": "Sumpfrosenschorle",
+  "item.Goldrosenmatsch.name": "Goldrosenmatsch",
+  "item.Goldrosenelixir.name": "Goldrosenelixir",
+
+  "item.Mülleimer.name": "Mülleimer",
+
+  "item.Badezimmer.name": "Badezimmer",
+  "item.Getränkebar.name": "Getränkebar",
+  "item.Zurück.name": "Zurück",
+
+  "cocktail.glass.empty": "Das Glas ist noch leer...",
+  "cocktail.glass.take": "Soll ich das Glas nehmen?",
+  "cocktail.glass.take.confirm": "Glas nehmen",
+  "cocktail.glass.take.cancel": "Abbrechen"
 }
