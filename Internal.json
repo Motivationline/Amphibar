@@ -320,6 +320,7 @@
                       {
                         "Script.Door": {
                           "active": true,
+                          "name": "Badezimmer",
                           "target": "bath"
                         }
                       }
@@ -392,6 +393,7 @@
                       {
                         "Script.Door": {
                           "active": true,
+                          "name": "Getränkebar",
                           "target": "shelf"
                         }
                       }
@@ -2612,7 +2614,7 @@
                       {
                         "Script.Door": {
                           "active": true,
-                          "name": "door",
+                          "name": "Bar",
                           "target": "main"
                         }
                       }
@@ -2732,7 +2734,7 @@
                       {
                         "Script.Interactable": {
                           "active": true,
-                          "name": "mirror"
+                          "name": "Spiegel"
                         }
                       }
                     ]
@@ -2778,7 +2780,7 @@
                       {
                         "Script.BathroomValve": {
                           "active": true,
-                          "name": "valve"
+                          "name": "Wasserhahn"
                         }
                       }
                     ]
@@ -2857,7 +2859,7 @@
                       {
                         "Script.BathroomBucket": {
                           "active": true,
-                          "name": "bucket",
+                          "name": "Eimer",
                           "text": "..."
                         }
                       }
@@ -2937,7 +2939,7 @@
                       {
                         "Script.Interactable": {
                           "active": true,
-                          "name": "dirt"
+                          "name": "Schleim"
                         }
                       }
                     ]
@@ -3016,7 +3018,7 @@
                       {
                         "Script.Interactable": {
                           "active": true,
-                          "name": "toilet"
+                          "name": "Toilette"
                         }
                       }
                     ]
@@ -3095,7 +3097,7 @@
                       {
                         "Script.Interactable": {
                           "active": true,
-                          "name": "toilet"
+                          "name": "Toilette"
                         }
                       }
                     ]
@@ -3215,7 +3217,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8947368264198303, 0]",
+                            "translation": "[0.21052631735801697, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -3286,7 +3288,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.3877550959587097, 0]",
+                            "translation": "[0.5306122303009033, 0]",
                             "rotation": 0,
                             "scaling": "[0.020408162847161293, 1]"
                           },
@@ -4594,6 +4596,7 @@
                       {
                         "Script.CocktailInteractableIngredient": {
                           "active": true,
+                          "name": "Bachwasser",
                           "ingredient": 1
                         }
                       }
@@ -4812,7 +4815,8 @@
                     "CocktailTrash": [
                       {
                         "Script.CocktailTrash": {
-                          "active": true
+                          "active": true,
+                          "name": "Mülleimer"
                         }
                       }
                     ]
@@ -5260,6 +5264,7 @@
                       {
                         "Script.CocktailInteractableIngredient": {
                           "active": true,
+                          "name": "Seerosenextrakt",
                           "ingredient": 8
                         }
                       }
@@ -5410,6 +5415,7 @@
                       {
                         "Script.Door": {
                           "active": true,
+                          "name": "Zurück",
                           "target": "main"
                         }
                       }
