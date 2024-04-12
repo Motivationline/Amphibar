@@ -7,6 +7,7 @@ namespace Script {
         private optionsScreen: HTMLElement;
         private gameOverlay: HTMLElement;
         private disableOverlay: HTMLElement;
+        private itemHover: HTMLElement;
         private loadingScreenMinimumVisibleTimeMS: number = 4000;
 
         constructor() {
@@ -29,6 +30,7 @@ namespace Script {
             this.mainMenuScreen = document.getElementById("main-menu-screen");
             this.optionsScreen = document.getElementById("options-screen");
             this.disableOverlay = document.getElementById("disable-overlay");
+            this.itemHover = document.getElementById("hover-item-name");
 
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
@@ -111,12 +113,26 @@ namespace Script {
             }
         }
 
-        public inputDisable(){
+        public inputDisable() {
             this.disableOverlay.classList.remove("hidden");
+            this.hoverEnd();
         }
-        public inputEnable(){
+        public inputEnable() {
             this.disableOverlay.classList.add("hidden");
         }
+
+        //#region Item hover
+        public hoverStart(_event: PointerEvent, _interactable: Interactable) {
+            this.itemHover.innerText = Interactable.textProvider.get(`item.${_interactable.name}.name`);
+            this.itemHover.style.top = _event.clientY + "px";
+            this.itemHover.style.left = _event.clientX + "px";
+            this.itemHover.classList.remove("hidden");
+        }
+
+        public hoverEnd() {
+            this.itemHover.classList.add("hidden");
+        }
+        //#endregion
 
     }
 }

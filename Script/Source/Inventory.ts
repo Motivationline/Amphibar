@@ -3,6 +3,7 @@ namespace Script {
         public static Instance: Inventory = new Inventory();
         private divInventory: HTMLElement;
         private divWrapper: HTMLElement;
+        private preview: HTMLElement;
         private itemsToHTMLMap: Map<Interactable, HTMLElement> = new Map();
 
         constructor() {
@@ -13,6 +14,7 @@ namespace Script {
                 this.divInventory = document.getElementById("inventory");
                 this.divWrapper = document.getElementById("inventory-wrapper");
                 this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+                this.preview = document.getElementById("inventory-preview");
             });
         }
 
@@ -22,7 +24,7 @@ namespace Script {
             this.divWrapper.classList.toggle("visible");
         }
 
-        private updateStorage(){
+        private updateStorage() {
             let inv = [];
             for (let item of this.itemsToHTMLMap.keys()) {
                 inv.push({ name: item.name, image: item.image });
@@ -36,9 +38,14 @@ namespace Script {
                 this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
                 this.updateStorage();
+
+                this.preview.innerHTML = "";
+                this.preview.appendChild(_item.toHTMLElement());
+                this.preview.classList.add("show");
+                setTimeout(() => { this.preview.classList.remove("show") }, 1200);
             }
         }
-        
+
         removeItem(_item: Interactable) {
             let element = this.itemsToHTMLMap.get(_item);
             if (element) {

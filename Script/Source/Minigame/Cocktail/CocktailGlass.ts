@@ -48,12 +48,14 @@ namespace Script {
             if (!_name || !this.cocktails.has(_name)) {
                 this.emptyGlass.activate(true);
                 this.currentCocktail = null;
+                this.name = "glass";
                 return;
             }
             this.emptyGlass.activate(false);
             let newCocktail = this.cocktails.get(_name);
             this.node.addChild(newCocktail);
             this.currentCocktail = newCocktail;
+            this.name = _name;
         }
     }
 }

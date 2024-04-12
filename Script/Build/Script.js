@@ -258,6 +258,8 @@ var Script;
             div.addEventListener("dragstart", addData.bind(this));
             div.addEventListener("drop", tryUseWithEvent.bind(this));
             div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
+            div.addEventListener("pointermove", _ev => { Script.MenuManager.Instance.hoverStart(_ev, this); });
+            div.addEventListener("pointerleave", _ev => { Script.MenuManager.Instance.hoverEnd(); });
             return div;
             function addData(_event) {
                 _event.dataTransfer.setData("interactable", this.name);
@@ -292,6 +294,7 @@ var Script;
         static Instance = new Inventory();
         divInventory;
         divWrapper;
+        preview;
         itemsToHTMLMap = new Map();
         constructor() {
             if (Inventory.Instance)
@@ -301,6 +304,7 @@ var Script;
                 this.divInventory = document.getElementById("inventory");
                 this.divWrapper = document.getElementById("inventory-wrapper");
                 this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+                this.preview = document.getElementById("inventory-preview");
             });
         }
         toggleInventory(_event) {
@@ -322,6 +326,10 @@ var Script;
                 this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
                 this.updateStorage();
+                this.preview.innerHTML = "";
+                this.preview.appendChild(_item.toHTMLElement());
+                this.preview.classList.add("show");
+                setTimeout(() => { this.preview.classList.remove("show"); }, 1200);
             }
         }
         removeItem(_item) {
@@ -425,8 +433,11 @@ var Script;
         hoveredInteractable = null;
         Script.mainViewport.dispatchPointerEvent(_event);
         Script.mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
-        if (!hoveredInteractable)
+        if (!hoveredInteractable) {
+            Script.MenuManager.Instance.hoverEnd();
             return;
+        }
+        ;
         let type = hoveredInteractable.getInteractionType();
         switch (type) {
             case Script.INTERACTION_TYPE.LOOK_AT:
@@ -491,6 +502,7 @@ var Script;
         if (!interactable)
             return;
         hoveredInteractable = interactable;
+        Script.MenuManager.Instance.hoverStart(_event, interactable);
     }
     Script.foundNode = foundNode;
     //#region Drag & Drop
@@ -1212,6 +1224,7 @@ var Script;
         optionsScreen;
         gameOverlay;
         disableOverlay;
+        itemHover;
         loadingScreenMinimumVisibleTimeMS = 4000;
         constructor() {
             if (MenuManager.Instance)
@@ -1231,6 +1244,7 @@ var Script;
             this.mainMenuScreen = document.getElementById("main-menu-screen");
             this.optionsScreen = document.getElementById("options-screen");
             this.disableOverlay = document.getElementById("disable-overlay");
+            this.itemHover = document.getElementById("hover-item-name");
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
@@ -1300,9 +1314,20 @@ var Script;
         }
         inputDisable() {
             this.disableOverlay.classList.remove("hidden");
+            this.hoverEnd();
         }
         inputEnable() {
             this.disableOverlay.classList.add("hidden");
+        }
+        //#region Item hover
+        hoverStart(_event, _interactable) {
+            this.itemHover.innerText = Script.Interactable.textProvider.get(`item.${_interactable.name}.name`);
+            this.itemHover.style.top = _event.clientY + "px";
+            this.itemHover.style.left = _event.clientX + "px";
+            this.itemHover.classList.remove("hidden");
+        }
+        hoverEnd() {
+            this.itemHover.classList.add("hidden");
         }
     }
     Script.MenuManager = MenuManager;
@@ -1410,12 +1435,14 @@ var Script;
             if (!_name || !this.cocktails.has(_name)) {
                 this.emptyGlass.activate(true);
                 this.currentCocktail = null;
+                this.name = "glass";
                 return;
             }
             this.emptyGlass.activate(false);
             let newCocktail = this.cocktails.get(_name);
             this.node.addChild(newCocktail);
             this.currentCocktail = newCocktail;
+            this.name = _name;
         }
     }
     Script.CocktailGlass = CocktailGlass;

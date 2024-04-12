@@ -71,6 +71,7 @@ declare namespace Script {
         static Instance: Inventory;
         private divInventory;
         private divWrapper;
+        private preview;
         private itemsToHTMLMap;
         constructor();
         private toggleInventory;
@@ -242,6 +243,7 @@ declare namespace Script {
         private optionsScreen;
         private gameOverlay;
         private disableOverlay;
+        private itemHover;
         private loadingScreenMinimumVisibleTimeMS;
         constructor();
         private setupListeners;
@@ -258,6 +260,8 @@ declare namespace Script {
         private gameLoaded;
         inputDisable(): void;
         inputEnable(): void;
+        hoverStart(_event: PointerEvent, _interactable: Interactable): void;
+        hoverEnd(): void;
     }
 }
 declare namespace Script {

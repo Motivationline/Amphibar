@@ -124,6 +124,24 @@ canvas.fullscreen {
   display: none;
 }
 
+#inventory-preview {
+  position: absolute;
+  width: 20vh;
+  left: calc(50% - 10vh);
+  top: calc(50% - 10vh);
+  scale: 0;
+}
+
+#inventory-preview > .item {
+  pointer-events: none;
+}
+
+#inventory-preview.show{
+  top: -20vh;
+  scale:1;
+  transition: top 0.6s cubic-bezier(0.36, 0, 0.66, -0.56) 0.6s, scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);;
+}
+
 /* cursors */
 
 .cursor-talk {
@@ -585,7 +603,7 @@ canvas.fullscreen {
   pointer-events: none;
 }
 
-#game-overlay * {
+#game-overlay > * {
   pointer-events: all;
 }
 
@@ -603,4 +621,18 @@ canvas.fullscreen {
 }
 #game-overlay img.options:active {
   filter: brightness(0.8);
+}
+
+#hover-item-name {
+  position: absolute;
+  pointer-events: none;
+  background-image: url("/Assets/UI/Dialog/Box_1.svg");
+  display: inline-block;
+  background-size: 100% 100%;
+  font-size: 2em;
+  color: white;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 1rem;
+  z-index: 5;
 }

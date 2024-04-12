@@ -84,7 +84,10 @@ namespace Script {
     hoveredInteractable = null;
     mainViewport.dispatchPointerEvent(_event);
     mainViewport.canvas.classList.remove("cursor-talk", "cursor-take", "cursor-look", "cursor-door", "cursor-use");
-    if (!hoveredInteractable) return;
+    if (!hoveredInteractable) {
+      MenuManager.Instance.hoverEnd();
+      return;
+    };
     let type = hoveredInteractable.getInteractionType();
     switch (type) {
       case INTERACTION_TYPE.LOOK_AT:
@@ -152,6 +155,7 @@ namespace Script {
     let interactable = findInteractable(node);
     if (!interactable) return;
     hoveredInteractable = interactable;
+    MenuManager.Instance.hoverStart(_event, interactable)
   }
 
   //#region Drag & Drop

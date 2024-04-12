@@ -76,6 +76,8 @@ namespace Script {
             div.addEventListener("dragstart", addData.bind(this));
             div.addEventListener("drop", tryUseWithEvent.bind(this));
             div.addEventListener("dragover", _ev => { _ev.preventDefault() });
+            div.addEventListener("pointermove", _ev => { MenuManager.Instance.hoverStart(_ev, this) });
+            div.addEventListener("pointerleave", _ev => { MenuManager.Instance.hoverEnd() });
             return div;
 
             function addData(_event: DragEvent): void {
