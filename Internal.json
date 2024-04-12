@@ -243,6 +243,116 @@
       "framesPerSecond": 60
     }
   },
+  "AnimationGLTF|2024-04-12T11:52:47.479Z|31788": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
+      "name": "SleepInBanana",
+      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-12T11:52:47.407Z|99836": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": true
+            }
+          }
+        ],
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[-0.8999999761581421, 0.11000001430511475, -4.299999237060547]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentGraphFilter": [
+          {
+            "ƒ.ComponentGraphFilter": {
+              "active": true
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-04-12T11:52:47.407Z|99836",
+      "type": "GraphGLTF",
+      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb"
+    }
+  },
+  "AnimationGLTF|2024-04-12T12:14:43.423Z|34969": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+      "name": "Handle",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-12T12:14:43.423Z|92087": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": true
+            }
+          }
+        ],
+        "ComponentTransform": [
+          {
+            "ƒ.ComponentTransform": {
+              "local": {
+                "translation": "[0, 0, 0]",
+                "rotation": "[0, 0, 0]",
+                "scaling": "[1, 1, 1]"
+              },
+              "Component": {
+                "active": true
+              }
+            }
+          }
+        ],
+        "ComponentGraphFilter": [
+          {
+            "ƒ.ComponentGraphFilter": {
+              "active": true
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-04-12T12:14:43.423Z|92087",
+      "type": "GraphGLTF",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb"
+    }
+  },
   "Graph|2024-02-08T13:52:27.562Z|67214": {
     "ƒ.Graph": {
       "name": "main",
@@ -1525,7 +1635,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 2.152744630071599,
+                    "aspect": 1.782716049382716,
                     "pivot": {
                       "translation": "[-0.10000000149011612, 1.4000000953674316, 2.9000000953674316]",
                       "rotation": "[9, 180, 0]",
@@ -1533,6 +1643,44 @@
                     },
                     "Component": {
                       "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentFog": [
+                {
+                  "ƒ.ComponentFog": {
+                    "color": "[1, 1, 1, 1]",
+                    "near": 5,
+                    "far": 50,
+                    "Component": {
+                      "active": false
+                    }
+                  }
+                }
+              ],
+              "ComponentAmbientOcclusion": [
+                {
+                  "ƒ.ComponentAmbientOcclusion": {
+                    "sampleRadius": 16,
+                    "bias": 0.44000000000000006,
+                    "attenuationConstant": 2.5,
+                    "attenuationLinear": 1,
+                    "attenuationQuadratic": 1,
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentBloom": [
+                {
+                  "ƒ.ComponentBloom": {
+                    "threshold": 1,
+                    "intensity": 0.4,
+                    "desaturateHighlights": 0.5000000000000001,
+                    "Component": {
+                      "active": false
                     }
                   }
                 }
@@ -2299,6 +2447,115 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "baarkeeper",
+            "active": true,
+            "components": {},
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "name": "Scene",
+                  "active": true,
+                  "components": {
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
+                          "playmode": "loop",
+                          "quantization": "continous",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": true
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[-0.8999999761581421, 0.11000001430511475, -4.299999237060547]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentGraphFilter": [
+                      {
+                        "ƒ.ComponentGraphFilter": {
+                          "active": true
+                        }
+                      }
+                    ]
+                  },
+                  "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
+                  "idSource": "GraphGLTF|2024-04-12T11:52:47.407Z|99836"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "fly",
+            "active": true,
+            "components": {},
+            "children": []
+          }
+        },
+        {
+          "ƒ.GraphInstance": {
+            "name": "Scene",
+            "active": true,
+            "components": {
+              "ComponentAnimator": [
+                {
+                  "ƒ.ComponentAnimator": {
+                    "Component": {
+                      "active": true
+                    },
+                    "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+                    "playmode": "loop",
+                    "quantization": "continous",
+                    "scale": 1,
+                    "scaleWithGameTime": true,
+                    "animateInEditor": true
+                  }
+                }
+              ],
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[1.5000001192092896, 0.2200000137090683, -1.3100000619888306]",
+                      "rotation": "[0, 171, 0]",
+                      "scaling": "[0.9999999403953552, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ],
+              "ComponentGraphFilter": [
+                {
+                  "ƒ.ComponentGraphFilter": {
+                    "active": true
+                  }
+                }
+              ]
+            },
+            "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+            "idSource": "GraphGLTF|2024-04-12T12:14:43.423Z|92087"
           }
         }
       ],
@@ -6925,16 +7182,6 @@
       "url": "Assets\\Decorations\\HangPlant02.glb"
     }
   },
-  "GraphGLTF|2024-04-12T11:52:47.407Z|99836": {
-    "ƒ.GraphGLTF": {
-      "name": "Scene",
-      "active": true,
-      "components": {},
-      "idResource": "GraphGLTF|2024-04-12T11:52:47.407Z|99836",
-      "type": "GraphGLTF",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb"
-    }
-  },
   "AnimationGLTF|2024-04-12T11:52:47.407Z|27904": {
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-12T11:52:47.407Z|27904",
@@ -6955,14 +7202,6 @@
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-12T11:52:47.460Z|76566",
       "name": "Quack",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.479Z|31788": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
-      "name": "SleepInBanana",
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
       "framesPerSecond": 60
     }
@@ -6996,24 +7235,6 @@
       "idResource": "AnimationGLTF|2024-04-12T11:52:47.734Z|92517",
       "name": "WiggleTEst",
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "GraphGLTF|2024-04-12T12:14:43.423Z|92087": {
-    "ƒ.GraphGLTF": {
-      "name": "Scene",
-      "active": true,
-      "components": {},
-      "idResource": "GraphGLTF|2024-04-12T12:14:43.423Z|92087",
-      "type": "GraphGLTF",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb"
-    }
-  },
-  "AnimationGLTF|2024-04-12T12:14:43.423Z|34969": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
-      "name": "Handle",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
       "framesPerSecond": 60
     }
   },
