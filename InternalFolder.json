@@ -157,9 +157,6 @@
             "idResource": "GraphGLTF|2024-04-11T14:52:05.031Z|70138"
           },
           {
-            "idResource": "GraphGLTF|2024-04-11T14:54:11.209Z|61497"
-          },
-          {
             "idResource": "GraphGLTF|2024-04-11T15:29:33.580Z|70024"
           },
           {
@@ -176,6 +173,29 @@
               },
               {
                 "idResource": "GraphGLTF|2024-04-12T11:42:51.003Z|09537"
+              }
+            ]
+          },
+          {
+            "name": "Grammophon",
+            "entries": [
+              {
+                "idResource": "GraphGLTF|2024-04-11T14:54:11.209Z|61497"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|00971"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|83308"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T13:08:15.063Z|94182"
+              },
+              {
+                "idResource": "AnimationGLTF|2024-04-12T13:08:15.063Z|83702"
               }
             ]
           }
