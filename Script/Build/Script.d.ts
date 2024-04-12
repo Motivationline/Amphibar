@@ -101,6 +101,12 @@ declare namespace Script {
             drink: number;
             worm: number;
         };
+        frog: {
+            intro: boolean;
+            checked_door: boolean;
+            music: boolean;
+            key: boolean;
+        };
         scene: string;
     }
     interface Settings {
@@ -159,8 +165,25 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class DoorBar extends Interactable {
+        target: string;
+        locked: boolean;
+        constructor(_name?: string, _image?: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
     class Fly extends Interactable {
         #private;
+        getInteractionType(): INTERACTION_TYPE;
+        tryUseWith(_interactable: Interactable): void;
+        interact(): Promise<void>;
+    }
+}
+declare namespace Script {
+    class Frog extends Interactable {
         getInteractionType(): INTERACTION_TYPE;
         tryUseWith(_interactable: Interactable): void;
         interact(): Promise<void>;

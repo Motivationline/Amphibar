@@ -9,10 +9,6 @@ namespace Script {
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-
-            this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, ()=> {
-                this.node.radius = 1;
-            })
         }
         getInteractionType(): INTERACTION_TYPE {
             return INTERACTION_TYPE.DOOR;

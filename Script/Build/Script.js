@@ -362,7 +362,7 @@ var Script;
     var ƒAid = FudgeAid;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
-    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false }, scene: "bath" };
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false } };
     let settingsDefault = { music: 100, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
@@ -519,6 +519,7 @@ var Script;
     function findInteractable(_node) {
         return _node.getAllComponents().find(i => i instanceof Script.Interactable);
     }
+    //#endregion
     //#region Helper Functions
     /** Helper function to set up a (deep) proxy object that calls the onChange function __before__ the element is modified*/
     function onChange(object, onChange) {
@@ -717,9 +718,6 @@ var Script;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.radius = 1;
-            });
         }
         getInteractionType() {
             return Script.INTERACTION_TYPE.DOOR;
@@ -730,6 +728,40 @@ var Script;
         tryUseWith(_interactable) { }
     }
     Script.Door = Door;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    var ƒ = FudgeCore;
+    class DoorBar extends Script.Interactable {
+        target = "done";
+        locked = true;
+        constructor(_name, _image) {
+            super(_name, _image);
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+        }
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.DOOR;
+        }
+        interact() {
+            Script.progress.frog.checked_door = true;
+            if (this.locked) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_locked"));
+                return;
+            }
+            Script.SceneManager.load(this.target);
+        }
+        tryUseWith(_interactable) {
+            if (_interactable.name === "key") {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_unlocked"));
+                this.locked = false;
+                Script.Inventory.Instance.removeItem(_interactable);
+                return;
+            }
+        }
+    }
+    Script.DoorBar = DoorBar;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -856,6 +888,87 @@ var Script;
         }
     }
     Script.Fly = Fly;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class Frog extends Script.Interactable {
+        getInteractionType() {
+            return Script.INTERACTION_TYPE.TALK_TO;
+        }
+        tryUseWith(_interactable) {
+            Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.no_item"));
+            return;
+        }
+        async interact() {
+            // frog dialogue
+            // intro
+            if (!Script.progress.frog.intro) {
+                let result = await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.intro.0"), "neutral", [
+                    { id: "intro", text: Script.Interactable.textProvider.get("character.frog.intro.option.intro") },
+                    { id: "help", text: Script.Interactable.textProvider.get("character.frog.intro.option.help") },
+                ]);
+                if (result === "intro") {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.intro.1"));
+                    Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.intro.2"));
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.intro.3"));
+                }
+                else {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.intro.3_2"));
+                }
+                Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.intro.4"));
+                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.intro.5"));
+                Script.progress.frog.intro = true;
+                return;
+            }
+            // we don't know yet that the door is closed
+            if (!Script.progress.frog.music && !Script.progress.frog.checked_door) {
+                Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.intro.go_away"));
+                return;
+            }
+            // we know now that the door is closed
+            if (!Script.progress.frog.music && Script.progress.frog.checked_door) {
+                let result = await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.dialog.0"), "neutral", [
+                    { id: "closed", text: Script.Interactable.textProvider.get("character.frog.dialog.option.door_closed") },
+                    { id: "sorry", text: Script.Interactable.textProvider.get("character.frog.dialog.option.sorry") },
+                ]);
+                if (result !== "closed")
+                    return;
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.dialog.1"));
+                result = await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.dialog.2"), "neutral", [
+                    { id: "door", text: Script.Interactable.textProvider.get("character.frog.dialog.option.door") },
+                    { id: "sorry", text: Script.Interactable.textProvider.get("character.frog.dialog.option.sorry") },
+                ]);
+                if (result === "sorry") {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.dialog.3"));
+                    Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.dialog.4"));
+                    return;
+                }
+                if (result === "door") {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.dialog.5"));
+                    Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.dialog.6"));
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.dialog.7"));
+                    Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.dialog.8"));
+                    return;
+                }
+                return;
+            }
+            // music is playing, but no key yet
+            if (Script.progress.frog.music && !Script.progress.frog.key) {
+                await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.music.1"), "neutral", [
+                    { id: "help", text: Script.Interactable.textProvider.get("character.frog.music.option.help") },
+                ]);
+                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.music.2"));
+                await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.music.3"));
+                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.frog.music.4"));
+                Script.Inventory.Instance.addItem(new Script.Interactable("key", "Assets/UI/Inventar/Item_Key.png"));
+                Script.progress.frog.key = true;
+                return;
+            }
+            // we already gave the key
+            Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.done"));
+        }
+    }
+    Script.Frog = Frog;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
