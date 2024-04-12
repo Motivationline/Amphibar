@@ -1,23 +1,22 @@
 {
-  "item.glass.name": "Glas",
+  "item.Cocktailglas.name": "Cocktailglas",
   "interact": "Das funktioniert nicht.",
 
   "item.Wasserhahn.name": "Wasserhahn",
-  "bath.Wasserhahn.interact.glass": "Frisches Wasser fürs Glässchen.",
-  "bath.Wasserhahn.interact.rag": "Ganz schön rostig...",
-  "bath.Wasserhahn.interact.0": "Ich brauche gerade kein Wasser.",
-  "bath.Wasserhahn.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
-  "bath.Wasserhahn.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
+  "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
+  "bath.valve.interact.rag": "Ganz schön rostig...",
+  "bath.valve.interact.0": "Ich brauche gerade kein Wasser.",
+  "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
+  "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
 
-  "bath.Eimer.interact.0": "Ein leerer Eimer.",
-  "bath.Eimer.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
+  "item.Eimer.name": "Eimer",
+  "bath.bucket.interact.0": "Ein leerer Eimer.",
+  "bath.bucket.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
   "bath.Eimer.interact.glass": [
-    "Soll ich das Glass in den Eimer reinstellen..?",
-    "Dieser Eimer sollte mal befüllt werden, genau so wie der Wurm mit gutherzigkeit überflutet werden sollte."
+    "Der Eimer könnte bestimmt auch super zum mischen sein!"
   ],
   "bath.Eimer.interact.rag": [
-    "Vielleicht wäre Wasser eine gute Idee, um den Lappen zu befeuchten..",
-    "Sieht so leer aus wie die Seele des Wurmes."
+    "Vielleicht wäre Wasser eine gute Idee, um den Lappen nass zu machen.."
   ],
 
   "bath.bucket_full.interact.0": "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.",
@@ -28,12 +27,23 @@
     "Splitsch-Splatsch!"
   ],
 
+  "item.Toilette.name": "Toilette",
   "bath.Toilette.interact": "Ugh, das sieht nicht gerade einladend aus!",
-  "bath.Schleim.interact": "Bäh, das ist ja ekelig!",
-  "bath.Spiegel.interact": "Warum hängt der Spiegel so hoch?",
+
+  "item.Schleim.name": "Schleim",
+  "bath.Schleim.interact": [
+    "Bäh, das ist ja ekelig!",
+    "Igitt! Meine armen Schlappen...",
+    "Das klebt ja richtig."
+  ],
+
+  "item.Spiegel.name": "",
+  "bath.Spiegel.interact": [
+    "Warum hängt der Spiegel so hoch?",
+    "Och menno, ich kann ja gar nichts sehen."
+  ],
   "bath.Spiegel.interact.glass": [
-    "Das kommt mir nicht richtig vor...",
-    "Ob ich in einem anderen Universum das Glas gegen den Spiegel schmeiße?"
+    "Das kommt mir nicht richtig vor..."
   ],
 
   "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... %s würde das viel besser machen.",
@@ -69,6 +79,21 @@
   "item.Goldrosenmatsch.name": "Goldrosenmatsch",
   "item.Goldrosenelixir.name": "Goldrosenelixir",
 
+  "item.bachwasser.name": "Bachwasser",
+  "item.goldnektar.name": "Goldnektar",
+  "item.goldwasser.name": "Goldwasser",
+  "item.schlammsprudel.name": "Schlammsprudel",
+  "item.schlammfluss.name": "Schlammfluss",
+  "item.matschsaft.name": "Matschsaft",
+  "item.nektarquelle.name": "Nektarquelle",
+  "item.seerosenextrakt.name": "Seerosenextrakt",
+  "item.bachblütenzauber.name": "Bachblütenzauber",
+  "item.bachblütennektar.name": "Bachblütennektar",
+  "item.sumpfrosensprudel.name": "Sumpfrosensprudel",
+  "item.sumpfrosenschorle.name": "Sumpfrosenschorle",
+  "item.goldrosenmatsch.name": "Goldrosenmatsch",
+  "item.goldrosenelixir.name": "Goldrosenelixir",
+
   "item.Mülleimer.name": "Mülleimer",
 
   "item.Badezimmer.name": "Badezimmer",
@@ -76,7 +101,20 @@
   "item.Zurück.name": "Zurück",
 
   "cocktail.glass.empty": "Das Glas ist noch leer...",
-  "cocktail.glass.take": "Soll ich das Glas nehmen?",
-  "cocktail.glass.take.confirm": "Glas nehmen",
-  "cocktail.glass.take.cancel": "Abbrechen"
+  "cocktail.glass.take": [
+    "Soll ich das Glas nehmen?",
+    "Bin ich fertig mit mixen?"
+  ],
+  "cocktail.glass.take.confirm": "Nehmen",
+  "cocktail.glass.take.cancel": "Abbrechen",
+  "cocktails.full": [
+    "Da passt nichts mehr rein",
+    "Das Glas ist voll"
+  ],
+  "cocktail.trash.confirm": [
+    "Soll ich nochmal von vorne anfangen?",
+    "Schütte ich den Mix lieber weg?"
+  ],
+  "cocktail.trash.option.confirm": "Wegschütten",
+  "cocktail.trash.option.cancel": "Abbrechen"
 }
