@@ -573,57 +573,6 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    var ƒ = FudgeCore;
-    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class PickingScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(PickingScript);
-        // #currentHover: ƒ.Node = null;
-        constructor() {
-            super();
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            // Listen to this component being added to or removed from a node
-            this.addEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
-            this.addEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.hndEvent);
-            ƒ.Loop.addEventListener("loopFrame" /* ƒ.EVENT.LOOP_FRAME */, this.frame);
-        }
-        // Activate the functions of this component as response to events
-        hndEvent = (_event) => {
-            switch (_event.type) {
-                case "componentAdd" /* ƒ.EVENT.COMPONENT_ADD */:
-                    break;
-                case "componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */:
-                    this.removeEventListener("componentAdd" /* ƒ.EVENT.COMPONENT_ADD */, this.hndEvent);
-                    this.removeEventListener("componentRemove" /* ƒ.EVENT.COMPONENT_REMOVE */, this.hndEvent);
-                    break;
-                case "nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */:
-                    this.node.addEventListener("mousemove", this.hovered.bind(this));
-                    this.node.addEventListener("click", this.clicked.bind(this));
-                    console.log({ viewport: Script.mainViewport });
-                    // if deserialized the node is now fully reconstructed and access to all its components and children is possible
-                    break;
-            }
-        };
-        hovered(_event) {
-            // console.log(_event.target);
-            // if (_event.target instanceof ƒ.Node)
-            // this.#currentHover = _event.target;
-        }
-        clicked(_event) {
-            console.log(_event.target);
-            // if (_event.target instanceof ƒ.Node)
-            // this.#currentHover = _event.target;
-        }
-        frame() {
-        }
-    }
-    Script.PickingScript = PickingScript;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
     class Text {
         static instance = new Text();
         textData;
@@ -1611,10 +1560,10 @@ var Script;
 (function (Script) {
     class MusicManager extends ƒ.ComponentScript {
         static Instance = new MusicManager();
-        background = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
-        grammophone = new ƒ.Audio("Assets/Music/Heavy_Riffs.mp3");
         cmpAudio;
         listener = this.start.bind(this);
+        background;
+        grammophone;
         constructor() {
             if (MusicManager.Instance)
                 return MusicManager.Instance;
@@ -1622,6 +1571,8 @@ var Script;
             MusicManager.Instance = this;
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
+            this.background = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
+            this.grammophone = new ƒ.Audio("Assets/Music/Heavy_Riffs.mp3");
             window.addEventListener("click", this.listener);
         }
         start() {

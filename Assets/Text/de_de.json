@@ -8,10 +8,16 @@
   "item.Plant.name": "Pflanze",
   "main.Plant.interact": "Das sieht irgendwie sehr lecker aus.",
   "item.key.name": "Schlüssel",
+  "item.grammophon.name": "Grammophon",
+  "main.grammophon.interact": "Ui, ein altes Grammophon. Das muss man ankurbeln damit es Musik spielt.",
+  "main.grammophon.interact.rag": "So staubig sieht es nicht aus.",
+  "main.grammophon.interact.rag_wet": "Das lasse ich lieber, nicht dass das Wasser noch irgendwas kaputt macht.",
+  "main.grammophon.interact.glass": "Ich glaube ein klebriger Cocktail und ein Grammophon vertragen sich nicht gut.",
+  "main.grammophon.interact.key": "Vorsicht! Nicht dass ich den Schlüssel auf den letzten Metern noch verliere!",
 
   "item.Wasserhahn.name": "Wasserhahn",
-  "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
-  "bath.valve.interact.rag": "Ganz schön rostig...",
+  "bath.Wasserhahn.interact.glass": "Frisches Wasser fürs Glässchen. Aber das Glas ist ja schon voll.",
+  "bath.Wasserhahn.interact.rag": "Ganz schön rostig...",
   "bath.valve.interact.0": "Ich brauche gerade kein Wasser.",
   "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
   "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
@@ -26,10 +32,10 @@
   "bath.Eimer.interact.rag": [
     "Vielleicht wäre Wasser eine gute Idee, um den Lappen nass zu machen.."
   ],
-
+  
   "bath.rag.no_need": "Ein alter Lappen. Den fasse ich lieber mal nicht an.",
   "bath.rag.pickup": "Hier ist der Lappen von dem Alfi sprach! Den nehme ich mal mit.",
-
+  
   "bath.bucket_full.interact.0": "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.",
   "bath.bucket_full.interact.1": "Wow, ein riesiger Pool zum Planschen! Naja, fast.",
   "bath.bucket_full.interact.glass": "Ich habe schon etwas in meinem Glas.",
@@ -37,6 +43,7 @@
     "Schade das es kein blubberbläschen Wasser ist...",
     "Splitsch-Splatsch!"
   ],
+  "bath.bucket_full.interact.key": "Ich glaube der Schlüssel funktioniert auch so, den muss ich nicht nass machen.",
   "bath.bucket_full.interact.rag": "So, der Lappen ist jetzt nass.",
   "bath.bucket_full.interact.rag_wet": "Der Lappen ist schon nass.",
 
@@ -53,6 +60,7 @@
   "bath.Schleim.interact.rag": "Mit einem trockenen Lappen putzt es sich nicht gut.",
   "bath.Toilette.interact.rag": "Mit einem trockenen Lappen putzt es sich nicht gut.",
   "bath.Toilette_sauber.interact.rag_wet": "Das habe ich schon sauber gemacht.",
+  "bath.Toilette_sauber.interact.key": "Die Toilette ist zwar sauber, ich würde den Schlüssel da aber trotzdem nicht 'rausfischen wollen.",
   "bath.Toilette_sauber.interact": "So ist das schon gleich viel einladender.",
 
   "item.Spiegel.name": "Spiegel",

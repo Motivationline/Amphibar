@@ -1,10 +1,10 @@
 namespace Script {
     export class MusicManager extends ƒ.ComponentScript {
         public static Instance: MusicManager = new MusicManager();
-        private background = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
-        private grammophone = new ƒ.Audio("Assets/Music/Heavy_Riffs.mp3");
         private cmpAudio: ƒ.ComponentAudio;
         private listener = this.start.bind(this);
+        private background :ƒ.Audio ;
+        private grammophone :ƒ.Audio ;
 
         constructor() {
             if (MusicManager.Instance) return MusicManager.Instance;
@@ -14,6 +14,8 @@ namespace Script {
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
 
+            this.background = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
+            this.grammophone = new ƒ.Audio("Assets/Music/Heavy_Riffs.mp3");
 
             window.addEventListener("click", this.listener);
         }

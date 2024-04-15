@@ -127,17 +127,6 @@ declare namespace Script {
     export {};
 }
 declare namespace Script {
-    import ƒ = FudgeCore;
-    class PickingScript extends ƒ.ComponentScript {
-        static readonly iSubclass: number;
-        constructor();
-        hndEvent: (_event: Event) => void;
-        private hovered;
-        private clicked;
-        private frame;
-    }
-}
-declare namespace Script {
     class Text {
         static instance: Text;
         private textData;
@@ -326,10 +315,10 @@ declare namespace Script {
 declare namespace Script {
     class MusicManager extends ƒ.ComponentScript {
         static Instance: MusicManager;
-        private background;
-        private grammophone;
         private cmpAudio;
         private listener;
+        private background;
+        private grammophone;
         constructor();
         private start;
         startGrammophone(_fadeOut?: number): void;
