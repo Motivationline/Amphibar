@@ -298,6 +298,14 @@
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb"
     }
   },
+  "AnimationGLTF|2024-04-15T11:39:50.159Z|14958": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
+      "name": "IdleSad",
+      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
+      "framesPerSecond": 60
+    }
+  },
   "GraphGLTF|2024-04-12T12:14:43.423Z|92087": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -413,6 +421,14 @@
       "type": "MeshSphere",
       "longitudes": 8,
       "latitudes": 8
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:39.877Z|33975": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
+      "name": "StartGrammophon",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
     }
   },
   "Graph|2024-02-08T13:52:27.562Z|67214": {
@@ -3088,7 +3104,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 1.9149922720247294,
+                    "aspect": 1.782716049382716,
                     "pivot": {
                       "translation": "[0, 1, 4.900000095367432]",
                       "rotation": "[5, 179, 0]",
@@ -3816,7 +3832,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8684210777282715, 0]",
+                            "translation": "[0.3684210479259491, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -3846,9 +3862,9 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-1.4090007543563843, 0.5579999089241028, 0.7900000810623169]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[0.1399998962879181, 0.13999995589256287, 0.1399998813867569]"
+                            "translation": "[-1.4090007543563843, 0.48799991607666016, 0.7680001258850098]",
+                            "rotation": "[-6, 19, 0]",
+                            "scaling": "[0.09999986737966537, 0.27999991178512573, 0.14000000059604645]"
                           },
                           "Component": {
                             "active": true
@@ -3863,7 +3879,7 @@
               {
                 "ƒ.Node": {
                   "name": "WaterFall",
-                  "active": true,
+                  "active": false,
                   "components": {
                     "ComponentMesh": [
                       {
@@ -3887,7 +3903,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.44897958636283875, 0]",
+                            "translation": "[0.7755101919174194, 0]",
                             "rotation": 0,
                             "scaling": "[0.020408162847161293, 1]"
                           },
@@ -7634,26 +7650,10 @@
       "url": "Assets\\Decorations\\Sign.glb"
     }
   },
-  "AnimationGLTF|2024-04-15T11:39:39.877Z|33975": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
-      "name": "StartGrammophon",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
   "AnimationGLTF|2024-04-15T11:39:50.150Z|66041": {
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-15T11:39:50.150Z|66041",
       "name": "IdleHappy",
-      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-15T11:39:50.159Z|14958": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
-      "name": "IdleSad",
       "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
       "framesPerSecond": 60
     }
