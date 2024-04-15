@@ -35,14 +35,16 @@ namespace Script {
         addItem(_item: Interactable) {
             if (!this.itemsToHTMLMap.has(_item)) {
                 let element = _item.toHTMLElement();
-                this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
                 this.updateStorage();
-
+                
                 this.preview.innerHTML = "";
                 this.preview.appendChild(_item.toHTMLElement());
                 this.preview.classList.add("show");
-                setTimeout(() => { this.preview.classList.remove("show") }, 1200);
+                setTimeout(() => { 
+                    this.preview.classList.remove("show") 
+                    this.divInventory.appendChild(element);
+                }, 1200);
             }
         }
 

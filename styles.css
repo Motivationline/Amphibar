@@ -135,6 +135,9 @@ canvas.fullscreen {
 #inventory-preview > .item {
   pointer-events: none;
 }
+#inventory-preview > .item > img {
+  filter: drop-shadow(2px 0px 0 white) drop-shadow(0px 2px 0 white) drop-shadow(-2px -0px 0 white) drop-shadow(-0px -2px 0 white);
+}
 
 #inventory-preview.show{
   top: -20vh;
