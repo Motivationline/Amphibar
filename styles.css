@@ -626,7 +626,7 @@ canvas.fullscreen {
 #hover-item-name {
   position: absolute;
   pointer-events: none;
-  background-image: url("/Assets/UI/Dialog/Box_1.svg");
+  background-image: url("Assets/UI/Dialog/Box_1.svg");
   display: inline-block;
   background-size: 100% 100%;
   font-size: 2em;
