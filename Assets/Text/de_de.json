@@ -6,6 +6,8 @@
   "interact": "Das funktioniert nicht.",
 
   "item.Plant.name": "Pflanze",
+  "main.Plant.interact": "Das sieht irgendwie sehr lecker aus.",
+  "item.key.name": "Schlüssel",
 
   "item.Wasserhahn.name": "Wasserhahn",
   "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
@@ -14,6 +16,7 @@
   "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
   "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
 
+  "bath.bucket_full.name": "Eimer",
   "item.Eimer.name": "Eimer",
   "bath.bucket.interact.0": "Ein leerer Eimer.",
   "bath.bucket.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
@@ -24,7 +27,7 @@
     "Vielleicht wäre Wasser eine gute Idee, um den Lappen nass zu machen.."
   ],
 
-  "bath.rag.no_need": "Ein alter Lappen, den fasse ich lieber mal nicht an.",
+  "bath.rag.no_need": "Ein alter Lappen. Den fasse ich lieber mal nicht an.",
   "bath.rag.pickup": "Hier ist der Lappen von dem Alfi sprach! Den nehme ich mal mit.",
 
   "bath.bucket_full.interact.0": "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.",
@@ -146,8 +149,8 @@
   "character.fly.intro.3": "Wovon bist du denn überfordert?",
   "character.fly.intro.4": "Ich muss viel zu viel hier erledigen, und komme nichtmehr hinterher.",
   "character.fly.intro.offer_help": "Kann ich dir irgendwie helfen?",
-  "character.fly.intro.request_help": "Könntest du mir helfen?",
-  "character.fly.intro.5": "Könntest du mir helfen hier wieder herauszukommen? Der Barkeeper will mich nicht rauslassen.",
+  "character.fly.intro.request_help": "Wie komme ich hier wieder raus?",
+  "character.fly.intro.5": "Weißt du wie ich hier wieder rauskomme? Der Barkeeper will mir nicht die Tür aufschließen.",
   "character.fly.intro.6": "Hmm, das einzige was [i]Gero[/i] motivieren könnte wäre [anim][b]Musik[/b][/anim], aber da habe ich gerade einfach keine Zeit für.",
   "character.fly.intro.7": "Vielleicht kann ich dir ja irgendwie helfen?",
   "character.fly.intro.8": "Das würdest du wirklich für mich tun?",
@@ -173,6 +176,7 @@
 
   "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... [anim][b]%s[/b][/anim] würde das viel besser machen.",
   "character.fly.drink.too_much": "Mhhh ne da ist irgendwas drin was ich gar nicht mag. [anim][b]%s[/b][/anim] glaube ich.",
+  "character.fly.drink.like": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
   "character.drink.done": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
 
   "character.fly.dialog.done.filler": [
@@ -220,5 +224,7 @@
     "Ich liebe dieses Lied.",
     "He, Alfi! Spiel den selben Song noch mal!",
     "Dieses Lied ist ein einziges Meisterwerk!"
-  ]
+  ],
+
+  "character.tadpole.door_unlocked": "Die Tür ist offen, jetzt kann ich endlich nach Hause!"
 }
