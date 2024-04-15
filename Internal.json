@@ -6222,6 +6222,36 @@
             },
             "children": []
           }
+        },
+        {
+          "ƒ.Node": {
+            "name": "Sign",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0.10000000149011612, 0, -1.4000000953674316]",
+                      "rotation": "[0, 78, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": [
+              {
+                "ƒ.GraphInstance": {
+                  "deserializeFromSource": true,
+                  "idSource": "GraphGLTF|2024-04-15T09:00:38.293Z|60921"
+                }
+              }
+            ]
+          }
         }
       ],
       "idResource": "Graph|2024-04-03T07:49:20.788Z|88020",
@@ -7341,6 +7371,16 @@
       "name": "YAY",
       "url": "Assets\\Bar\\Grammophon.glb",
       "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-15T09:00:38.293Z|60921": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-15T09:00:38.293Z|60921",
+      "type": "GraphGLTF",
+      "url": "Assets\\Decorations\\Sign.glb"
     }
   }
 }

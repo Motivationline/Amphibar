@@ -351,6 +351,14 @@
           },
           {
             "idResource": "GraphGLTF|2024-04-11T15:05:39.224Z|53554"
+          },
+          {
+            "name": "Sign",
+            "entries": [
+              {
+                "idResource": "GraphGLTF|2024-04-15T09:00:38.293Z|60921"
+              }
+            ]
           }
         ]
       },
