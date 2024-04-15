@@ -16,8 +16,8 @@
   "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
   "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
 
-  "bath.bucket_full.name": "Eimer",
-  "item.Eimer.name": "Eimer",
+  "bath.bucket_full.name": "Eimer mit Wasser",
+  "item.Eimer.name": "Leerer Eimer",
   "bath.bucket.interact.0": "Ein leerer Eimer.",
   "bath.bucket.interact.1": "Hmm, ein leerer Eimer. Vielleicht bekomme ich da etwas Wasser rein!",
   "bath.Eimer.interact.glass": [
@@ -40,8 +40,8 @@
   "bath.bucket_full.interact.rag": "So, der Lappen ist jetzt nass.",
   "bath.bucket_full.interact.rag_wet": "Der Lappen ist schon nass.",
 
-  "item.Toilette.name": "Toilette",
-  "item.Toilette_sauber.name": "Toilette",
+  "item.Toilette.name": "Dreckige Toilette",
+  "item.Toilette_sauber.name": "Saubere Toilette",
   "bath.Toilette.interact": "Ugh, das sieht nicht gerade einladend aus!",
 
   "item.Schleim.name": "Schleim",
@@ -66,14 +66,14 @@
 
   "main.Getränkebar.interact": "Ich würde es nicht wagen hier einfach etwas zu stehlen!",
 
-  "item.glass.bachwasser.name": "Bachwasser",
-  "item.glass.goldnektar.name": "Goldnektar",
+  "item.glass.bachwasser.name": "[blue]Bachwasser[/blue]",
+  "item.glass.goldnektar.name": "[gold]Goldnektar[/gold]",
   "item.glass.goldwasser.name": "Goldwasser",
-  "item.glass.schlammsprudel.name": "Schlammsprudel",
+  "item.glass.schlammsprudel.name": "[brown]Schlammsprudel[/brown]",
   "item.glass.schlammfluss.name": "Schlammfluss",
   "item.glass.matschsaft.name": "Matschsaft",
   "item.glass.nektarquelle.name": "Nektarquelle",
-  "item.glass.seerosenextrakt.name": "Seerosenextrakt",
+  "item.glass.seerosenextrakt.name": "[pink]Seerosenextrakt[/pink]",
   "item.glass.bachblütenzauber.name": "Bachblütenzauber",
   "item.glass.bachblütennektar.name": "Bachblütennektar",
   "item.glass.sumpfrosensprudel.name": "Sumpfrosensprudel",
@@ -81,14 +81,14 @@
   "item.glass.goldrosenmatsch.name": "Goldrosenmatsch",
   "item.glass.goldrosenelixir.name": "Goldrosenelixir",
 
-  "item.Bachwasser.name": "Bachwasser",
-  "item.Goldnektar.name": "Goldnektar",
+  "item.Bachwasser.name": "[blue]Bachwasser[/blue]",
+  "item.Goldnektar.name": "[gold]Goldnektar[/gold]",
   "item.Goldwasser.name": "Goldwasser",
-  "item.Schlammsprudel.name": "Schlammsprudel",
+  "item.Schlammsprudel.name": "[brown]Schlammsprudel[/brown]",
   "item.Schlammfluss.name": "Schlammfluss",
   "item.Matschsaft.name": "Matschsaft",
   "item.Nektarquelle.name": "Nektarquelle",
-  "item.Seerosenextrakt.name": "Seerosenextrakt",
+  "item.Seerosenextrakt.name": "[pink]Seerosenextrakt[/pink]",
   "item.Bachblütenzauber.name": "Bachblütenzauber",
   "item.Bachblütennektar.name": "Bachblütennektar",
   "item.Sumpfrosensprudel.name": "Sumpfrosensprudel",
@@ -96,14 +96,14 @@
   "item.Goldrosenmatsch.name": "Goldrosenmatsch",
   "item.Goldrosenelixir.name": "Goldrosenelixir",
 
-  "item.bachwasser.name": "Bachwasser",
-  "item.goldnektar.name": "Goldnektar",
+  "item.bachwasser.name": "[blue]Bachwasser[/blue]",
+  "item.goldnektar.name": "[gold]Goldnektar[/gold]",
   "item.goldwasser.name": "Goldwasser",
-  "item.schlammsprudel.name": "Schlammsprudel",
+  "item.schlammsprudel.name": "[brown]Schlammsprudel[/brown]",
   "item.schlammfluss.name": "Schlammfluss",
   "item.matschsaft.name": "Matschsaft",
   "item.nektarquelle.name": "Nektarquelle",
-  "item.seerosenextrakt.name": "Seerosenextrakt",
+  "item.seerosenextrakt.name": "[pink]Seerosenextrakt[/pink]",
   "item.bachblütenzauber.name": "Bachblütenzauber",
   "item.bachblütennektar.name": "Bachblütennektar",
   "item.sumpfrosensprudel.name": "Sumpfrosensprudel",
@@ -184,121 +184,55 @@
     "Irgendetwas schmeckt mir hierdrin nicht, ich glaube es ist [anim][b]%s[/b][/anim].",
     "Schmeckt nicht schlecht, könntest du das selbe nochmal, nur ohne [anim][b]%s[/b][/anim] machen?"
   ],
-    "character.fly.drink.like"
-    :
-    "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
-    "character.drink.done"
-    :
-    "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
+  "character.fly.drink.like": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
+  "character.drink.done": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
 
-    "character.fly.dialog.done.filler"
-    :
-    [
-      "Hach, Musik ist einfach was tolles!",
-      "Danke nochmals für deine großzügige Hilfe.",
-      "Sprich doch mal mit Gert, vielleicht ist er jetzt besser gelaunt.",
-      "Ich hoffe du kommst uns öfters besuchen."
-    ],
+  "character.fly.dialog.done.filler": [
+    "Hach, Musik ist einfach was tolles!",
+    "Danke nochmals für deine großzügige Hilfe.",
+    "Sprich doch mal mit Gero, vielleicht ist er jetzt besser gelaunt.",
+    "Ich hoffe du kommst uns öfters besuchen."
+  ],
 
-    "character.frog.no_item"
-    :
-    "He was soll das denn werden?! Lass mich damit in Ruhe!",
-    "character.frog.intro.0"
-    :
-    "Hmpf, wer stört mich bei meinem Mittagsschlaf?",
-    "character.frog.intro.option.intro"
-    :
-    "Mein Name ist Quip.",
-    "character.frog.intro.option.help"
-    :
-    "Wie komme ich hier raus?",
-    "character.frog.intro.1"
-    :
-    "Hallo, mein Name ist Quip.",
-    "character.frog.intro.2"
-    :
-    "Schön, und jetzt?",
-    "character.frog.intro.3"
-    :
-    "Ich wollte fragen wie ich hier wieder herauskomme.",
-    "character.frog.intro.3_2"
-    :
-    "Oh, Entschuldigung, aber ich wollte fragen wie ich hier wieder rauskomme.",
-    "character.frog.intro.4"
-    :
-    "Na durch die Tür.",
-    "character.frog.intro.5"
-    :
-    "Super, Dankeschön!",
-    "character.frog.intro.go_away"
-    :
-    [
-      "Hast du mir nicht zugehört? Ich mach gerade Pause.",
-      "Psscht, ich versuche zu entspannen!",
-      "Mach die Fliege!",
-      "Mit dir kriegt man ja kein Auge zu, zieh ab!"
-    ],
-    "character.frog.dialog.0"
-    :
-    "Du schon wieder? Was willst du jetzt, hm?",
-    "character.frog.dialog.option.door_closed"
-    :
-    "Die Tür ist abgeschlossen...",
-    "character.frog.dialog.option.sorry"
-    :
-    "Entschuldigung...",
-    "character.frog.dialog.1"
-    :
-    "Die Tür ist abgeschlossen, da komm ich nicht raus.",
-    "character.frog.dialog.2"
-    :
-    "Natürlich ist die Tür abgeschlossen, ich habe ja auch gerade meine Mittagspause. Zumindest dachte ich das!",
-    "character.frog.dialog.option.door"
-    :
-    "Kannst du die Tür aufschließen?",
-    "character.frog.dialog.3"
-    :
-    "Entschuldigung, ich wollte nicht stören. Dann lasse ich dich jetzt in Ruhe.",
-    "character.frog.dialog.4"
-    :
-    "[anim][b]Musik[/b][/anim] in meinen Ohren! Da geht es mir doch gleich viel besser. Danke und Tschüss!",
-    "character.frog.dialog.5"
-    :
-    "Kannst du bitte die Tür aufschließen damit ich nach Hause komme?",
-    "character.frog.dialog.6"
-    :
-    "Natürlich kann ich das! Ich öffne wieder bei Sonnenuntergang. Dann schließe ich die Tür gerne auf.",
-    "character.frog.dialog.7"
-    :
-    "Aber ich muss vor Sonnenaufgang schon wieder zuhause sein, sonst machen sich Mama und Papa doch sorgen!",
-    "character.frog.dialog.8"
-    :
-    "Nicht mein Problem Kiddo, und jetzt lass mich schlafen.",
+  "character.frog.no_item": "He was soll das denn werden?! Lass mich damit in Ruhe!",
+  "character.frog.intro.0": "Hmpf, wer stört mich bei meinem Mittagsschlaf?",
+  "character.frog.intro.option.intro": "Mein Name ist Quip.",
+  "character.frog.intro.option.help": "Wie komme ich hier raus?",
+  "character.frog.intro.1": "Hallo, mein Name ist Quip.",
+  "character.frog.intro.2": "Schön, und jetzt?",
+  "character.frog.intro.3": "Ich wollte fragen wie ich hier wieder herauskomme.",
+  "character.frog.intro.3_2": "Oh, Entschuldigung, aber ich wollte fragen wie ich hier wieder rauskomme.",
+  "character.frog.intro.4": "Na durch die Tür.",
+  "character.frog.intro.5": "Super, Dankeschön!",
+  "character.frog.intro.go_away": [
+    "Hast du mir nicht zugehört? Ich mach gerade Pause.",
+    "Psscht, ich versuche zu entspannen!",
+    "Mach die Fliege!",
+    "Mit dir kriegt man ja kein Auge zu, zieh ab!"
+  ],
+  "character.frog.dialog.0": "Du schon wieder? Was willst du jetzt, hm?",
+  "character.frog.dialog.option.door_closed": "Die Tür ist abgeschlossen...",
+  "character.frog.dialog.option.sorry": "Entschuldigung...",
+  "character.frog.dialog.1": "Die Tür ist abgeschlossen, da komm ich nicht raus.",
+  "character.frog.dialog.2": "Natürlich ist die Tür abgeschlossen, ich habe ja auch gerade meine Mittagspause. Zumindest dachte ich das!",
+  "character.frog.dialog.option.door": "Kannst du die Tür aufschließen?",
+  "character.frog.dialog.3": "Entschuldigung, ich wollte nicht stören. Dann lasse ich dich jetzt in Ruhe.",
+  "character.frog.dialog.4": "[anim][b]Musik[/b][/anim] in meinen Ohren! Da geht es mir doch gleich viel besser. Danke und Tschüss!",
+  "character.frog.dialog.5": "Kannst du bitte die Tür aufschließen damit ich nach Hause komme?",
+  "character.frog.dialog.6": "Natürlich kann ich das! Ich öffne wieder bei Sonnenuntergang. Dann schließe ich die Tür gerne auf.",
+  "character.frog.dialog.7": "Aber ich muss vor Sonnenaufgang schon wieder zuhause sein, sonst machen sich Mama und Papa doch sorgen!",
+  "character.frog.dialog.8": "Nicht mein Problem Kiddo, und jetzt lass mich schlafen.",
 
-    "character.frog.music.1"
-    :
-    "Was für ein wundervoller Klang! Mein Lieblingssong!",
-    "character.frog.music.option.help"
-    :
-    "Ich brauche Hilfe",
-    "character.frog.music.2"
-    :
-    "Ich muss nach Hause, aber die Tür ist abgeschlossen. Kannst du mir bitte helfen?",
-    "character.frog.music.3"
-    :
-    "In Ordnung, hier hast du den Schlüssel.",
-    "character.frog.music.4"
-    :
-    "Danke!!",
-    "character.frog.done"
-    :
-    [
-      "Ich liebe dieses Lied.",
-      "He, Alfi! Spiel den selben Song noch mal!",
-      "Dieses Lied ist ein einziges Meisterwerk!"
-    ],
+  "character.frog.music.1": "Was für ein wundervoller Klang! Mein Lieblingssong!",
+  "character.frog.music.option.help": "Ich brauche Hilfe",
+  "character.frog.music.2": "Ich muss nach Hause, aber die Tür ist abgeschlossen. Kannst du mir bitte helfen?",
+  "character.frog.music.3": "In Ordnung, hier hast du den Schlüssel.",
+  "character.frog.music.4": "Danke!!",
+  "character.frog.done": [
+    "Ich liebe dieses Lied.",
+    "He, Alfi! Spiel den selben Song noch mal!",
+    "Dieses Lied ist ein einziges Meisterwerk!"
+  ],
 
-    "character.tadpole.door_unlocked"
-    :
-    "Die Tür ist offen, jetzt kann ich endlich nach Hause!"
+  "character.tadpole.door_unlocked": "Die Tür ist offen, jetzt kann ich endlich nach Hause!"
 }
