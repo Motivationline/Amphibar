@@ -3052,7 +3052,7 @@
         "name": "WaterDropSprite",
         "labels": {},
         "events": {},
-        "framesPerSecond": 12,
+        "framesPerSecond": 25,
         "animationStructure": {}
       }
     }
@@ -3914,7 +3914,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.42105263471603394, 0]",
+                            "translation": "[0.21052631735801697, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
