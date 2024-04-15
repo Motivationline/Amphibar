@@ -353,6 +353,47 @@
       "url": "Assets\\Characters\\Tadpole\\Fly.glb"
     }
   },
+  "AnimationGLTF|2024-04-12T13:08:15.052Z|16472": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
+      "name": "rootAction",
+      "url": "Assets\\Bar\\Grammophon.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-11T14:54:11.209Z|61497": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {
+        "ComponentAnimator": [
+          {
+            "ƒ.ComponentAnimator": {
+              "Component": {
+                "active": true
+              },
+              "idAnimation": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
+              "playmode": "loop",
+              "quantization": "continous",
+              "scale": 1,
+              "scaleWithGameTime": true,
+              "animateInEditor": true
+            }
+          }
+        ],
+        "ComponentGraphFilter": [
+          {
+            "ƒ.ComponentGraphFilter": {
+              "active": true
+            }
+          }
+        ]
+      },
+      "idResource": "GraphGLTF|2024-04-11T14:54:11.209Z|61497",
+      "type": "GraphGLTF",
+      "url": "Assets\\Bar\\Grammophon.glb"
+    }
+  },
   "Graph|2024-02-08T13:52:27.562Z|67214": {
     "ƒ.Graph": {
       "name": "main",
@@ -7116,47 +7157,6 @@
       "idResource": "GraphGLTF|2024-04-11T14:52:05.031Z|70138",
       "type": "GraphGLTF",
       "url": "Assets\\Bar\\Unterschrank.glb"
-    }
-  },
-  "AnimationGLTF|2024-04-12T13:08:15.052Z|16472": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
-      "name": "rootAction",
-      "url": "Assets\\Bar\\Grammophon.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "GraphGLTF|2024-04-11T14:54:11.209Z|61497": {
-    "ƒ.GraphGLTF": {
-      "name": "Scene",
-      "active": true,
-      "components": {
-        "ComponentAnimator": [
-          {
-            "ƒ.ComponentAnimator": {
-              "Component": {
-                "active": true
-              },
-              "idAnimation": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
-              "playmode": "loop",
-              "quantization": "continous",
-              "scale": 1,
-              "scaleWithGameTime": true,
-              "animateInEditor": true
-            }
-          }
-        ],
-        "ComponentGraphFilter": [
-          {
-            "ƒ.ComponentGraphFilter": {
-              "active": true
-            }
-          }
-        ]
-      },
-      "idResource": "GraphGLTF|2024-04-11T14:54:11.209Z|61497",
-      "type": "GraphGLTF",
-      "url": "Assets\\Bar\\Grammophon.glb"
     }
   },
   "GraphGLTF|2024-04-11T14:57:43.416Z|04365": {
