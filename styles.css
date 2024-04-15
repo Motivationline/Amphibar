@@ -597,6 +597,18 @@ canvas.fullscreen {
   to {transform: translate(82vh, 100vh)}
 }
 
+/* game over screen */
+#game-over-screen {
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3em;
+}
+#game-over-screen #main-menu-sign {
+  position: relative;
+}
+
 /* game overlay */ 
 #game-overlay {
   z-index: 900;

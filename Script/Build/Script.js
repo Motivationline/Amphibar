@@ -372,7 +372,7 @@ var Script;
     var ƒAid = FudgeAid;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
-    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: { dirt: false, toilet1: false, toilet2: false } }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false } };
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: { dirt: false, toilet1: false, toilet2: false } }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false, door_locked: true } };
     let settingsDefault = { music: 100, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
@@ -920,6 +920,9 @@ var Script;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkStatus.bind(this), true);
+            });
         }
         getInteractionType() {
             return Script.INTERACTION_TYPE.DOOR;
@@ -930,15 +933,20 @@ var Script;
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_locked"));
                 return;
             }
-            Script.SceneManager.load(this.target);
+            // SceneManager.load(this.target);
+            Script.MenuManager.Instance.showGameOver();
         }
         tryUseWith(_interactable) {
             if (_interactable.name === "key") {
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_unlocked"));
                 this.locked = false;
                 Script.Inventory.Instance.removeItem(_interactable);
+                Script.progress.frog.door_locked = false;
                 return;
             }
+        }
+        checkStatus() {
+            this.locked = Script.progress.frog.door_locked;
         }
     }
     Script.DoorBar = DoorBar;
@@ -1469,6 +1477,7 @@ var Script;
         gameOverlay;
         disableOverlay;
         itemHover;
+        gameOver;
         loadingScreenMinimumVisibleTimeMS = 4000;
         constructor() {
             if (MenuManager.Instance)
@@ -1489,6 +1498,7 @@ var Script;
             this.optionsScreen = document.getElementById("options-screen");
             this.disableOverlay = document.getElementById("disable-overlay");
             this.itemHover = document.getElementById("hover-item-name");
+            this.gameOver = document.getElementById("game-over-screen");
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-exit").addEventListener("click", this.exit.bind(this));
@@ -1502,6 +1512,7 @@ var Script;
             this.gameOverlay = document.getElementById("game-overlay");
             this.gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
+            this.gameOver.querySelector("button").addEventListener("click", this.restart);
         }
         showStartScreens() {
             this.mainMenuScreen.classList.remove("hidden");
@@ -1562,6 +1573,15 @@ var Script;
         }
         inputEnable() {
             this.disableOverlay.classList.add("hidden");
+        }
+        showGameOver() {
+            this.gameOver.classList.remove("hidden");
+        }
+        restart() {
+            localStorage.removeItem("fly_wants");
+            localStorage.removeItem("progress");
+            localStorage.removeItem("inventory");
+            location.reload();
         }
         //#region Item hover
         hoverStart(_event, _interactable) {

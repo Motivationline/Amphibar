@@ -112,6 +112,7 @@ declare namespace Script {
             checked_door: boolean;
             music: boolean;
             key: boolean;
+            door_locked: boolean;
         };
         scene: string;
     }
@@ -212,6 +213,7 @@ declare namespace Script {
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
         tryUseWith(_interactable: Interactable): void;
+        private checkStatus;
     }
 }
 declare namespace Script {
@@ -298,6 +300,7 @@ declare namespace Script {
         private gameOverlay;
         private disableOverlay;
         private itemHover;
+        private gameOver;
         private loadingScreenMinimumVisibleTimeMS;
         constructor();
         private setupListeners;
@@ -314,6 +317,8 @@ declare namespace Script {
         private gameLoaded;
         inputDisable(): void;
         inputEnable(): void;
+        showGameOver(): void;
+        private restart;
         hoverStart(_event: PointerEvent, _interactable: Interactable): void;
         hoverEnd(): void;
     }
