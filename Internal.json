@@ -235,22 +235,6 @@
       }
     }
   },
-  "AnimationGLTF|2024-04-12T11:52:47.433Z|69403": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.433Z|69403",
-      "name": "LieDown",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.479Z|31788": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
-      "name": "SleepInBanana",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
   "GraphGLTF|2024-04-12T11:52:47.407Z|99836": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -262,7 +246,7 @@
               "Component": {
                 "active": true
               },
-              "idAnimation": "AnimationGLTF|2024-04-12T11:52:47.479Z|31788",
+              "idAnimation": "AnimationGLTF|2024-04-12T11:52:47.697Z|76111",
               "playmode": "loop",
               "quantization": "continous",
               "scale": 1,
@@ -1222,8 +1206,7 @@
                           }
                         }
                       }
-                    ],
-                    "ComponentPick": []
+                    ]
                   },
                   "children": [
                     {
@@ -7721,54 +7704,6 @@
       "url": "Assets\\Decorations\\HangPlant02.glb"
     }
   },
-  "AnimationGLTF|2024-04-12T11:52:47.407Z|27904": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.407Z|27904",
-      "name": "BananaAnimatedAction",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.418Z|95850": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.418Z|95850",
-      "name": "BlinkL",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.460Z|76566": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.460Z|76566",
-      "name": "Quack",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.519Z|49306": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.519Z|49306",
-      "name": "SleepInBanana=2",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.598Z|63616": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.598Z|63616",
-      "name": "SleepInBananaHickUp",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.734Z|92517": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.734Z|92517",
-      "name": "WiggleTEst",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
-    }
-  },
   "AnimationGLTF|2024-04-12T13:08:15.062Z|00971": {
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|00971",
@@ -8029,6 +7964,14 @@
       "idResource": "GraphGLTF|2024-04-15T13:16:49.545Z|11967",
       "type": "GraphGLTF",
       "url": "Assets\\Items\\RagDry.glb"
+    }
+  },
+  "AnimationGLTF|2024-04-15T19:23:48.182Z|13254": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T19:23:48.182Z|13254",
+      "name": "Dance",
+      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
+      "framesPerSecond": 60
     }
   }
 }
