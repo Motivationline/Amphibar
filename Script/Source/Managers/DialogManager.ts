@@ -58,6 +58,7 @@ namespace Script {
         }
 
         private clickedOverlay(_event: MouseEvent) {
+            if(_event.target !== this.#overlayBox) return;
             this.#textProgress = Infinity;
             if (this.#currentPromiseResolver && !this.#currentDialog.options) {
                 this.#currentPromiseResolver();
@@ -191,7 +192,7 @@ namespace Script {
             MenuManager.Instance.hoverEnd();
             await this.showText(_delay);
             if (_dialog.options)
-                return this.showOptions();
+                return await this.showOptions();
             return new Promise((resolve) => {
                 this.#currentPromiseResolver = resolve;
             });
