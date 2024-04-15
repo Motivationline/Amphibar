@@ -1,6 +1,8 @@
 {
   "item.Cocktailglas.name": "Cocktailglas",
   "item.glass.name": "Cocktailglas",
+  "item.rag.name": "Lappen",
+  "item.rag_wet.name": "Nasser Lappen",
   "interact": "Das funktioniert nicht.",
 
   "item.Wasserhahn.name": "Wasserhahn",
@@ -27,6 +29,8 @@
     "Schade das es kein blubberbläschen Wasser ist...",
     "Splitsch-Splatsch!"
   ],
+  "bath.bucket_full.interact.rag": "So, der Lappen ist jetzt nass.",
+  "bath.bucket_full.interact.rag_wet": "Der Lappen ist schon nass.",
 
   "item.Toilette.name": "Toilette",
   "bath.Toilette.interact": "Ugh, das sieht nicht gerade einladend aus!",
