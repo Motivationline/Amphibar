@@ -56,6 +56,7 @@ namespace Script {
             this.node.getChild(1).activate(false);
         }
         private fillBucket(){
+            this.name = "bucket_full";
             this.node.getChild(0).activate(false);
             this.node.getChild(1).activate(true);
         }

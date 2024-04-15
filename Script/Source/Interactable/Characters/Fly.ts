@@ -117,13 +117,13 @@ namespace Script {
                 options.push({ id: "drink", "text": Interactable.textProvider.get("character.fly.intro.option.drink") });
             }
 
-            // polite or not?
+            // bye option
             options.push({ id: "bye", "text": Interactable.textProvider.get("character.fly.intro.option.bye") });
 
             let firstTime = true;
             if (options.length > 1) {
                 let choice: string | void;
-                while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
+                while (choice !== "bye" && options.length > 1) {
                     if (!progress.fly.intro) {
                         choice = await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
                     }
@@ -149,11 +149,10 @@ namespace Script {
                         case "clean-done":
                             CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.clean.done.1"));
                             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.clean.done.2"));
-                            options.splice(options.findIndex((opt) => opt.id === "clean-done"));
+                            options.splice(options.findIndex((opt) => opt.id === "clean-done"), 1);
                             progress.fly.clean = 6;
                             break;
                     }
-                    options[options.length - 1] = { id: "bye", "text": Interactable.textProvider.get("character.fly.intro.option.bye") };
                     progress.fly.intro = true;
                     firstTime = false;
                 }

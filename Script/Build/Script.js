@@ -738,6 +738,7 @@ var Script;
             this.node.getChild(1).activate(false);
         }
         fillBucket() {
+            this.name = "bucket_full";
             this.node.getChild(0).activate(false);
             this.node.getChild(1).activate(true);
         }
@@ -775,6 +776,7 @@ var Script;
                 }
                 if (allClean)
                     Script.progress.fly.clean = 4;
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Schleim.clean"));
                 return;
             }
             super.tryUseWith(_interactable);
@@ -829,6 +831,7 @@ var Script;
                 }
                 if (allClean)
                     Script.progress.fly.clean = 4;
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Toilette.clean"));
                 return;
             }
             super.tryUseWith(_interactable);
@@ -1103,12 +1106,12 @@ var Script;
             if (Script.progress.fly.drink <= 1) {
                 options.push({ id: "drink", "text": Script.Interactable.textProvider.get("character.fly.intro.option.drink") });
             }
-            // polite or not?
+            // bye option
             options.push({ id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") });
             let firstTime = true;
             if (options.length > 1) {
                 let choice;
-                while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
+                while (choice !== "bye" && options.length > 1) {
                     if (!Script.progress.fly.intro) {
                         choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
                     }
@@ -1134,11 +1137,10 @@ var Script;
                         case "clean-done":
                             Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.clean.done.1"));
                             Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.clean.done.2"));
-                            options.splice(options.findIndex((opt) => opt.id === "clean-done"));
+                            options.splice(options.findIndex((opt) => opt.id === "clean-done"), 1);
                             Script.progress.fly.clean = 6;
                             break;
                     }
-                    options[options.length - 1] = { id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") };
                     Script.progress.fly.intro = true;
                     firstTime = false;
                 }

@@ -48,6 +48,7 @@ namespace Script {
                     allClean = progress.fly.cleaned[key] && allClean;
                 }
                 if(allClean) progress.fly.clean = 4;
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.Toilette.clean"));
                 return;
             }
             super.tryUseWith(_interactable);
