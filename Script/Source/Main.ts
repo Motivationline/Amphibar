@@ -8,7 +8,7 @@ namespace Script {
   export const interactableItems: Interactable[] = [];
   export let character: CharacterScript;
 
-  let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: {dirt: false, toilet1: false, toilet2: false} }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false } };
+  let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: {dirt: false, toilet1: false, toilet2: false} }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false, door_locked: true } };
   let settingsDefault: Settings = { music: 100, sounds: 100 };
   export let progress: Progress = onChange(
     merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})),
@@ -208,6 +208,7 @@ namespace Script {
       checked_door: boolean,
       music: boolean,
       key: boolean,
+      door_locked: boolean,
     }
     scene: string,
   }

@@ -8,6 +8,7 @@ namespace Script {
         private gameOverlay: HTMLElement;
         private disableOverlay: HTMLElement;
         private itemHover: HTMLElement;
+        private gameOver: HTMLElement;
         private loadingScreenMinimumVisibleTimeMS: number = 4000;
 
         constructor() {
@@ -31,6 +32,7 @@ namespace Script {
             this.optionsScreen = document.getElementById("options-screen");
             this.disableOverlay = document.getElementById("disable-overlay");
             this.itemHover = document.getElementById("hover-item-name");
+            this.gameOver = document.getElementById("game-over-screen");
 
             this.mainMenuScreen.querySelector("#main-menu-start").addEventListener("click", this.startGame.bind(this));
             this.mainMenuScreen.querySelector("#main-menu-options").addEventListener("click", this.showOptions.bind(this));
@@ -50,6 +52,8 @@ namespace Script {
             this.gameOverlay.querySelector("img").addEventListener("click", this.showOptions.bind(this));
 
             document.querySelector("dialog").addEventListener("click", this.showStartScreens.bind(this));
+
+            this.gameOver.querySelector("button").addEventListener("click", this.restart);
         }
 
         private showStartScreens() {
@@ -119,6 +123,17 @@ namespace Script {
         }
         public inputEnable() {
             this.disableOverlay.classList.add("hidden");
+        }
+
+        public showGameOver(){
+            this.gameOver.classList.remove("hidden");
+        }
+
+        private restart(){
+            localStorage.removeItem("fly_wants");
+            localStorage.removeItem("progress");
+            localStorage.removeItem("inventory");
+            location.reload();
         }
 
         //#region Item hover
