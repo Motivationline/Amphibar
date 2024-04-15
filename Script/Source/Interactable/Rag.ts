@@ -22,19 +22,17 @@ namespace Script {
         }
 
         getInteractionType(): INTERACTION_TYPE {
-            if (progress.fly.clean === 0) {
+            if (!progress.fly.intro) {
                 return INTERACTION_TYPE.LOOK_AT;
             }
             return INTERACTION_TYPE.PICK_UP;
         }
 
         async interact(): Promise<void> {
-            let p: number = progress.fly.clean ?? 0;
-            if (p === 0) {
+            if (!progress.fly.intro) {
                 CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.rag.no_need"));
                 return;
-            }
-            if (p === 1) {
+            } else {
                 await CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.rag.pickup"));
                 progress.fly.clean = 2;
                 Inventory.Instance.addItem(this);

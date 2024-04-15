@@ -973,18 +973,17 @@ var Script;
             this.node.getParent().removeChild(this.node);
         }
         getInteractionType() {
-            if (Script.progress.fly.clean === 0) {
+            if (!Script.progress.fly.intro) {
                 return Script.INTERACTION_TYPE.LOOK_AT;
             }
             return Script.INTERACTION_TYPE.PICK_UP;
         }
         async interact() {
-            let p = Script.progress.fly.clean ?? 0;
-            if (p === 0) {
+            if (!Script.progress.fly.intro) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.no_need"));
                 return;
             }
-            if (p === 1) {
+            else {
                 await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.pickup"));
                 Script.progress.fly.clean = 2;
                 Script.Inventory.Instance.addItem(this);
