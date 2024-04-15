@@ -1394,7 +1394,7 @@
                             {
                               "ƒ.ComponentMaterial": {
                                 "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 0.75]",
+                                "clrPrimary": "[1, 1, 1, 0]",
                                 "clrSecondary": "[1, 1, 1, 1]",
                                 "pivot": {
                                   "translation": "[0, 0]",
@@ -1408,7 +1408,6 @@
                               }
                             }
                           ],
-                          "PickingScript": [],
                           "Interactable": [
                             {
                               "Script.Interactable": {
