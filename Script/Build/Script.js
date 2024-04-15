@@ -1185,7 +1185,7 @@ var Script;
         async interact() {
             // frog dialogue
             // intro
-            if (!Script.progress.frog.intro) {
+            if (!Script.progress.frog.intro && !Script.progress.frog.music) {
                 let result = await Script.CharacterScript.talkAs("Frog", Script.Interactable.textProvider.get("character.frog.intro.0"), "neutral", [
                     { id: "intro", text: Script.Interactable.textProvider.get("character.frog.intro.option.intro") },
                     { id: "help", text: Script.Interactable.textProvider.get("character.frog.intro.option.help") },

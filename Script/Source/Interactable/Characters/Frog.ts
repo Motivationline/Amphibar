@@ -13,7 +13,7 @@ namespace Script {
         async interact(): Promise<void> {
             // frog dialogue
             // intro
-            if (!progress.frog.intro) {
+            if (!progress.frog.intro && !progress.frog.music) {
                 let result = await CharacterScript.talkAs("Frog", Interactable.textProvider.get("character.frog.intro.0"), "neutral", [
                     { id: "intro", text: Interactable.textProvider.get("character.frog.intro.option.intro") },
                     { id: "help", text: Interactable.textProvider.get("character.frog.intro.option.help") },
