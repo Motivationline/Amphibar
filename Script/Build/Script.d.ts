@@ -142,18 +142,20 @@ declare namespace Script {
 }
 declare namespace Script {
     class BathroomBucket extends Interactable {
-        text: string;
         name: string;
         constructor(_name: string, _image: string);
         interact(): void;
-        tryUseWith(_interactable: Interactable): void;
+        tryUseWith(_interactable: Interactable): Promise<void>;
     }
 }
 declare namespace Script {
     class BathroomValve extends Interactable {
+        private drop;
+        private open;
         constructor(_name: string, _image: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
+        private setAnimations;
     }
 }
 declare namespace Script {
@@ -172,6 +174,18 @@ declare namespace Script {
         constructor(_name?: string, _image?: string);
         getInteractionType(): INTERACTION_TYPE;
         interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class Rag extends Interactable {
+        name: string;
+        image: string;
+        constructor(_name: string, _image: string);
+        private checkExistance;
+        private remove;
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): Promise<void>;
         tryUseWith(_interactable: Interactable): void;
     }
 }

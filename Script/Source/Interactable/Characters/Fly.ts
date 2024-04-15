@@ -109,7 +109,7 @@ namespace Script {
                         case "clean":
                             CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.clean.question"));
                             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.clean.info"));
-                            progress.fly.clean = 1;
+                            progress.fly.clean = Math.max(1, progress.fly.clean);
                             break;
                         case "drink":
                             CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.drink.question"));

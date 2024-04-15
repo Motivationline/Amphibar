@@ -323,13 +323,15 @@ var Script;
         addItem(_item) {
             if (!this.itemsToHTMLMap.has(_item)) {
                 let element = _item.toHTMLElement();
-                this.divInventory.appendChild(element);
                 this.itemsToHTMLMap.set(_item, element);
                 this.updateStorage();
                 this.preview.innerHTML = "";
                 this.preview.appendChild(_item.toHTMLElement());
                 this.preview.classList.add("show");
-                setTimeout(() => { this.preview.classList.remove("show"); }, 1200);
+                setTimeout(() => {
+                    this.preview.classList.remove("show");
+                    this.divInventory.appendChild(element);
+                }, 1200);
             }
         }
         removeItem(_item) {
@@ -654,13 +656,12 @@ var Script;
 var Script;
 (function (Script) {
     class BathroomBucket extends Script.Interactable {
-        text = "...";
-        name = "Bucket";
+        name = "bucket";
         constructor(_name, _image) {
             super(_name, _image);
         }
         interact() {
-            let p = Script.progress.fly?.clean ?? 0;
+            let p = Script.progress.fly.clean ?? 0;
             if (p <= 1) {
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.0"));
                 return;
@@ -678,9 +679,15 @@ var Script;
                 return;
             }
         }
-        tryUseWith(_interactable) {
+        async tryUseWith(_interactable) {
             if (Script.progress.fly.clean >= 3) {
                 this.name = "bucket_full";
+            }
+            if (_interactable.name == "rag") {
+                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.rag"));
+                Script.Inventory.Instance.removeItem(_interactable);
+                Script.Inventory.Instance.addItem(new Script.Interactable("rag_wet", "Assets/UI/Inventar/Item_Lappen_Nass.png"));
+                return;
             }
             super.tryUseWith(_interactable);
         }
@@ -690,11 +697,18 @@ var Script;
 var Script;
 (function (Script) {
     class BathroomValve extends Script.Interactable {
+        drop;
+        open;
         constructor(_name, _image) {
             super(_name, _image);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setAnimations.bind(this), true);
+            });
         }
         getInteractionType() {
-            let p = Script.progress.fly?.clean ?? 0;
+            let p = Script.progress.fly.clean ?? 0;
             if (p && p === 1)
                 return Script.INTERACTION_TYPE.USE;
             return Script.INTERACTION_TYPE.LOOK_AT;
@@ -707,15 +721,30 @@ var Script;
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.0"));
                     break;
                 case 2:
-                    // TODO: hier wasser eimer auffüllen einfügen
-                    // progress.fly.clean = Math.min(2, p + 1);
+                    this.open.activate(true);
+                    this.drop.activate(false);
+                    let anim = this.open.getComponent(ƒ.ComponentAnimator);
+                    anim.jumpTo(0);
+                    setTimeout(() => {
+                        this.open.activate(false);
+                        this.drop.activate(true);
+                        this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                        // TODO: wasser eimer visuell anpassen
+                        // this.node.getParent().getChildrenByName("bucket")[0].
+                    }, anim.animation.totalTime);
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.1"));
-                    Script.progress.fly.clean++;
+                    Script.progress.fly.clean = 3;
                     break;
                 case 3:
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.2"));
                     break;
             }
+        }
+        setAnimations() {
+            let animsprites = this.node.getAncestor().getChildrenByName("animationsprites")[0];
+            this.drop = animsprites.getChildrenByName("WaterDrop")[0];
+            this.open = animsprites.getChildrenByName("WaterFall")[0];
+            this.open.activate(false);
         }
     }
     Script.BathroomValve = BathroomValve;
@@ -774,6 +803,56 @@ var Script;
         }
     }
     Script.DoorBar = DoorBar;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class Rag extends Script.Interactable {
+        name = "rag";
+        image = "Assets/UI/Inventar/Item_Lappen.png";
+        constructor(_name, _image) {
+            super(_name, _image);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+            });
+        }
+        checkExistance() {
+            if (Script.progress.fly.clean >= 2) {
+                this.remove();
+            }
+        }
+        remove() {
+            this.node.getParent().removeChild(this.node);
+        }
+        getInteractionType() {
+            if (Script.progress.fly.clean === 0) {
+                return Script.INTERACTION_TYPE.LOOK_AT;
+            }
+            return Script.INTERACTION_TYPE.PICK_UP;
+        }
+        async interact() {
+            let p = Script.progress.fly.clean ?? 0;
+            if (p === 0) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.no_need"));
+                return;
+            }
+            if (p === 1) {
+                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.pickup"));
+                Script.progress.fly.clean = 2;
+                Script.Inventory.Instance.addItem(this);
+                this.remove();
+                return;
+            }
+        }
+        tryUseWith(_interactable) {
+            if (Script.progress.fly.clean >= 3) {
+                this.name = "bucket_full";
+            }
+            super.tryUseWith(_interactable);
+        }
+    }
+    Script.Rag = Rag;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -879,7 +958,7 @@ var Script;
                         case "clean":
                             Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.clean.question"));
                             Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.clean.info"));
-                            Script.progress.fly.clean = 1;
+                            Script.progress.fly.clean = Math.max(1, Script.progress.fly.clean);
                             break;
                         case "drink":
                             Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.drink.question"));
