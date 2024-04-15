@@ -1106,9 +1106,9 @@ var Script;
             }
             // polite or not?
             options.push({ id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") });
+            let firstTime = true;
             if (options.length > 1) {
                 let choice;
-                let firstTime = true;
                 while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
                     if (!Script.progress.fly.intro) {
                         choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
@@ -1145,11 +1145,15 @@ var Script;
                 }
                 if (choice === "bye")
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.bye"));
-                return;
+                if (options.length > 1)
+                    return;
             }
             // nothing to help with anymore but text wasn't seen yet.
             if (!Script.progress.fly.done) {
-                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"));
+                if (firstTime)
+                    Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"));
+                else
+                    Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.repeat"));
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.dialog.done.0"));
                 await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.1"));
                 Script.progress.fly.done = true;
