@@ -59,6 +59,8 @@
     "Das kommt mir nicht richtig vor..."
   ],
 
+  "main.Getränkebar.interact": "Ich würde es nicht wagen hier einfach etwas zu stehlen!",
+
   "item.glass.bachwasser.name": "Bachwasser",
   "item.glass.goldnektar.name": "Goldnektar",
   "item.glass.goldwasser.name": "Goldwasser",

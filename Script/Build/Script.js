@@ -655,6 +655,35 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
+    class Bar extends Script.Interactable {
+        name = "Getränkebar";
+        target = "shelf";
+        constructor(_name, _image) {
+            super(_name, _image);
+            // Don't start when running in editor
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+        }
+        getInteractionType() {
+            if (!Script.progress.fly.intro) {
+                return Script.INTERACTION_TYPE.LOOK_AT;
+            }
+            return Script.INTERACTION_TYPE.DOOR;
+        }
+        interact() {
+            if (!Script.progress.fly.intro) {
+                super.interact();
+                return;
+            }
+            Script.SceneManager.load(this.target);
+        }
+        tryUseWith(_interactable) { }
+    }
+    Script.Bar = Bar;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
     class BathroomBucket extends Script.Interactable {
         name = "bucket";
         constructor(_name, _image) {
