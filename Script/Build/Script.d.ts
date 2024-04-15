@@ -218,6 +218,10 @@ declare namespace Script {
 declare namespace Script {
     class Fly extends Interactable {
         #private;
+        private animations;
+        constructor(_name?: string, _image?: string);
+        private init;
+        private setAnimation;
         private randomDrinkOrLoad;
         getInteractionType(): INTERACTION_TYPE;
         tryUseWith(_interactable: Interactable): void;

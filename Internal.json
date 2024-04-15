@@ -1237,7 +1237,7 @@
                                   "active": true
                                 },
                                 "idAnimation": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
-                                "playmode": "loop",
+                                "playmode": "playOnce",
                                 "quantization": "continous",
                                 "scale": 1,
                                 "scaleWithGameTime": true,
@@ -3556,7 +3556,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomDirt": [
                       {
                         "Script.BathroomDirt": {
@@ -3636,7 +3635,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomToilet": [
                       {
                         "Script.BathroomToilet": {
@@ -3723,7 +3721,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomToilet": [
                       {
                         "Script.BathroomToilet": {
@@ -3855,7 +3852,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.3684210479259491, 0]",
+                            "translation": "[0.2631579041481018, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },

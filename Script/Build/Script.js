@@ -827,31 +827,27 @@ var Script;
             return Script.INTERACTION_TYPE.LOOK_AT;
         }
         interact() {
-            let p = Script.progress.fly.clean;
-            switch (p) {
-                case 0:
-                case 1:
-                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.0"));
-                    break;
-                case 2:
-                    this.open.activate(true);
-                    this.drop.activate(false);
-                    let anim = this.open.getComponent(ƒ.ComponentAnimator);
-                    anim.jumpTo(0);
-                    setTimeout(() => {
-                        this.open.activate(false);
-                        this.drop.activate(true);
-                        this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
-                        // TODO: wasser eimer visuell anpassen
-                        //@ts-ignore
-                        this.node.getParent().getChildrenByName("bucket")[0].getComponent(Script.BathroomBucket).fillBucket();
-                    }, anim.animation.totalTime);
-                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.1"));
-                    Script.progress.fly.clean = 3;
-                    break;
-                case 3:
-                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.2"));
-                    break;
+            if (Script.progress.fly.clean <= 1) {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.0"));
+            }
+            else if (Script.progress.fly.clean === 2) {
+                this.open.activate(true);
+                this.drop.activate(false);
+                let anim = this.open.getComponent(ƒ.ComponentAnimator);
+                anim.jumpTo(0);
+                setTimeout(() => {
+                    this.open.activate(false);
+                    this.drop.activate(true);
+                    this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                    // TODO: wasser eimer visuell anpassen
+                    //@ts-ignore
+                    this.node.getParent().getChildrenByName("bucket")[0].getComponent(Script.BathroomBucket).fillBucket();
+                }, anim.animation.totalTime);
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.1"));
+                Script.progress.fly.clean = 3;
+            }
+            else {
+                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.2"));
             }
         }
         setAnimations() {
@@ -966,6 +962,31 @@ var Script;
 (function (Script) {
     class Fly extends Script.Interactable {
         #wantedIngredients = this.randomDrinkOrLoad();
+        #animator;
+        animations = new Map();
+        constructor(_name, _image) {
+            super(_name, _image);
+            ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setAnimation.bind(this), true);
+            });
+        }
+        init() {
+            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+            let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
+            for (let anim of animations) {
+                this.animations.set(anim.name, anim);
+            }
+        }
+        setAnimation() {
+            if (!Script.progress.fly.done) {
+                this.#animator.animation = this.animations.get("IdleSad");
+            }
+            else {
+                this.#animator.animation = this.animations.get("IdleHappy");
+            }
+            this.#animator.jumpTo(0);
+        }
         randomDrinkOrLoad() {
             let result = JSON.parse(localStorage.getItem("fly_wants") ?? "[]");
             if (result.length >= 2)
@@ -1093,10 +1114,16 @@ var Script;
             if (!Script.progress.fly.done) {
                 Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"));
                 Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.dialog.done.0"));
-                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.1"));
+                await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.1"));
                 Script.progress.fly.done = true;
                 Script.progress.frog.music = true;
                 // TODO: play music animation
+                this.#animator.animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
+                this.#animator.jumpTo(0);
+                this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                setTimeout(() => {
+                    this.setAnimation();
+                }, this.#animator.animation.totalTime);
                 return;
             }
             Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.filler"));

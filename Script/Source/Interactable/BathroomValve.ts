@@ -18,35 +18,31 @@ namespace Script {
             return INTERACTION_TYPE.LOOK_AT;
         }
         interact(): void {
-            let p: number = progress.fly.clean;
-            switch (p) {
-                case 0:
-                case 1:
-                    CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.0"));
-                    break;
-                case 2:
-                    this.open.activate(true);
-                    this.drop.activate(false);
-                    
-                    let anim = this.open.getComponent(ƒ.ComponentAnimator);
-                    anim.jumpTo(0);
-                    
-                    setTimeout(()=> {
-                        this.open.activate(false);
-                        this.drop.activate(true);
-                        this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
-                        // TODO: wasser eimer visuell anpassen
-                        //@ts-ignore
-                        this.node.getParent().getChildrenByName("bucket")[0].getComponent(BathroomBucket).fillBucket();
-                    }, anim.animation.totalTime);
+            if (progress.fly.clean <= 1) {
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.0"));
+            } else if (progress.fly.clean === 2) {
 
 
-                    CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.1"));
-                    progress.fly.clean = 3;
-                    break;
-                case 3:
-                    CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.2"));
-                    break;
+                this.open.activate(true);
+                this.drop.activate(false);
+
+                let anim = this.open.getComponent(ƒ.ComponentAnimator);
+                anim.jumpTo(0);
+
+                setTimeout(() => {
+                    this.open.activate(false);
+                    this.drop.activate(true);
+                    this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                    // TODO: wasser eimer visuell anpassen
+                    //@ts-ignore
+                    this.node.getParent().getChildrenByName("bucket")[0].getComponent(BathroomBucket).fillBucket();
+                }, anim.animation.totalTime);
+
+
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.1"));
+                progress.fly.clean = 3;
+            } else {
+                CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("bath.valve.interact.2"));
             }
         }
 
