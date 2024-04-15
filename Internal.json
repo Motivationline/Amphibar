@@ -577,15 +577,7 @@
                         }
                       }
                     ],
-                    "Door": [
-                      {
-                        "Script.Door": {
-                          "active": true,
-                          "name": "Getränkebar",
-                          "target": "shelf"
-                        }
-                      }
-                    ],
+                    "Door": [],
                     "ComponentMesh": [
                       {
                         "ƒ.ComponentMesh": {
@@ -630,6 +622,15 @@
                           "Component": {
                             "active": true
                           }
+                        }
+                      }
+                    ],
+                    "Bar": [
+                      {
+                        "Script.Bar": {
+                          "active": true,
+                          "name": "Getränkebar",
+                          "target": "shelf"
                         }
                       }
                     ]
@@ -1237,7 +1238,7 @@
                                   "active": true
                                 },
                                 "idAnimation": "AnimationGLTF|2024-04-12T13:08:15.052Z|16472",
-                                "playmode": "loop",
+                                "playmode": "playOnce",
                                 "quantization": "continous",
                                 "scale": 1,
                                 "scaleWithGameTime": true,
@@ -2900,7 +2901,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idAnimation": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
+                          "idAnimation": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
                           "playmode": "loop",
                           "quantization": "continous",
                           "scale": 1,
@@ -3556,7 +3557,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomDirt": [
                       {
                         "Script.BathroomDirt": {
@@ -3636,7 +3636,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomToilet": [
                       {
                         "Script.BathroomToilet": {
@@ -3723,7 +3722,6 @@
                         }
                       }
                     ],
-                    "Interactable": [],
                     "BathroomToilet": [
                       {
                         "Script.BathroomToilet": {
@@ -3855,7 +3853,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.3684210479259491, 0]",
+                            "translation": "[0.8421052694320679, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },

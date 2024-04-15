@@ -1,6 +1,35 @@
 namespace Script {
     export class Fly extends Interactable {
         #wantedIngredients: string[] = this.randomDrinkOrLoad();
+        #animator: ƒ.ComponentAnimator;
+        private animations: Map<string, ƒ.Animation> = new Map();
+
+        constructor(_name?: string, _image?: string) {
+            super(_name, _image);
+
+
+            ƒ.Project.addEventListener(ƒ.EVENT.RESOURCES_LOADED, this.init.bind(this));
+            this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
+                this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.setAnimation.bind(this), true);
+            });
+        }
+
+        private init() {
+            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+            let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
+            for (let anim of animations) {
+                this.animations.set(anim.name, <ƒ.Animation>anim);
+            }
+        }
+        
+        private setAnimation(){
+            if(!progress.fly.done){
+                this.#animator.animation = this.animations.get("IdleSad");
+            } else {
+                this.#animator.animation = this.animations.get("IdleHappy");
+            }
+            this.#animator.jumpTo(0);
+        }
 
         private randomDrinkOrLoad(): string[] {
             let result: string[] = JSON.parse(localStorage.getItem("fly_wants") ?? "[]");
@@ -137,10 +166,17 @@ namespace Script {
             if (!progress.fly.done) {
                 CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog"));
                 CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.dialog.done.0"));
-                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.1"));
+                await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.1"));
                 progress.fly.done = true;
                 progress.frog.music = true;
                 // TODO: play music animation
+                this.#animator.animation = <ƒ.Animation> await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
+                this.#animator.jumpTo(0);
+
+                this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                setTimeout(()=>{
+                    this.setAnimation();
+                }, this.#animator.animation.totalTime);
                 return;
             }
             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.filler"));

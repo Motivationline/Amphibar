@@ -146,6 +146,16 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class Bar extends Interactable {
+        name: string;
+        target: string;
+        constructor(_name?: string, _image?: string);
+        getInteractionType(): INTERACTION_TYPE;
+        interact(): void;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
     class BathroomBucket extends Interactable {
         name: string;
         constructor(_name?: string, _image?: string);
@@ -218,6 +228,10 @@ declare namespace Script {
 declare namespace Script {
     class Fly extends Interactable {
         #private;
+        private animations;
+        constructor(_name?: string, _image?: string);
+        private init;
+        private setAnimation;
         private randomDrinkOrLoad;
         getInteractionType(): INTERACTION_TYPE;
         tryUseWith(_interactable: Interactable): void;
