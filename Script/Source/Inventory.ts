@@ -44,7 +44,7 @@ namespace Script {
                 setTimeout(() => { 
                     this.preview.classList.remove("show") 
                     this.divInventory.appendChild(element);
-                }, 1200);
+                }, 1300);
             }
         }
 

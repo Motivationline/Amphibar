@@ -101,6 +101,11 @@ declare namespace Script {
             clean: number;
             drink: number;
             worm: number;
+            cleaned: {
+                dirt: boolean;
+                toilet1: boolean;
+                toilet2: boolean;
+            };
         };
         frog: {
             intro: boolean;
@@ -143,9 +148,31 @@ declare namespace Script {
 declare namespace Script {
     class BathroomBucket extends Interactable {
         name: string;
-        constructor(_name: string, _image: string);
+        constructor(_name?: string, _image?: string);
         interact(): void;
         tryUseWith(_interactable: Interactable): Promise<void>;
+        private checkExistance;
+        private emptyBucket;
+        private fillBucket;
+    }
+}
+declare namespace Script {
+    class BathroomDirt extends Interactable {
+        name: string;
+        constructor(_name: string, _image: string);
+        private checkExistance;
+        private remove;
+        tryUseWith(_interactable: Interactable): void;
+    }
+}
+declare namespace Script {
+    class BathroomToilet extends Interactable {
+        name: string;
+        id: number;
+        constructor(_name: string, _image: string);
+        private checkDirtyness;
+        private clean;
+        tryUseWith(_interactable: Interactable): void;
     }
 }
 declare namespace Script {
@@ -186,7 +213,6 @@ declare namespace Script {
         private remove;
         getInteractionType(): INTERACTION_TYPE;
         interact(): Promise<void>;
-        tryUseWith(_interactable: Interactable): void;
     }
 }
 declare namespace Script {

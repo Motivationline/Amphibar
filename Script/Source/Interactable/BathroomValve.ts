@@ -36,7 +36,8 @@ namespace Script {
                         this.drop.activate(true);
                         this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
                         // TODO: wasser eimer visuell anpassen
-                        // this.node.getParent().getChildrenByName("bucket")[0].
+                        //@ts-ignore
+                        this.node.getParent().getChildrenByName("bucket")[0].getComponent(BathroomBucket).fillBucket();
                     }, anim.animation.totalTime);
 
 

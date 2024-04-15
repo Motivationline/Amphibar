@@ -43,12 +43,5 @@ namespace Script {
             }
         }
 
-        tryUseWith(_interactable: Interactable): void {
-            if (progress.fly.clean >= 3) {
-                this.name = "bucket_full";
-            }
-            super.tryUseWith(_interactable);
-        }
-
     }
 }

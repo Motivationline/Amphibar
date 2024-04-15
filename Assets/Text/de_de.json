@@ -36,6 +36,7 @@
   "bath.bucket_full.interact.rag_wet": "Der Lappen ist schon nass.",
 
   "item.Toilette.name": "Toilette",
+  "item.Toilette_sauber.name": "Toilette",
   "bath.Toilette.interact": "Ugh, das sieht nicht gerade einladend aus!",
 
   "item.Schleim.name": "Schleim",
@@ -44,6 +45,10 @@
     "Igitt! Meine armen Schlappen...",
     "Das klebt ja richtig."
   ],
+  "bath.Schleim.interact.rag": "Mit einem trockenen Lappen putzt es sich nicht gut.",
+  "bath.Toilette.interact.rag": "Mit einem trockenen Lappen putzt es sich nicht gut.",
+  "bath.Toilette_sauber.interact.rag_wet": "Das habe ich schon sauber gemacht.",
+  "bath.Toilette_sauber.interact": "So ist das schon gleich viel einladender.",
 
   "item.Spiegel.name": "Spiegel",
   "bath.Spiegel.interact": [

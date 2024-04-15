@@ -188,6 +188,7 @@ namespace Script {
             this.setupDisplay();
 
             // show dialog
+            MenuManager.Instance.hoverEnd();
             await this.showText(_delay);
             if (_dialog.options)
                 return this.showOptions();

@@ -298,11 +298,11 @@
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb"
     }
   },
-  "AnimationGLTF|2024-04-12T12:14:43.423Z|34969": {
+  "AnimationGLTF|2024-04-15T11:39:50.159Z|14958": {
     "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
-      "name": "Handle",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "idResource": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
+      "name": "IdleSad",
+      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
       "framesPerSecond": 60
     }
   },
@@ -317,7 +317,7 @@
               "Component": {
                 "active": true
               },
-              "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+              "idAnimation": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
               "playmode": "loop",
               "quantization": "continous",
               "scale": 1,
@@ -421,6 +421,14 @@
       "type": "MeshSphere",
       "longitudes": 8,
       "latitudes": 8
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:39.877Z|33975": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
+      "name": "StartGrammophon",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
     }
   },
   "Graph|2024-02-08T13:52:27.562Z|67214": {
@@ -2892,7 +2900,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+                          "idAnimation": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
                           "playmode": "loop",
                           "quantization": "continous",
                           "scale": 1,
@@ -3096,7 +3104,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 1.9149922720247294,
+                    "aspect": 1.782716049382716,
                     "pivot": {
                       "translation": "[0, 1, 4.900000095367432]",
                       "rotation": "[5, 179, 0]",
@@ -3478,6 +3486,12 @@
                         "deserializeFromSource": true,
                         "idSource": "GraphGLTF|2024-03-13T14:33:08.030Z|29798"
                       }
+                    },
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-15T09:13:09.834Z|63001"
+                      }
                     }
                   ]
                 }
@@ -3542,9 +3556,10 @@
                         }
                       }
                     ],
-                    "Interactable": [
+                    "Interactable": [],
+                    "BathroomDirt": [
                       {
-                        "Script.Interactable": {
+                        "Script.BathroomDirt": {
                           "active": true,
                           "name": "Schleim"
                         }
@@ -3621,11 +3636,13 @@
                         }
                       }
                     ],
-                    "Interactable": [
+                    "Interactable": [],
+                    "BathroomToilet": [
                       {
-                        "Script.Interactable": {
+                        "Script.BathroomToilet": {
                           "active": true,
-                          "name": "Toilette"
+                          "name": "Toilette",
+                          "id": 1
                         }
                       }
                     ]
@@ -3635,6 +3652,12 @@
                       "ƒ.GraphInstance": {
                         "deserializeFromSource": true,
                         "idSource": "GraphGLTF|2024-03-13T14:33:07.041Z|69856"
+                      }
+                    },
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-15T09:55:34.602Z|47749"
                       }
                     }
                   ]
@@ -3700,11 +3723,13 @@
                         }
                       }
                     ],
-                    "Interactable": [
+                    "Interactable": [],
+                    "BathroomToilet": [
                       {
-                        "Script.Interactable": {
+                        "Script.BathroomToilet": {
                           "active": true,
-                          "name": "Toilette"
+                          "name": "Toilette",
+                          "id": 2
                         }
                       }
                     ]
@@ -3714,6 +3739,12 @@
                       "ƒ.GraphInstance": {
                         "deserializeFromSource": true,
                         "idSource": "GraphGLTF|2024-03-13T14:33:07.041Z|69856"
+                      }
+                    },
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-15T09:55:34.602Z|47749"
                       }
                     }
                   ]
@@ -3824,7 +3855,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.44736841320991516, 0]",
+                            "translation": "[0.3684210479259491, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -3854,9 +3885,9 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-1.4090007543563843, 0.5579999089241028, 0.7900000810623169]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[0.1399998962879181, 0.13999995589256287, 0.1399998813867569]"
+                            "translation": "[-1.4090007543563843, 0.48799991607666016, 0.7680001258850098]",
+                            "rotation": "[-6, 19, 0]",
+                            "scaling": "[0.09999986737966537, 0.27999991178512573, 0.14000000059604645]"
                           },
                           "Component": {
                             "active": true
@@ -3871,7 +3902,7 @@
               {
                 "ƒ.Node": {
                   "name": "WaterFall",
-                  "active": true,
+                  "active": false,
                   "components": {
                     "ComponentMesh": [
                       {
@@ -3895,7 +3926,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8775510191917419, 0]",
+                            "translation": "[0.7755101919174194, 0]",
                             "rotation": 0,
                             "scaling": "[0.020408162847161293, 1]"
                           },
@@ -6041,9 +6072,9 @@
                         "ƒ.ComponentMesh": {
                           "idMesh": "MeshCube|2024-02-13T09:21:08.648Z|96287",
                           "pivot": {
-                            "translation": "[0, 0.20000000298023224, -1.4000000953674316]",
-                            "rotation": "[0, 0, 0]",
-                            "scaling": "[0.09999998658895493, 1, 0.49999991059303284]"
+                            "translation": "[0.10000000149011612, 0, -1.4900000095367432]",
+                            "rotation": "[0, -13, 0]",
+                            "scaling": "[0.09999998658895493, 0.4000000059604645, 0.7999999523162842]"
                           },
                           "Component": {
                             "active": true
@@ -6055,7 +6086,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrPrimary": "[1, 1, 1, 0]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -7600,22 +7631,6 @@
       "framesPerSecond": 60
     }
   },
-  "AnimationGLTF|2024-04-12T12:14:43.669Z|12812": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.669Z|12812",
-      "name": "rootAction",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T12:14:43.842Z|12798": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.842Z|12798",
-      "name": "WingFlap",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
   "AnimationGLTF|2024-04-12T13:08:15.062Z|00971": {
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|00971",
@@ -7648,6 +7663,16 @@
       "framesPerSecond": 60
     }
   },
+  "GraphGLTF|2024-04-15T09:13:09.834Z|63001": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-15T09:13:09.834Z|63001",
+      "type": "GraphGLTF",
+      "url": "Assets\\Bathroom\\bathroom_bucket_fullV01.glb"
+    }
+  },
   "GraphGLTF|2024-04-15T09:00:38.293Z|60921": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -7656,6 +7681,24 @@
       "idResource": "GraphGLTF|2024-04-15T09:00:38.293Z|60921",
       "type": "GraphGLTF",
       "url": "Assets\\Decorations\\Sign.glb"
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:50.150Z|66041": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:50.150Z|66041",
+      "name": "IdleHappy",
+      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "GraphGLTF|2024-04-15T09:55:34.602Z|47749": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-15T09:55:34.602Z|47749",
+      "type": "GraphGLTF",
+      "url": "Assets\\Bathroom\\bathroom_toilette_clean.glb"
     }
   }
 }
