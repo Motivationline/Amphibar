@@ -466,6 +466,9 @@
           },
           {
             "idResource": "Animation|2024-04-11T14:10:32.397Z|91207"
+          },
+          {
+            "idResource": "Animation|2024-04-15T13:02:44.101Z|53838"
           }
         ]
       },
@@ -474,6 +477,20 @@
         "entries": [
           {
             "idResource": "ParticleSystem|2024-04-11T10:01:56.481Z|30244"
+          }
+        ]
+      },
+      {
+        "name": "background",
+        "entries": [
+          {
+            "idResource": "GraphGLTF|2024-04-15T12:57:54.773Z|54473"
+          },
+          {
+            "idResource": "GraphGLTF|2024-04-15T13:00:51.233Z|26243"
+          },
+          {
+            "idResource": "Graph|2024-04-15T13:10:01.447Z|78181"
           }
         ]
       }
