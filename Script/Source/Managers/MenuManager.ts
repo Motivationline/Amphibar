@@ -60,6 +60,7 @@ namespace Script {
             this.mainMenuScreen.classList.remove("hidden");
             // this.updateLoadingText("Lade Ressourcen...");
             this.loadingScreen.classList.remove("hidden");
+            document.documentElement.requestFullscreen();
         }
 
         private hideLoadingScreen() {
@@ -126,6 +127,7 @@ namespace Script {
         }
 
         public showGameOver(){
+            document.exitFullscreen();
             this.gameOver.classList.remove("hidden");
         }
 

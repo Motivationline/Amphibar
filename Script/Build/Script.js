@@ -1522,6 +1522,7 @@ var Script;
             this.mainMenuScreen.classList.remove("hidden");
             // this.updateLoadingText("Lade Ressourcen...");
             this.loadingScreen.classList.remove("hidden");
+            document.documentElement.requestFullscreen();
         }
         hideLoadingScreen() {
             this.loadingScreen.classList.add("hidden");
@@ -1579,6 +1580,7 @@ var Script;
             this.disableOverlay.classList.add("hidden");
         }
         showGameOver() {
+            document.exitFullscreen();
             this.gameOver.classList.remove("hidden");
         }
         restart() {
