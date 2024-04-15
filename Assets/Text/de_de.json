@@ -22,6 +22,9 @@
     "Vielleicht wäre Wasser eine gute Idee, um den Lappen nass zu machen.."
   ],
 
+  "bath.rag.no_need": "Ein alter Lappen, den fasse ich lieber mal nicht an.",
+  "bath.rag.pickup": "Hier ist der Lappen von dem Alfi sprach! Den nehme ich mal mit.",
+
   "bath.bucket_full.interact.0": "Wow, ein riesiger Pool zum Planschen! Naja, fast. Aber wenigstens habe ich jetzt Wasser.",
   "bath.bucket_full.interact.1": "Wow, ein riesiger Pool zum Planschen! Naja, fast.",
   "bath.bucket_full.interact.glass": "Ich habe schon etwas in meinem Glas.",
@@ -144,24 +147,27 @@
   "character.fly.intro.option.drink": "Durst?",
   "character.fly.intro.option.cancel": "Tschüss!",
   "character.fly.intro.option.bye": "Bis gleich!",
+  "character.fly.intro.bye": "Ich bin gleich wieder da!",
+  "character.fly.intro.cancel": "Tschüss!",
   "character.fly.intro.help": "Das Bad muss unbedingt gereinigt werden und ich hab einen unheimlichen Durst! Glaubst du, du könntest mir damit helfen?",
   "character.fly.dialog": "Hey, da bist du ja wieder! Was kann ich für dich tun?",
+  "character.fly.dialog.repeat": "Möchtest du sonst noch etwas wissen?",
   "character.fly.clean.question": "Wie kann ich das Bad denn am besten reinigen?",
   "character.fly.clean.info": "Ich habe irgendwo meinen [anim][b]Lappen[/b][/anim] liegen lassen... Wenn du ihn findest kannst du ihn [i]nass[/i] machen und die dreckigen Flecken im Bad entfernen!",
   "character.fly.drink.question": "Was hättest du denn gerne zu trinken?",
-  "character.fly.drink.info": "Ich habe unheimlich Durst! Als Mitarbeiter darf ich kostenlos an die Getränke aus der Getränkebar, dort könntest du mir etwas mischen.",
+  "character.fly.drink.info": "Ich habe unheimlich Durst! Als Mitarbeiter darf ich kostenlos an die Getränke aus der [anim][b]Getränkebar[/b][/anim], dort könntest du mir etwas [i]mischen[/i].",
   "character.fly.clean.done.1": "Ich habe das Bad geputzt!",
   "character.fly.clean.done.2": "Wundervoll! Dankeschön, dass du mir die Arbeit abgenommen hast, das bedeutet mir sehr viel.",
   "character.fly.dialog.done.0": "Ich habe alle Aufgaben erledigt!",
-  "character.fly.dialog.done.1": "Ach was, schon? Das war doch ein riesiger Berg an Aufgaben! Vielen herzlichen Dank kleine Kaulquappe, deine Hilfe bedeutet mir wirklich sehr viel! Dann habe ich ja endlich wieder Zeit Musik zu spielen.",
+  "character.fly.dialog.done.1": "Ach was, schon? Das war doch ein riesiger Berg an Aufgaben! Vielen herzlichen Dank kleine Kaulquappe, deine Hilfe bedeutet mir wirklich sehr viel! Dann habe ich ja endlich wieder Zeit [anim][b]Musik[/b][/anim] zu spielen.",
 
-  "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... %s würde das viel besser machen.",
-  "character.fly.drink.too_much": "Mhhh ne da ist irgendwas drin was ich gar nicht mag. %s glaube ich.",
+  "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... [anim][b]%s[/b][/anim] würde das viel besser machen.",
+  "character.fly.drink.too_much": "Mhhh ne da ist irgendwas drin was ich gar nicht mag. [anim][b]%s[/b][/anim] glaube ich.",
 
   "character.fly.dialog.done.filler": [
     "Hach, Musik ist einfach was tolles!",
     "Danke nochmals für deine großzügige Hilfe.",
     "Sprich doch mal mit Gert, vielleicht ist er jetzt besser gelaunt.",
-    " Ich hoffe du kommst uns öfters besuchen."
+    "Ich hoffe du kommst uns öfters besuchen."
   ]
 }
