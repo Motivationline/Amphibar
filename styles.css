@@ -287,16 +287,28 @@ canvas.fullscreen {
   transform: rotate(180deg);
 }
 
-#dialog-text span.b {
+span.b {
   font-weight: bold;
 }
-#dialog-text span.i {
+span.i {
   font-style: italic;
 }
-#dialog-text span.anim {
+span.anim {
   animation: float 1.5s infinite ease-in-out;
   display: inline-block;
 }
+span.gold {
+  color: #e99d4d;
+}
+span.blue{
+  color: #1285eb;
+} 
+span.brown{
+  color: #925128;
+} 
+span.pink{
+  color: #fbb1fe;
+} 
 
 @keyframes float {
   0% { transform: translate(0px, 0.125em); }

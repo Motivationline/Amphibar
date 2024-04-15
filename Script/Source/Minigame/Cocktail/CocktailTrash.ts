@@ -18,7 +18,11 @@ namespace Script {
         }
 
         tryUseWith(_interactable: Interactable): void {
-            if(_interactable.name.startsWith("glass")) this.interact(null, true);
+            if(_interactable.name.startsWith("glass")) {
+                this.interact(null, true);
+                return;
+            }
+            super.tryUseWith(_interactable);
         }
     }
 }

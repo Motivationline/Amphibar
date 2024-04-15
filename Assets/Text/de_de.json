@@ -138,6 +138,7 @@
   "cocktail.trash.option.confirm": "Wegschütten",
   "cocktail.trash.option.cancel": "Abbrechen",
   "cocktail.trash.info": "Ein Mülleimer! Da kann ich meine Sachen wegwerfen wenn ich etwas falsch gemacht habe!",
+  "shelf.Mülleimer.interact": "Das sollte ich nicht wegwerfen, das brauche ich noch!",
 
   "item.frog.name": "Barkeeper Gero",
   "item.fly.name": "Alfi der Helfer",
@@ -185,7 +186,7 @@
     "Schmeckt nicht schlecht, könntest du das selbe nochmal, nur ohne [anim][b]%s[/b][/anim] machen?"
   ],
   "character.fly.drink.like": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
-  "character.drink.done": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
+  "character.drink.done": "Ah, nein danke, ein Drink reicht mir.",
 
   "character.fly.dialog.done.filler": [
     "Hach, Musik ist einfach was tolles!",

@@ -181,6 +181,7 @@ namespace Script {
                 setTimeout(() => {
                     this.setAnimation();
                 }, this.#animator.animation.totalTime);
+                MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime);
                 return;
             }
             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.filler"));

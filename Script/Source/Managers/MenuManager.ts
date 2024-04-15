@@ -106,7 +106,10 @@ namespace Script {
 
             if (inputElement.dataset.option) {
                 //@ts-ignore
-                settings[inputElement.dataset.option] = newValue;
+                settings[inputElement.dataset.option] = Number(newValue);
+                if(inputElement.dataset.option === "music"){
+                    MusicManager.Instance.changeVolume(Number(newValue) / 100);
+                }
             }
         }
 

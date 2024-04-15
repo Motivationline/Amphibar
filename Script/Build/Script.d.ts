@@ -324,6 +324,19 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    class MusicManager extends ƒ.ComponentScript {
+        static Instance: MusicManager;
+        private background;
+        private grammophone;
+        private cmpAudio;
+        private listener;
+        constructor();
+        private start;
+        startGrammophone(_fadeOut?: number): void;
+        changeVolume(_vol: number): void;
+    }
+}
+declare namespace Script {
     class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean;
         constructor();

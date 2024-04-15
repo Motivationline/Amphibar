@@ -1164,6 +1164,7 @@ var Script;
                 setTimeout(() => {
                     this.setAnimation();
                 }, this.#animator.animation.totalTime);
+                Script.MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime);
                 return;
             }
             Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.done.filler"));
@@ -1561,7 +1562,10 @@ var Script;
             inputElement.parentElement.querySelector(".options-background-filled").style.clipPath = `polygon(0 0, ${newValue}% 0, ${newValue}% 100%, 0 100%)`;
             if (inputElement.dataset.option) {
                 //@ts-ignore
-                Script.settings[inputElement.dataset.option] = newValue;
+                Script.settings[inputElement.dataset.option] = Number(newValue);
+                if (inputElement.dataset.option === "music") {
+                    Script.MusicManager.Instance.changeVolume(Number(newValue) / 100);
+                }
             }
         }
         gameIsLoaded = false;
@@ -1600,6 +1604,55 @@ var Script;
         }
     }
     Script.MenuManager = MenuManager;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class MusicManager extends ƒ.ComponentScript {
+        static Instance = new MusicManager();
+        background = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
+        grammophone = new ƒ.Audio("Assets/Music/Heavy_Riffs.mp3");
+        cmpAudio;
+        listener = this.start.bind(this);
+        constructor() {
+            if (MusicManager.Instance)
+                return MusicManager.Instance;
+            super();
+            MusicManager.Instance = this;
+            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                return;
+            window.addEventListener("click", this.listener);
+        }
+        start() {
+            window.removeEventListener("click", this.listener);
+            this.cmpAudio = new ƒ.ComponentAudio(Script.progress.frog.music ? this.grammophone : this.background, true, true);
+            this.cmpAudio.connect(true);
+            this.changeVolume(Script.settings.music / 100);
+        }
+        startGrammophone(_fadeOut = 0) {
+            let startVol = this.cmpAudio.volume;
+            let interval;
+            if (_fadeOut > 0) {
+                interval = setInterval(() => {
+                    this.cmpAudio.volume -= 0.01;
+                    if (this.cmpAudio.volume <= 0)
+                        clearInterval(interval);
+                }, _fadeOut / 2 / (startVol * 100));
+            }
+            setTimeout(() => {
+                clearInterval(interval);
+                this.cmpAudio.play(false);
+                this.cmpAudio.setAudio(this.grammophone);
+                this.cmpAudio.volume = startVol;
+                this.cmpAudio.play(true);
+            }, _fadeOut);
+        }
+        changeVolume(_vol) {
+            if (!this.cmpAudio)
+                return;
+            this.cmpAudio.volume = _vol;
+        }
+    }
+    Script.MusicManager = MusicManager;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -1916,8 +1969,11 @@ var Script;
             Script.CocktailManager.Instance.resetCocktail(!_fromInventory, _fromInventory);
         }
         tryUseWith(_interactable) {
-            if (_interactable.name.startsWith("glass"))
+            if (_interactable.name.startsWith("glass")) {
                 this.interact(null, true);
+                return;
+            }
+            super.tryUseWith(_interactable);
         }
     }
     Script.CocktailTrash = CocktailTrash;
