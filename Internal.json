@@ -1374,6 +1374,54 @@
                                 }
                               }
                             }
+                          ],
+                          "ComponentMesh": [
+                            {
+                              "ƒ.ComponentMesh": {
+                                "idMesh": "MeshCube|2024-02-13T09:21:08.648Z|96287",
+                                "pivot": {
+                                  "translation": "[0, 0.4000000059604645, 0]",
+                                  "rotation": "[0, 0, 0]",
+                                  "scaling": "[0.2999999523162842, 0.9900001287460327, 0.19999998807907104]"
+                                },
+                                "Component": {
+                                  "active": true
+                                }
+                              }
+                            }
+                          ],
+                          "ComponentMaterial": [
+                            {
+                              "ƒ.ComponentMaterial": {
+                                "sortForAlpha": false,
+                                "clrPrimary": "[1, 1, 1, 0]",
+                                "clrSecondary": "[1, 1, 1, 1]",
+                                "pivot": {
+                                  "translation": "[0, 0]",
+                                  "rotation": 0,
+                                  "scaling": "[1, 1]"
+                                },
+                                "Component": {
+                                  "active": true
+                                },
+                                "idMaterial": "Material|2024-02-13T09:21:21.936Z|45616"
+                              }
+                            }
+                          ],
+                          "PickingScript": [
+                            {
+                              "Script.PickingScript": {
+                                "active": true
+                              }
+                            }
+                          ],
+                          "Interactable": [
+                            {
+                              "Script.Interactable": {
+                                "active": true,
+                                "name": "Plant"
+                              }
+                            }
                           ]
                         },
                         "children": [
@@ -1760,7 +1808,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-2.5999996662139893, 0.20000001788139343, -3.499999523162842]",
+                            "translation": "[-2.669999599456787, 0.14300000667572021, -3.5859992504119873]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -1783,7 +1831,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrPrimary": "[1, 1, 1, 0]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -1821,7 +1869,14 @@
                       }
                     ]
                   },
-                  "children": []
+                  "children": [
+                    {
+                      "ƒ.GraphInstance": {
+                        "deserializeFromSource": true,
+                        "idSource": "GraphGLTF|2024-04-15T13:16:49.545Z|11967"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -1886,7 +1941,7 @@
                     "direction": "diagonal",
                     "near": 1,
                     "far": 2000,
-                    "aspect": 3.2265625,
+                    "aspect": 1.9149922720247294,
                     "pivot": {
                       "translation": "[-0.10000000149011612, 1.4000000953674316, 2.9000000953674316]",
                       "rotation": "[9, 180, 0]",
@@ -3858,7 +3913,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.6842105388641357, 0]",
+                            "translation": "[0.42105263471603394, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -7890,6 +7945,16 @@
       ],
       "idResource": "Graph|2024-04-15T13:10:01.447Z|78181",
       "type": "Graph"
+    }
+  },
+  "GraphGLTF|2024-04-15T13:16:49.545Z|11967": {
+    "ƒ.GraphGLTF": {
+      "name": "Scene",
+      "active": true,
+      "components": {},
+      "idResource": "GraphGLTF|2024-04-15T13:16:49.545Z|11967",
+      "type": "GraphGLTF",
+      "url": "Assets\\Items\\RagDry.glb"
     }
   }
 }

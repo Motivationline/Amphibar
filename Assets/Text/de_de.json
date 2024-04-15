@@ -5,6 +5,8 @@
   "item.rag_wet.name": "Nasser Lappen",
   "interact": "Das funktioniert nicht.",
 
+  "item.Plant.name": "Pflanze",
+
   "item.Wasserhahn.name": "Wasserhahn",
   "bath.valve.interact.glass": "Frisches Wasser fürs Glässchen.",
   "bath.valve.interact.rag": "Ganz schön rostig...",
