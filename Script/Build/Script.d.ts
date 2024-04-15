@@ -264,8 +264,8 @@ declare namespace Script {
         private setupDisplay;
         private clickedOverlay;
         private showText;
-        private getTextContent;
-        private parseText;
+        getTextContent(_dialog: ParsedDialog, _length?: number): [string, number];
+        parseText(_text: string, _currentDialog?: Dialog): ParsedDialog;
         private findBracketsRecursive;
         private showOptions;
         private hideDialog;

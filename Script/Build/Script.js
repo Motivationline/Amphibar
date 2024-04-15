@@ -1348,7 +1348,7 @@ var Script;
                 }, _delay);
             });
         }
-        getTextContent(_dialog, _length) {
+        getTextContent(_dialog, _length = Infinity) {
             let text = `<span class="${_dialog.class}">`;
             for (let i = 0; i < _dialog.content.length && _length > 0; i++) {
                 let content = _dialog.content[i];
@@ -1365,19 +1365,19 @@ var Script;
             text += "</span>";
             return [text, _length];
         }
-        parseText(_text) {
+        parseText(_text, _currentDialog = this.#currentDialog) {
             try {
-                this.#currentDialog.textLength = 0;
-                let [dialog] = this.findBracketsRecursive(_text);
+                _currentDialog.textLength = 0;
+                let [dialog] = this.findBracketsRecursive(_text, _currentDialog);
                 return dialog;
             }
             catch (error) {
                 console.error(error);
-                this.#currentDialog.textLength = _text.length;
+                _currentDialog.textLength = _text.length;
                 return { class: "", content: [_text] };
             }
         }
-        findBracketsRecursive(_remainingString, _currentOpenClass = "") {
+        findBracketsRecursive(_remainingString, _currentDialog, _currentOpenClass = "") {
             let openRegex = /\[(?!\/)(.+?)]/g;
             let closeRegex = /\[\/(.+?)]/g;
             let resultDialog = { content: [], class: _currentOpenClass };
@@ -1386,7 +1386,7 @@ var Script;
                 let nextCloseMatch = [..._remainingString.matchAll(closeRegex)][0];
                 if (!nextOpenMatch && !nextCloseMatch) {
                     resultDialog.content.push(_remainingString);
-                    this.#currentDialog.textLength += _remainingString.length;
+                    _currentDialog.textLength += _remainingString.length;
                     return [resultDialog, ""];
                 }
                 if (_currentOpenClass !== "") {
@@ -1398,14 +1398,14 @@ var Script;
                 if (nextCloseMatch && !nextOpenMatch || (nextCloseMatch && nextOpenMatch && nextCloseMatch.index < nextOpenMatch.index)) {
                     // found the correct closing tag, return just text content
                     resultDialog.content.push(_remainingString.substring(0, nextCloseMatch.index));
-                    this.#currentDialog.textLength += nextCloseMatch.index + 1;
+                    _currentDialog.textLength += nextCloseMatch.index + 1;
                     return [resultDialog,
                         _remainingString.substring(nextCloseMatch.index + nextCloseMatch[0].length)];
                 }
                 // didn't find the correct closing tag next, do recursive search
-                this.#currentDialog.textLength += nextOpenMatch.index + 1;
+                _currentDialog.textLength += nextOpenMatch.index + 1;
                 resultDialog.content.push(_remainingString.substring(0, nextOpenMatch.index));
-                let [result, newString] = this.findBracketsRecursive(_remainingString.substring(nextOpenMatch.index + nextOpenMatch[0].length), nextOpenMatch[1]);
+                let [result, newString] = this.findBracketsRecursive(_remainingString.substring(nextOpenMatch.index + nextOpenMatch[0].length), _currentDialog, nextOpenMatch[1]);
                 resultDialog.content.push(result);
                 _remainingString = newString;
             }
@@ -1590,7 +1590,7 @@ var Script;
         }
         //#region Item hover
         hoverStart(_event, _interactable) {
-            this.itemHover.innerText = Script.Interactable.textProvider.get(`item.${_interactable.name}.name`);
+            [this.itemHover.innerHTML] = Script.DialogManager.Instance.getTextContent(Script.DialogManager.Instance.parseText(Script.Interactable.textProvider.get(`item.${_interactable.name}.name`), { icon: "", name: "", position: "left", text: "" }));
             this.itemHover.style.top = _event.clientY + "px";
             this.itemHover.style.left = _event.clientX + "px";
             this.itemHover.classList.remove("hidden");

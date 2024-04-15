@@ -140,7 +140,7 @@ namespace Script {
 
         //#region Item hover
         public hoverStart(_event: PointerEvent, _interactable: Interactable) {
-            this.itemHover.innerText = Interactable.textProvider.get(`item.${_interactable.name}.name`);
+            [this.itemHover.innerHTML] = DialogManager.Instance.getTextContent(DialogManager.Instance.parseText(Interactable.textProvider.get(`item.${_interactable.name}.name`), {icon: "", name: "", position: "left", text: ""}));
             this.itemHover.style.top = _event.clientY + "px";
             this.itemHover.style.left = _event.clientX + "px";
             this.itemHover.classList.remove("hidden");

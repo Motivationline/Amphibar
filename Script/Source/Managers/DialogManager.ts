@@ -83,7 +83,7 @@ namespace Script {
             });
         }
 
-        private getTextContent(_dialog: ParsedDialog, _length: number): [string, number] {
+        public getTextContent(_dialog: ParsedDialog, _length: number = Infinity): [string, number] {
             let text = `<span class="${_dialog.class}">`;
             for (let i = 0; i < _dialog.content.length && _length > 0; i++) {
                 let content = _dialog.content[i];
@@ -100,19 +100,19 @@ namespace Script {
             return [text, _length];
         }
 
-        private parseText(_text: string): ParsedDialog {
+        public parseText(_text: string, _currentDialog: Dialog = this.#currentDialog): ParsedDialog {
             try {
-                this.#currentDialog.textLength = 0;
-                let [dialog] = this.findBracketsRecursive(_text);
+                _currentDialog.textLength = 0;
+                let [dialog] = this.findBracketsRecursive(_text, _currentDialog);
                 return dialog;
             } catch (error) {
                 console.error(error);
-                this.#currentDialog.textLength = _text.length;
+                _currentDialog.textLength = _text.length;
                 return { class: "", content: [_text] }
             }
         }
 
-        private findBracketsRecursive(_remainingString: string, _currentOpenClass: string = ""): [ParsedDialog, string] {
+        private findBracketsRecursive(_remainingString: string, _currentDialog: Dialog, _currentOpenClass: string = "",): [ParsedDialog, string] {
             let openRegex: RegExp = /\[(?!\/)(.+?)]/g;
             let closeRegex: RegExp = /\[\/(.+?)]/g;
             let resultDialog: ParsedDialog = { content: [], class: _currentOpenClass };
@@ -122,7 +122,7 @@ namespace Script {
                 let nextCloseMatch = [..._remainingString.matchAll(closeRegex)][0];
                 if (!nextOpenMatch && !nextCloseMatch) {
                     resultDialog.content.push(_remainingString);
-                    this.#currentDialog.textLength += _remainingString.length;
+                    _currentDialog.textLength += _remainingString.length;
                     return [resultDialog, ""];
                 }
                 if (_currentOpenClass !== "") {
@@ -134,14 +134,14 @@ namespace Script {
                 if (nextCloseMatch && !nextOpenMatch || (nextCloseMatch && nextOpenMatch && nextCloseMatch.index < nextOpenMatch.index)) {
                     // found the correct closing tag, return just text content
                     resultDialog.content.push(_remainingString.substring(0, nextCloseMatch.index));
-                    this.#currentDialog.textLength += nextCloseMatch.index + 1;
+                    _currentDialog.textLength += nextCloseMatch.index + 1;
                     return [resultDialog,
                         _remainingString.substring(nextCloseMatch.index + nextCloseMatch[0].length)];
                 }
                 // didn't find the correct closing tag next, do recursive search
-                this.#currentDialog.textLength += nextOpenMatch.index + 1;
+                _currentDialog.textLength += nextOpenMatch.index + 1;
                 resultDialog.content.push(_remainingString.substring(0, nextOpenMatch.index));
-                let [result, newString] = this.findBracketsRecursive(_remainingString.substring(nextOpenMatch.index + nextOpenMatch[0].length), nextOpenMatch[1]);
+                let [result, newString] = this.findBracketsRecursive(_remainingString.substring(nextOpenMatch.index + nextOpenMatch[0].length), _currentDialog, nextOpenMatch[1]);
                 resultDialog.content.push(result);
                 _remainingString = newString;
             }
