@@ -287,24 +287,21 @@ canvas.fullscreen {
   transform: rotate(180deg);
 }
 
-#dialog-text span.bold {
+#dialog-text span.b {
   font-weight: bold;
 }
-#dialog-text span.italic {
+#dialog-text span.i {
   font-style: italic;
 }
-#dialog-text span.shake {
-  animation: shake 0.15s infinite;
+#dialog-text span.anim {
+  animation: float 1.5s infinite ease-in-out;
   display: inline-block;
 }
 
-@keyframes shake {
-  0% { transform: translate(0px, 5px); }
-  20% { transform: translate(5px, 7px); }
-  40% { transform: translate(-2px, -3px); }
-  60% { transform: translate(9px, -6px); }
-  80% { transform: translate(3px, 9px); }
-  100% { transform: translate(0px, 5px); }
+@keyframes float {
+  0% { transform: translate(0px, 0.125em); }
+  50% { transform: translate(0px, -0.125em); }
+  100% { transform: translate(0px, 0.125em); }
 }
 
 /* scene transition overlay */
