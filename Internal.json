@@ -298,14 +298,6 @@
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb"
     }
   },
-  "AnimationGLTF|2024-04-12T12:14:43.423Z|34969": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
-      "name": "Handle",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
   "GraphGLTF|2024-04-12T12:14:43.423Z|92087": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -317,7 +309,7 @@
               "Component": {
                 "active": true
               },
-              "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+              "idAnimation": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
               "playmode": "loop",
               "quantization": "continous",
               "scale": 1,
@@ -2892,7 +2884,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idAnimation": "AnimationGLTF|2024-04-12T12:14:43.423Z|34969",
+                          "idAnimation": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
                           "playmode": "loop",
                           "quantization": "continous",
                           "scale": 1,
@@ -3824,7 +3816,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.44736841320991516, 0]",
+                            "translation": "[0.8684210777282715, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -3895,7 +3887,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8775510191917419, 0]",
+                            "translation": "[0.44897958636283875, 0]",
                             "rotation": 0,
                             "scaling": "[0.020408162847161293, 1]"
                           },
@@ -7600,22 +7592,6 @@
       "framesPerSecond": 60
     }
   },
-  "AnimationGLTF|2024-04-12T12:14:43.669Z|12812": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.669Z|12812",
-      "name": "rootAction",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T12:14:43.842Z|12798": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T12:14:43.842Z|12798",
-      "name": "WingFlap",
-      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
-      "framesPerSecond": 60
-    }
-  },
   "AnimationGLTF|2024-04-12T13:08:15.062Z|00971": {
     "ƒ.AnimationGLTF": {
       "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|00971",
@@ -7656,6 +7632,30 @@
       "idResource": "GraphGLTF|2024-04-15T09:00:38.293Z|60921",
       "type": "GraphGLTF",
       "url": "Assets\\Decorations\\Sign.glb"
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:39.877Z|33975": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:39.877Z|33975",
+      "name": "StartGrammophon",
+      "url": "Assets\\Characters\\Tadpole\\Fly.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:50.150Z|66041": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:50.150Z|66041",
+      "name": "IdleHappy",
+      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "AnimationGLTF|2024-04-15T11:39:50.159Z|14958": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-15T11:39:50.159Z|14958",
+      "name": "IdleSad",
+      "url": "Assets\\Characters\\Tadpole\\Fly_V02_Idle.glb",
+      "framesPerSecond": 60
     }
   }
 }
