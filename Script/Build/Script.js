@@ -331,7 +331,7 @@ var Script;
                 setTimeout(() => {
                     this.preview.classList.remove("show");
                     this.divInventory.appendChild(element);
-                }, 1200);
+                }, 1300);
             }
         }
         removeItem(_item) {
@@ -372,7 +372,7 @@ var Script;
     var ƒAid = FudgeAid;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
-    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false } };
+    let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: { dirt: false, toilet1: false, toilet2: false } }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false } };
     let settingsDefault = { music: 100, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
@@ -659,6 +659,11 @@ var Script;
         name = "bucket";
         constructor(_name, _image) {
             super(_name, _image);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+            });
         }
         interact() {
             let p = Script.progress.fly.clean ?? 0;
@@ -683,16 +688,124 @@ var Script;
             if (Script.progress.fly.clean >= 3) {
                 this.name = "bucket_full";
             }
-            if (_interactable.name == "rag") {
+            if (_interactable.name == "rag" && Script.progress.fly.clean >= 3) {
                 await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.rag"));
-                Script.Inventory.Instance.removeItem(_interactable);
+                Script.Inventory.Instance.removeItem(Script.Inventory.Instance.hasItem(_interactable.name));
                 Script.Inventory.Instance.addItem(new Script.Interactable("rag_wet", "Assets/UI/Inventar/Item_Lappen_Nass.png"));
                 return;
             }
             super.tryUseWith(_interactable);
         }
+        checkExistance() {
+            if (Script.progress.fly.clean >= 3) {
+                this.fillBucket();
+            }
+            else {
+                this.emptyBucket();
+            }
+        }
+        emptyBucket() {
+            this.node.getChild(0).activate(true);
+            this.node.getChild(1).activate(false);
+        }
+        fillBucket() {
+            this.node.getChild(0).activate(false);
+            this.node.getChild(1).activate(true);
+        }
     }
     Script.BathroomBucket = BathroomBucket;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class BathroomDirt extends Script.Interactable {
+        name = "dirt";
+        constructor(_name, _image) {
+            super(_name, _image);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+            });
+        }
+        checkExistance() {
+            if (Script.progress.fly.cleaned.dirt) {
+                this.remove();
+            }
+        }
+        remove() {
+            this.node.getParent().removeChild(this.node);
+        }
+        tryUseWith(_interactable) {
+            if (Script.progress.fly.clean >= 3 && _interactable.name === "rag_wet") {
+                Script.progress.fly.cleaned.dirt = true;
+                this.remove();
+                let allClean = true;
+                for (let key of Object.keys(Script.progress.fly.cleaned)) {
+                    //@ts-ignore
+                    allClean = Script.progress.fly.cleaned[key] && allClean;
+                }
+                if (allClean)
+                    Script.progress.fly.clean = 4;
+                return;
+            }
+            super.tryUseWith(_interactable);
+        }
+    }
+    Script.BathroomDirt = BathroomDirt;
+})(Script || (Script = {}));
+var Script;
+(function (Script) {
+    class BathroomToilet extends Script.Interactable {
+        name = "toilet";
+        id = 1;
+        constructor(_name, _image) {
+            super(_name, _image);
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkDirtyness.bind(this), true);
+            });
+        }
+        checkDirtyness() {
+            if (Script.progress.fly.cleaned.toilet1 && this.id == 1) {
+                this.clean();
+                return;
+            }
+            if (Script.progress.fly.cleaned.toilet2 && this.id == 2) {
+                this.clean();
+                return;
+            }
+            this.node.getChild(0).activate(true);
+            this.node.getChild(1).activate(false);
+        }
+        clean() {
+            this.name = "Toilette_sauber";
+            this.node.getChild(0).activate(false);
+            this.node.getChild(1).activate(true);
+        }
+        tryUseWith(_interactable) {
+            if (Script.progress.fly.clean === 3 && _interactable.name === "rag_wet") {
+                if (this.id === 1 && !Script.progress.fly.cleaned.toilet1) {
+                    Script.progress.fly.cleaned.toilet1 = true;
+                    this.clean();
+                }
+                if (this.id === 2 && !Script.progress.fly.cleaned.toilet2) {
+                    Script.progress.fly.cleaned.toilet2 = true;
+                    this.clean();
+                }
+                let allClean = true;
+                for (let key of Object.keys(Script.progress.fly.cleaned)) {
+                    //@ts-ignore
+                    allClean = Script.progress.fly.cleaned[key] && allClean;
+                }
+                if (allClean)
+                    Script.progress.fly.clean = 4;
+                return;
+            }
+            super.tryUseWith(_interactable);
+        }
+    }
+    Script.BathroomToilet = BathroomToilet;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -730,7 +843,8 @@ var Script;
                         this.drop.activate(true);
                         this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
                         // TODO: wasser eimer visuell anpassen
-                        // this.node.getParent().getChildrenByName("bucket")[0].
+                        //@ts-ignore
+                        this.node.getParent().getChildrenByName("bucket")[0].getComponent(Script.BathroomBucket).fillBucket();
                     }, anim.animation.totalTime);
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.valve.interact.1"));
                     Script.progress.fly.clean = 3;
@@ -845,12 +959,6 @@ var Script;
                 return;
             }
         }
-        tryUseWith(_interactable) {
-            if (Script.progress.fly.clean >= 3) {
-                this.name = "bucket_full";
-            }
-            super.tryUseWith(_interactable);
-        }
     }
     Script.Rag = Rag;
 })(Script || (Script = {}));
@@ -928,10 +1036,10 @@ var Script;
             // is there still something to help with?
             let options = [];
             // cleaning?
-            if (Script.progress.fly.clean <= 4) {
+            if (Script.progress.fly.clean <= 3) {
                 options.push({ id: "clean", "text": Script.Interactable.textProvider.get("character.fly.intro.option.clean") });
             }
-            else if (Script.progress.fly.clean === 5) {
+            else if (Script.progress.fly.clean === 4) {
                 options.push({ id: "clean-done", "text": Script.Interactable.textProvider.get("character.fly.intro.option.clean.done") });
             }
             // drink?
@@ -939,20 +1047,21 @@ var Script;
                 options.push({ id: "drink", "text": Script.Interactable.textProvider.get("character.fly.intro.option.drink") });
             }
             // polite or not?
-            if (Script.progress.fly.intro) {
-                options.push({ id: "cancel", "text": Script.Interactable.textProvider.get("character.fly.intro.option.cancel") });
-            }
-            else {
-                options.push({ id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") });
-            }
+            options.push({ id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") });
             if (options.length > 1) {
                 let choice;
+                let firstTime = true;
                 while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
                     if (!Script.progress.fly.intro) {
                         choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
                     }
                     else {
-                        choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"), "neutral", options);
+                        if (firstTime) {
+                            choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog"), "neutral", options);
+                        }
+                        else {
+                            choice = await Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.dialog.repeat"), "neutral", options);
+                        }
                     }
                     switch (choice) {
                         case "clean":
@@ -974,9 +1083,8 @@ var Script;
                     }
                     options[options.length - 1] = { id: "bye", "text": Script.Interactable.textProvider.get("character.fly.intro.option.bye") };
                     Script.progress.fly.intro = true;
+                    firstTime = false;
                 }
-                if (choice === "cancel")
-                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.cancel"));
                 if (choice === "bye")
                     Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.fly.intro.bye"));
                 return;
@@ -1270,6 +1378,7 @@ var Script;
             this.#currentDialog.parsedText = this.parseText(_dialog.text);
             this.setupDisplay();
             // show dialog
+            Script.MenuManager.Instance.hoverEnd();
             await this.showText(_delay);
             if (_dialog.options)
                 return this.showOptions();

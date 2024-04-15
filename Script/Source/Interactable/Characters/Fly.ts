@@ -76,10 +76,10 @@ namespace Script {
             // is there still something to help with?
             let options: DialogOption[] = [];
             // cleaning?
-            if (progress.fly.clean <= 4) {
+            if (progress.fly.clean <= 3) {
                 options.push({ id: "clean", "text": Interactable.textProvider.get("character.fly.intro.option.clean") });
             }
-            else if (progress.fly.clean === 5) {
+            else if (progress.fly.clean === 4) {
                 options.push({ id: "clean-done", "text": Interactable.textProvider.get("character.fly.intro.option.clean.done") });
             }
 
@@ -89,20 +89,21 @@ namespace Script {
             }
 
             // polite or not?
-            if (progress.fly.intro) {
-                options.push({ id: "cancel", "text": Interactable.textProvider.get("character.fly.intro.option.cancel") });
-            } else {
-                options.push({ id: "bye", "text": Interactable.textProvider.get("character.fly.intro.option.bye") });
-            }
+            options.push({ id: "bye", "text": Interactable.textProvider.get("character.fly.intro.option.bye") });
 
             if (options.length > 1) {
                 let choice: string | void;
+                let firstTime = true;
                 while (choice !== "cancel" && choice !== "bye" && options.length > 1) {
                     if (!progress.fly.intro) {
                         choice = await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.intro.help"), "neutral", options);
                     }
                     else {
-                        choice = await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog"), "neutral", options);
+                        if (firstTime) {
+                            choice = await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog"), "neutral", options);
+                        } else {
+                            choice = await CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.repeat"), "neutral", options);
+                        }
                     }
 
                     switch (choice) {
@@ -125,9 +126,9 @@ namespace Script {
                     }
                     options[options.length - 1] = { id: "bye", "text": Interactable.textProvider.get("character.fly.intro.option.bye") };
                     progress.fly.intro = true;
+                    firstTime = false;
                 }
 
-                if (choice === "cancel") CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.intro.cancel"));
                 if (choice === "bye") CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.intro.bye"));
                 return;
             }
