@@ -135,6 +135,7 @@
   "item.frog.name": "Barkeeper Gero",
   "item.fly.name": "Alfi der Helfer",
 
+  "character.fly.no_item": "Pass auf wo du hinläufst. Nicht, dass du dich noch verletzt.",
   "character.fly.intro.0": "...",
   "character.fly.intro.1": "Hallo, ist alles gut bei dir? Du siehst so traurig aus.",
   "character.fly.intro.2": "Hach ich bin einfach so überfordert...",
@@ -168,11 +169,52 @@
 
   "character.fly.drink.too_little": "Ne, da fehlt mir irgendwas... [anim][b]%s[/b][/anim] würde das viel besser machen.",
   "character.fly.drink.too_much": "Mhhh ne da ist irgendwas drin was ich gar nicht mag. [anim][b]%s[/b][/anim] glaube ich.",
+  "character.drink.done": "Vielen lieben Dank, es schmeckt vollzüglich! Da geht es einem doch gleich viel besser.",
 
   "character.fly.dialog.done.filler": [
     "Hach, Musik ist einfach was tolles!",
     "Danke nochmals für deine großzügige Hilfe.",
     "Sprich doch mal mit Gert, vielleicht ist er jetzt besser gelaunt.",
     "Ich hoffe du kommst uns öfters besuchen."
+  ],
+
+  "character.frog.no_item": "He was soll das denn werden?! Lass mich damit in Ruhe!",
+  "character.frog.intro.0": "Hmpf, wer stört mich bei meinem Mittagsschlaf?",
+  "character.frog.intro.option.intro": "Mein Name ist Quip.",
+  "character.frog.intro.option.help": "Wie komme ich hier raus?",
+  "character.frog.intro.1": "Hallo, mein Name ist Quip.",
+  "character.frog.intro.2": "Schön, und jetzt?",
+  "character.frog.intro.3": "Ich wollte fragen wie ich hier wieder herauskomme.",
+  "character.frog.intro.3_2": "Oh, Entschuldigung, aber ich wollte fragen wie ich hier wieder rauskomme.",
+  "character.frog.intro.4": "Na durch die Tür.",
+  "character.frog.intro.5": "Super, Dankeschön!",
+  "character.frog.intro.go_away": [
+    "Hast du mir nicht zugehört? Ich mach gerade Pause.",
+    "Psscht, ich versuche zu entspannen!",
+    "Mach die Fliege!",
+    "Mit dir kriegt man ja kein Auge zu, zieh ab!"
+  ],
+  "character.frog.dialog.0": "Du schon wieder? Was willst du jetzt, hm?",
+  "character.frog.dialog.option.door_closed": "Die Tür ist abgeschlossen...",
+  "character.frog.dialog.option.sorry": "Entschuldigung...",
+  "character.frog.dialog.1": "Die Tür ist abgeschlossen, da komm ich nicht raus.",
+  "character.frog.dialog.2": "Natürlich ist die Tür abgeschlossen, ich habe ja auch gerade meine Mittagspause. Zumindest dachte ich das!",
+  "character.frog.dialog.option.door": "Kannst du die Tür aufschließen?",
+  "character.frog.dialog.3": "Entschuldigung, ich wollte nicht stören. Dann lasse ich dich jetzt in Ruhe.",
+  "character.frog.dialog.4": "[anim][b]Musik[/b][/anim] in meinen Ohren! Da geht es mir doch gleich viel besser. Danke und Tschüss!",
+  "character.frog.dialog.5": "Kannst du bitte die Tür aufschließen damit ich nach Hause komme?",
+  "character.frog.dialog.6": "Natürlich kann ich das! Ich öffne wieder bei Sonnenuntergang. Dann schließe ich die Tür gerne auf.",
+  "character.frog.dialog.7": "Aber ich muss vor Sonnenaufgang schon wieder zuhause sein, sonst machen sich Mama und Papa doch sorgen!",
+  "character.frog.dialog.8": "Nicht mein Problem Kiddo, und jetzt lass mich schlafen.",
+
+  "character.frog.music.1": "Was für ein wundervoller Klang! Mein Lieblingssong!",
+  "character.frog.music.option.help": "Ich brauche Hilfe",
+  "character.frog.music.2": "Ich muss nach Hause, aber die Tür ist abgeschlossen. Kannst du mir bitte helfen?",
+  "character.frog.music.3": "In Ordnung, hier hast du den Schlüssel.",
+  "character.frog.music.4": "Danke!!",
+  "character.frog.done": [
+    "Ich liebe dieses Lied.",
+    "He, Alfi! Spiel den selben Song noch mal!",
+    "Dieses Lied ist ein einziges Meisterwerk!"
   ]
 }
