@@ -7,6 +7,10 @@
 
   "item.Plant.name": "Pflanze",
   "main.Plant.interact": "Das sieht irgendwie sehr lecker aus.",
+  "main.Plant.interact.glass": "Pflanzen trinken nur Wasser, keine Cocktails.",
+  "main.Plant.interact.key": "Ich will den Schlüssel nicht in dem Pflanzentopf vergraben.",
+  "main.Plant.interact.rag": "Die Pflanze sieht gut aus, die muss ich nicht sauber machen.",
+  "main.Plant.interact.rag_wet": "Die Pflanze sieht gut aus, die muss ich nicht sauber machen.",
   "item.key.name": "Schlüssel",
   "item.grammophon.name": "Grammophon",
   "main.grammophon.interact": "Ui, ein altes Grammophon. Das muss man ankurbeln damit es Musik spielt.",
@@ -18,6 +22,8 @@
   "item.Wasserhahn.name": "Wasserhahn",
   "bath.Wasserhahn.interact.glass": "Frisches Wasser fürs Glässchen. Aber das Glas ist ja schon voll.",
   "bath.Wasserhahn.interact.rag": "Ganz schön rostig...",
+  "bath.Wasserhahn.interact.rag_wet": "Der Wasserhahn sieht sauber aus. Ein bisschen rostig vielleicht, aber sauber.",
+  "bath.Wasserhahn.interact.key": "Den muss man nicht aufschließen, der funktioniert auch so.",
   "bath.valve.interact.0": "Ich brauche gerade kein Wasser.",
   "bath.valve.interact.1": "Platsch! Das ist wie ein Regenschauer im Eimer.",
   "bath.valve.interact.2": "Der Eimer ist schon voll. Mama hat mir beigebracht, kein Wasser zu verschwenden.",
@@ -71,6 +77,8 @@
   "bath.Spiegel.interact.glass": [
     "Das kommt mir nicht richtig vor..."
   ],
+  "bath.Spiegel.interact.key": "Was genau soll ich mit dem Schlüssel und dem Spiegel anstellen?",
+  "bath.Spiegel.interact.rag_wet": "Das kann ich mir sparen, da komme ich sowieso nicht dran.",
 
   "bath.Schleim.clean": "Endlich sind meine Sandalen nicht mehr in Gefahr.",
   "bath.Toilette.clean": [
@@ -158,7 +166,9 @@
   "item.frog.name": "Barkeeper Gero",
   "item.fly.name": "Alfi der Helfer",
 
-  "character.fly.no_item": "Pass auf wo du hinläufst. Nicht, dass du dich noch verletzt.",
+  "main.fly.interact": "Pass auf was du mit dem Ding anstellst. Nicht, dass du dich noch verletzt.",
+  "main.fly.interact.key": "Oh, Gero hat dir den [anim]Schlüssel[/anim] gegeben? Damit kannst du die Tür aufschließen und nach Hause gehen. Mach's gut und nochmal danke für die Hilfe.",
+
   "character.fly.intro.0": "...",
   "character.fly.intro.1": "Hallo, ist alles gut bei dir? Du siehst so traurig aus.",
   "character.fly.intro.2": "Hach ich bin einfach so überfordert...",

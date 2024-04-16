@@ -996,7 +996,8 @@ var Script;
         }
         tryUseWith(_interactable) {
             if (!_interactable.name.startsWith("glass.")) {
-                Script.CharacterScript.talkAs("Fly", Script.Interactable.textProvider.get("character.fly.no_item"));
+                // CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
+                Script.CharacterScript.talkAs("Fly", Script.Interactable.getInteractionText(this, _interactable));
                 return;
             }
             if (Script.progress.fly.drink == 2) {
