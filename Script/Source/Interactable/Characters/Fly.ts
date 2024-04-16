@@ -28,6 +28,10 @@ namespace Script {
             } else {
                 this.#animator.animation = this.animations.get("IdleHappy");
                 this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = <ƒ.AnimationGLTF>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
+                
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator)
+                grammoAnimator.animation = <ƒ.Animation>await ƒ.Project.getResource("AnimationGLTF|2024-04-16T08:34:09.712Z|66465");
+                grammoAnimator.playmode = ƒ.ANIMATION_PLAYMODE.LOOP;
             }
             this.#animator.jumpTo(0);
         }
@@ -178,11 +182,12 @@ namespace Script {
                 this.#animator.animation = <ƒ.Animation>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
                 this.#animator.jumpTo(0);
 
-                this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator);
+                grammoAnimator.jumpTo(0);
                 setTimeout(async () => {
                     this.setAnimation();
                 }, this.#animator.animation.totalTime);
-                MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime);
+                MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime - 5000);
                 return;
             }
             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.dialog.done.filler"));

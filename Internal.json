@@ -2043,7 +2043,7 @@
                     "attenuationLinear": 1,
                     "attenuationQuadratic": 1,
                     "Component": {
-                      "active": true
+                      "active": false
                     }
                   }
                 }
