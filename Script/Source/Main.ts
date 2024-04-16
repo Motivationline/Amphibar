@@ -9,7 +9,7 @@ namespace Script {
   export let character: CharacterScript;
 
   let progressDefault: Progress = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: {dirt: false, toilet1: false, toilet2: false} }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false, door_locked: true } };
-  let settingsDefault: Settings = { music: 100, sounds: 100 };
+  let settingsDefault: Settings = { music: 75, sounds: 100 };
   export let progress: Progress = onChange(
     merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})),
     () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(progress)) }, 1) });
@@ -52,6 +52,7 @@ namespace Script {
     mainNode.addEventListener("clickOnInteraction", <EventListener>clickOnInteraction);
   }
 
+  /*
   function addInteractionSphere(_node: ƒ.Node) {
     let meshShpere: ƒ.MeshSphere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
     let material: ƒ.Material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
@@ -72,6 +73,7 @@ namespace Script {
     }
     _node.addChild(wrapper);
   }
+  */
 
   function update(_event: Event): void {
     // ƒ.Physics.simulate();  // if physics is included and used

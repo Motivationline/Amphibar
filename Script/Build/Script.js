@@ -369,11 +369,10 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    var ƒAid = FudgeAid;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
     let progressDefault = { fly: { clean: 0, drink: 0, intro: false, worm: 0, done: false, cleaned: { dirt: false, toilet1: false, toilet2: false } }, scene: "bath", frog: { intro: false, music: false, checked_door: false, key: false, door_locked: true } };
-    let settingsDefault = { music: 100, sounds: 100 };
+    let settingsDefault = { music: 75, sounds: 100 };
     Script.progress = onChange(merge(progressDefault, (JSON.parse(localStorage.getItem("progress")) ?? {})), () => { setTimeout(() => { localStorage.setItem("progress", JSON.stringify(Script.progress)); }, 1); });
     Script.settings = onChange(merge(settingsDefault, (JSON.parse(localStorage.getItem("settings")) ?? {})), () => { setTimeout(() => { localStorage.setItem("settings", JSON.stringify(Script.settings)); }, 1); });
     function start(_event) {
@@ -405,26 +404,28 @@ var Script;
         Script.mainNode.addEventListener("clickOnInteraction", clickOnInteraction);
     }
     Script.setupNewMainNode = setupNewMainNode;
-    function addInteractionSphere(_node) {
-        let meshShpere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
-        let material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
-        let children = Script.mainNode.getChildren();
-        let wrapper = new ƒ.Node("Wrapper");
-        for (let child of children) {
-            if (child.nChildren > 0) {
-                children.push(...child.getChildren());
-            }
-            let component = child.getComponent(ƒ.ComponentPick);
-            if (component && component.isActive && component.pick === ƒ.PICK.RADIUS) {
-                let sphere = new ƒAid.Node("BoundingSphere", ƒ.Matrix4x4.SCALING(ƒ.Vector3.ONE(2)), material, meshShpere);
-                sphere.mtxLocal.scale(ƒ.Vector3.ONE(child.radius));
-                sphere.mtxLocal.translation = child.mtxWorld.translation;
-                sphere.getComponent(ƒ.ComponentMaterial).sortForAlpha = true;
-                wrapper.addChild(sphere);
-            }
+    /*
+    function addInteractionSphere(_node: ƒ.Node) {
+      let meshShpere: ƒ.MeshSphere = new ƒ.MeshSphere("BoundingSphere", 40, 40);
+      let material: ƒ.Material = new ƒ.Material("Transparent", ƒ.ShaderLit, new ƒ.CoatColored(ƒ.Color.CSS("white", 0.5)));
+      let children = mainNode.getChildren();
+      let wrapper = new ƒ.Node("Wrapper");
+      for (let child of children) {
+        if (child.nChildren > 0) {
+          children.push(...child.getChildren());
         }
-        _node.addChild(wrapper);
+        let component = child.getComponent(ƒ.ComponentPick);
+        if (component && component.isActive && component.pick === ƒ.PICK.RADIUS) {
+          let sphere = new ƒAid.Node("BoundingSphere", ƒ.Matrix4x4.SCALING(ƒ.Vector3.ONE(2)), material, meshShpere);
+          sphere.mtxLocal.scale(ƒ.Vector3.ONE(child.radius));
+          sphere.mtxLocal.translation = child.mtxWorld.translation;
+          sphere.getComponent(ƒ.ComponentMaterial).sortForAlpha = true;
+          wrapper.addChild(sphere);
+        }
+      }
+      _node.addChild(wrapper);
     }
+    */
     function update(_event) {
         // ƒ.Physics.simulate();  // if physics is included and used
         Script.mainViewport.draw();
