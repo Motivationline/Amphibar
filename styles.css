@@ -8,6 +8,7 @@ body {
   font-family: "Chilanka", cursive;
   user-select: none;
   cursor: url("Assets/UI/Cursors/Cursor_Normal.svg"), default;
+  font-size: min(1em, 2.25vh);
 }
 
 div.fullscreen {
@@ -199,7 +200,7 @@ canvas.fullscreen {
   font-size: 2em;
   grid-area: text;
   padding: 1vw;
-  padding-top: 3vh;
+  padding-top: 1vh;
   flex-grow: 1;
 }
 
@@ -218,13 +219,17 @@ canvas.fullscreen {
 
 #dialog-text-bg {
   position: absolute;
-  width: 80vw;
+  width: 70vw;
   height: 24vh;
-  bottom: -1vh;
+  bottom: -4vh;
   left: 10vw;
   z-index: -1;
   background-image: url("Assets/UI/Dialog/DialogFenster.svg");
   background-size: 100% 100%;
+}
+
+#dialog-text-bg.right {
+  left: 18vw;
 }
 
 #dialog-text-done {

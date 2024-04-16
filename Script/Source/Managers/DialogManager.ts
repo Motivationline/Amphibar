@@ -3,6 +3,7 @@ namespace Script {
         public static Instance = new DialogManager();
         #nameBox: HTMLImageElement;
         #textBox: HTMLElement;
+        #textBackgroundBox: HTMLElement;
         #optionBox: HTMLElement;
         #characterBox: HTMLImageElement;
         #overlayBox: HTMLElement;
@@ -29,6 +30,7 @@ namespace Script {
             this.#optionBox = document.getElementById("dialog-options");
             this.#overlayBox = document.getElementById("dialog-overlay");
             this.#continueIcon = document.getElementById("dialog-text-done");
+            this.#textBackgroundBox = document.getElementById("dialog-text-bg");
 
             this.#overlayBox.addEventListener("click", this.clickedOverlay.bind(this));
         }
@@ -45,10 +47,12 @@ namespace Script {
                 case "left":
                     this.#nameBox.style.gridArea = "name";
                     this.#characterBox.style.gridArea = "char";
+                    this.#textBackgroundBox.classList.remove("right");
                     break;
                 case "right":
                     this.#nameBox.style.gridArea = "name2";
                     this.#characterBox.style.gridArea = "char2";
+                    this.#textBackgroundBox.classList.add("right");
                     break;
             }
 

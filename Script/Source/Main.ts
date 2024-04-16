@@ -1,6 +1,5 @@
 namespace Script {
   import ƒ = FudgeCore;
-  import ƒAid = FudgeAid;
 
   export let mainViewport: ƒ.Viewport;
   export let mainNode: ƒ.Node;

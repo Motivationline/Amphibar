@@ -1231,6 +1231,7 @@ var Script;
         static Instance = new DialogManager();
         #nameBox;
         #textBox;
+        #textBackgroundBox;
         #optionBox;
         #characterBox;
         #overlayBox;
@@ -1255,6 +1256,7 @@ var Script;
             this.#optionBox = document.getElementById("dialog-options");
             this.#overlayBox = document.getElementById("dialog-overlay");
             this.#continueIcon = document.getElementById("dialog-text-done");
+            this.#textBackgroundBox = document.getElementById("dialog-text-bg");
             this.#overlayBox.addEventListener("click", this.clickedOverlay.bind(this));
         }
         setupDisplay() {
@@ -1268,10 +1270,12 @@ var Script;
                 case "left":
                     this.#nameBox.style.gridArea = "name";
                     this.#characterBox.style.gridArea = "char";
+                    this.#textBackgroundBox.classList.remove("right");
                     break;
                 case "right":
                     this.#nameBox.style.gridArea = "name2";
                     this.#characterBox.style.gridArea = "char2";
+                    this.#textBackgroundBox.classList.add("right");
                     break;
             }
             this.#overlayBox.classList.remove("hidden");
