@@ -152,7 +152,7 @@
   ],
   "cocktail.trash.option.confirm": "Wegschütten",
   "cocktail.trash.option.cancel": "Abbrechen",
-  "cocktail.trash.info": "Ein Mülleimer! Da kann ich meine Sachen wegwerfen wenn ich etwas falsch gemacht habe!",
+  "cocktail.trash.info": "Ein Mülleimer! Da kann ich meine Sachen wegwerfen, wenn ich etwas falsch gemacht habe!",
   "shelf.Mülleimer.interact": "Das sollte ich nicht wegwerfen, das brauche ich noch!",
 
   "item.frog.name": "Barkeeper Gero",
@@ -234,9 +234,9 @@
   "character.frog.dialog.option.door": "Kannst du die Tür aufschließen?",
   "character.frog.dialog.3": "Entschuldigung, ich wollte nicht stören. Dann lasse ich dich jetzt in Ruhe.",
   "character.frog.dialog.4": "[anim][b]Musik[/b][/anim] in meinen Ohren! Da geht es mir doch gleich viel besser. Danke und Tschüss!",
-  "character.frog.dialog.5": "Kannst du bitte die Tür aufschließen damit ich nach Hause komme?",
-  "character.frog.dialog.6": "Natürlich kann ich das! Ich öffne wieder bei Sonnenuntergang. Dann schließe ich die Tür gerne auf.",
-  "character.frog.dialog.7": "Aber ich muss vor Sonnenaufgang schon wieder zuhause sein, sonst machen sich Mama und Papa doch sorgen!",
+  "character.frog.dialog.5": "Kannst du bitte die Tür aufschließen, damit ich nach Hause komme?",
+  "character.frog.dialog.6": "Natürlich kann ich das! Ich öffne wieder bei Sonnenuntergang, dann schließe ich die Tür gerne auf.",
+  "character.frog.dialog.7": "Aber ich muss vor Sonnenaufgang schon wieder zuhause sein, sonst machen sich Mama und Papa doch Sorgen!",
   "character.frog.dialog.8": "Nicht mein Problem Kiddo, und jetzt lass mich schlafen.",
 
   "character.frog.music.1": "Was für ein wundervoller Klang! Mein Lieblingssong!",
