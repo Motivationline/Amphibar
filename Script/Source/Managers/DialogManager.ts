@@ -227,12 +227,4 @@ namespace Script {
         class: string,
         content: (string | ParsedDialog)[],
     }
-
-    enum DialogStatus {
-        HIDDEN,
-        WRITING,
-        WAITING_FOR_DISMISSAL,
-        WAITING_FOR_OPTION,
-        DONE,
-    }
 }

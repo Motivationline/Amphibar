@@ -966,12 +966,13 @@ var Script;
                 this.animations.set(anim.name, anim);
             }
         }
-        setAnimation() {
+        async setAnimation() {
             if (!Script.progress.fly.done) {
                 this.#animator.animation = this.animations.get("IdleSad");
             }
             else {
                 this.#animator.animation = this.animations.get("IdleHappy");
+                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
             }
             this.#animator.jumpTo(0);
         }
@@ -1112,7 +1113,7 @@ var Script;
                 this.#animator.animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
                 this.#animator.jumpTo(0);
                 this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator).jumpTo(0);
-                setTimeout(() => {
+                setTimeout(async () => {
                     this.setAnimation();
                 }, this.#animator.animation.totalTime);
                 Script.MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime);
@@ -1417,14 +1418,6 @@ var Script;
         }
     }
     Script.DialogManager = DialogManager;
-    let DialogStatus;
-    (function (DialogStatus) {
-        DialogStatus[DialogStatus["HIDDEN"] = 0] = "HIDDEN";
-        DialogStatus[DialogStatus["WRITING"] = 1] = "WRITING";
-        DialogStatus[DialogStatus["WAITING_FOR_DISMISSAL"] = 2] = "WAITING_FOR_DISMISSAL";
-        DialogStatus[DialogStatus["WAITING_FOR_OPTION"] = 3] = "WAITING_FOR_OPTION";
-        DialogStatus[DialogStatus["DONE"] = 4] = "DONE";
-    })(DialogStatus || (DialogStatus = {}));
 })(Script || (Script = {}));
 var Script;
 (function (Script) {

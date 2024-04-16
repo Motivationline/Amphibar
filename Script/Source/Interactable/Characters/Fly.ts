@@ -22,11 +22,12 @@ namespace Script {
             }
         }
 
-        private setAnimation() {
+        private async setAnimation() {
             if (!progress.fly.done) {
                 this.#animator.animation = this.animations.get("IdleSad");
             } else {
                 this.#animator.animation = this.animations.get("IdleHappy");
+                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = <ƒ.AnimationGLTF>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
             }
             this.#animator.jumpTo(0);
         }
@@ -177,7 +178,7 @@ namespace Script {
                 this.#animator.jumpTo(0);
 
                 this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator).jumpTo(0);
-                setTimeout(() => {
+                setTimeout(async () => {
                     this.setAnimation();
                 }, this.#animator.animation.totalTime);
                 MusicManager.Instance.startGrammophone(this.#animator.animation.totalTime);
