@@ -28,6 +28,9 @@ namespace Script {
 
                 let anim = this.open.getComponent(ƒ.ComponentAnimator);
                 anim.jumpTo(0);
+                this.node.getComponent(ƒ.ComponentAnimator).activate(true);
+                this.node.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                console.log(anim.animation.totalTime);
 
                 setTimeout(() => {
                     this.open.activate(false);
