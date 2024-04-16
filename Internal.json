@@ -2031,7 +2031,7 @@
                     "attenuationLinear": 1,
                     "attenuationQuadratic": 1,
                     "Component": {
-                      "active": true
+                      "active": false
                     }
                   }
                 }
@@ -3493,7 +3493,7 @@
                         "ƒ.ComponentTransform": {
                           "local": {
                             "translation": "[-1.375, 0.777999997138977, 0.8130999803543091]",
-                            "rotation": "[90, 0, -5.743841171264648]",
+                            "rotation": "[90, 0, 44.435001373291016]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -3515,21 +3515,6 @@
                         "Script.BathroomValve": {
                           "active": true,
                           "name": "Wasserhahn"
-                        }
-                      }
-                    ],
-                    "ComponentAnimator": [
-                      {
-                        "ƒ.ComponentAnimator": {
-                          "Component": {
-                            "active": true
-                          },
-                          "idAnimation": "Animation|2024-04-16T07:35:01.911Z|03147",
-                          "playmode": "playOnce",
-                          "quantization": "continous",
-                          "scale": 1,
-                          "scaleWithGameTime": true,
-                          "animateInEditor": false
                         }
                       }
                     ]
@@ -3985,7 +3970,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8947368264198303, 0]",
+                            "translation": "[0.15789473056793213, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
@@ -7987,53 +7972,6 @@
       "name": "Dance",
       "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
       "framesPerSecond": 60
-    }
-  },
-  "Animation|2024-04-16T07:35:01.911Z|03147": {
-    "ƒ.Animation": {
-      "idResource": "Animation|2024-04-16T07:35:01.911Z|03147",
-      "name": "WasserhahnAnimation",
-      "labels": {},
-      "events": {},
-      "framesPerSecond": 60,
-      "animationStructure": {
-        "components": {
-          "ComponentTransform": {
-            "0": {
-              "mtxLocal": {
-                "rotation": {
-                  "z": {
-                    "keys": [
-                      {
-                        "time": 0,
-                        "value": 44.43399999999999,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      },
-                      {
-                        "time": 416.6666564941406,
-                        "value": -55.56999999999999,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      },
-                      {
-                        "time": 983.3333129882812,
-                        "value": 44.435214950285,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      }
-                    ],
-                    "animationSequence": true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
