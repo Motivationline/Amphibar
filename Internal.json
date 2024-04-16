@@ -235,6 +235,14 @@
       }
     }
   },
+  "AnimationGLTF|2024-04-12T11:52:47.697Z|76111": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-12T11:52:47.697Z|76111",
+      "name": "Stand",
+      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
+      "framesPerSecond": 60
+    }
+  },
   "GraphGLTF|2024-04-12T11:52:47.407Z|99836": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -388,14 +396,6 @@
           "color": "[1, 1, 1, 1]"
         }
       }
-    }
-  },
-  "AnimationGLTF|2024-04-12T11:52:47.697Z|76111": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T11:52:47.697Z|76111",
-      "name": "Stand",
-      "url": "Assets\\Characters\\Tadpole\\Frog_v02.glb",
-      "framesPerSecond": 60
     }
   },
   "MeshSphere|2024-03-27T14:10:05.539Z|02234": {
@@ -3970,7 +3970,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.21052631735801697, 0]",
+                            "translation": "[0.15789473056793213, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
