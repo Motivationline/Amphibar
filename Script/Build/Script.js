@@ -1277,7 +1277,10 @@ var Script;
             this.#continueIcon.classList.add("hidden");
         }
         clickedOverlay(_event) {
-            if (_event.target !== this.#overlayBox)
+            let element = _event.target;
+            if (element.classList.contains("dialog-options-option"))
+                return;
+            if (element.id === "dialog-options")
                 return;
             this.#textProgress = Infinity;
             if (this.#currentPromiseResolver && !this.#currentDialog.options) {

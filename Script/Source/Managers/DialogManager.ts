@@ -58,7 +58,10 @@ namespace Script {
         }
 
         private clickedOverlay(_event: MouseEvent) {
-            if(_event.target !== this.#overlayBox) return;
+            let element = (<HTMLElement>_event.target);
+            if (element.classList.contains("dialog-options-option"))
+                return;
+            if (element.id === "dialog-options") return;
             this.#textProgress = Infinity;
             if (this.#currentPromiseResolver && !this.#currentDialog.options) {
                 this.#currentPromiseResolver();
