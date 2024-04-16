@@ -415,6 +415,18 @@
       "framesPerSecond": 60
     }
   },
+  "Material|2024-04-09T10:34:21.420Z|01183": {
+    "ƒ.Material": {
+      "name": "Bar",
+      "idResource": "Material|2024-04-09T10:34:21.420Z|01183",
+      "shader": "ShaderLit",
+      "coat": {
+        "ƒ.CoatColored": {
+          "color": "[0.2549019607843137, 0.10588235294117647, 0.00392156862745098, 0.42]"
+        }
+      }
+    }
+  },
   "Graph|2024-02-08T13:52:27.562Z|67214": {
     "ƒ.Graph": {
       "name": "main",
@@ -3125,18 +3137,6 @@
       }
     }
   },
-  "Material|2024-04-09T10:34:21.420Z|01183": {
-    "ƒ.Material": {
-      "name": "Bar",
-      "idResource": "Material|2024-04-09T10:34:21.420Z|01183",
-      "shader": "ShaderLit",
-      "coat": {
-        "ƒ.CoatColored": {
-          "color": "[0.2549019607843137, 0.10588235294117647, 0.00392156862745098, 0.42]"
-        }
-      }
-    }
-  },
   "Material|2024-04-11T09:22:42.439Z|33550": {
     "ƒ.Material": {
       "name": "WaterFallTexture",
@@ -3179,6 +3179,53 @@
         "events": {},
         "framesPerSecond": 25,
         "animationStructure": {}
+      }
+    }
+  },
+  "Animation|2024-04-16T07:35:01.911Z|03147": {
+    "ƒ.Animation": {
+      "idResource": "Animation|2024-04-16T07:35:01.911Z|03147",
+      "name": "WasserhahnAnimation",
+      "labels": {},
+      "events": {},
+      "framesPerSecond": 60,
+      "animationStructure": {
+        "components": {
+          "ComponentTransform": {
+            "0": {
+              "mtxLocal": {
+                "rotation": {
+                  "z": {
+                    "keys": [
+                      {
+                        "time": 0,
+                        "value": 44.43399999999999,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 416.6666564941406,
+                        "value": -55.56999999999999,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 983.3333129882812,
+                        "value": 44.435214950285,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      }
+                    ],
+                    "animationSequence": true
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -7719,38 +7766,6 @@
       "url": "Assets\\Decorations\\HangPlant02.glb"
     }
   },
-  "AnimationGLTF|2024-04-12T13:08:15.062Z|00971": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|00971",
-      "name": "Start",
-      "url": "Assets\\Bar\\Grammophon.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T13:08:15.062Z|83308": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T13:08:15.062Z|83308",
-      "name": "StartGrammophon",
-      "url": "Assets\\Bar\\Grammophon.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T13:08:15.063Z|94182": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T13:08:15.063Z|94182",
-      "name": "WingFlap",
-      "url": "Assets\\Bar\\Grammophon.glb",
-      "framesPerSecond": 60
-    }
-  },
-  "AnimationGLTF|2024-04-12T13:08:15.063Z|83702": {
-    "ƒ.AnimationGLTF": {
-      "idResource": "AnimationGLTF|2024-04-12T13:08:15.063Z|83702",
-      "name": "YAY",
-      "url": "Assets\\Bar\\Grammophon.glb",
-      "framesPerSecond": 60
-    }
-  },
   "GraphGLTF|2024-04-15T09:13:09.834Z|63001": {
     "ƒ.GraphGLTF": {
       "name": "Scene",
@@ -7989,51 +8004,20 @@
       "framesPerSecond": 60
     }
   },
-  "Animation|2024-04-16T07:35:01.911Z|03147": {
-    "ƒ.Animation": {
-      "idResource": "Animation|2024-04-16T07:35:01.911Z|03147",
-      "name": "WasserhahnAnimation",
-      "labels": {},
-      "events": {},
-      "framesPerSecond": 60,
-      "animationStructure": {
-        "components": {
-          "ComponentTransform": {
-            "0": {
-              "mtxLocal": {
-                "rotation": {
-                  "z": {
-                    "keys": [
-                      {
-                        "time": 0,
-                        "value": 44.43399999999999,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      },
-                      {
-                        "time": 416.6666564941406,
-                        "value": -55.56999999999999,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      },
-                      {
-                        "time": 983.3333129882812,
-                        "value": 44.435214950285,
-                        "interpolation": 2,
-                        "slopeIn": 0,
-                        "slopeOut": 0
-                      }
-                    ],
-                    "animationSequence": true
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+  "AnimationGLTF|2024-04-16T08:33:09.572Z|69888": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-16T08:33:09.572Z|69888",
+      "name": "rootAction",
+      "url": "Assets\\Bar\\Grammophon.glb",
+      "framesPerSecond": 60
+    }
+  },
+  "AnimationGLTF|2024-04-16T08:34:09.712Z|66465": {
+    "ƒ.AnimationGLTF": {
+      "idResource": "AnimationGLTF|2024-04-16T08:34:09.712Z|66465",
+      "name": "grammoDance",
+      "url": "Assets\\Bar\\Grammophon.glb",
+      "framesPerSecond": 60
     }
   }
 }
