@@ -8,7 +8,7 @@ body {
   font-family: "Chilanka", cursive;
   user-select: none;
   cursor: url("Assets/UI/Cursors/Cursor_Normal.svg"), default;
-  font-size: min(1em, 2.25vh);
+  font-size: min(1em, 2vh);
 }
 
 div.fullscreen {
@@ -200,7 +200,7 @@ canvas.fullscreen {
   font-size: 2em;
   grid-area: text;
   padding: 1vw;
-  padding-top: 1vh;
+  padding-top: 2vh;
   flex-grow: 1;
 }
 

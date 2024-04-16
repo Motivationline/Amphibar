@@ -52,7 +52,8 @@ namespace Script {
 
         tryUseWith(_interactable: Interactable): void {
             if (!_interactable.name.startsWith("glass.")) {
-                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
+                // CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
+                CharacterScript.talkAs("Fly", Interactable.getInteractionText(this, _interactable));
                 return;
             }
             if (progress.fly.drink == 2) {
