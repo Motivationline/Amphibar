@@ -3594,67 +3594,6 @@
                         "deserializeFromSource": true,
                         "idSource": "GraphGLTF|2024-03-13T14:33:07.468Z|46868"
                       }
-                    },
-                    {
-                      "ƒ.Node": {
-                        "name": "valve",
-                        "active": true,
-                        "components": {
-                          "ComponentTransform": [
-                            {
-                              "ƒ.ComponentTransform": {
-                                "local": {
-                                  "translation": "[-1.375, 0.777999997138977, 0.8130999803543091]",
-                                  "rotation": "[90, 0, -55.56999969482422]",
-                                  "scaling": "[1, 1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                }
-                              }
-                            }
-                          ],
-                          "ComponentPick": [
-                            {
-                              "ƒ.ComponentPick": {
-                                "active": true,
-                                "pick": "radius"
-                              }
-                            }
-                          ],
-                          "BathroomValve": [
-                            {
-                              "Script.BathroomValve": {
-                                "active": true,
-                                "name": "Wasserhahn"
-                              }
-                            }
-                          ],
-                          "ComponentAnimator": [
-                            {
-                              "ƒ.ComponentAnimator": {
-                                "Component": {
-                                  "active": true
-                                },
-                                "idAnimation": "Animation|2024-04-16T07:35:01.911Z|03147",
-                                "playmode": "playOnce",
-                                "quantization": "continous",
-                                "scale": 1,
-                                "scaleWithGameTime": true,
-                                "animateInEditor": false
-                              }
-                            }
-                          ]
-                        },
-                        "children": [
-                          {
-                            "ƒ.GraphInstance": {
-                              "deserializeFromSource": true,
-                              "idSource": "GraphGLTF|2024-03-13T14:33:07.468Z|46868"
-                            }
-                          }
-                        ]
-                      }
                     }
                   ]
                 }
@@ -4100,7 +4039,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.28947368264198303, 0]",
+                            "translation": "[0.44736841320991516, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
