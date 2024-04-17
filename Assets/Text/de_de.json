@@ -195,6 +195,8 @@
   "character.fly.clean.info": "Ich habe irgendwo meinen [anim][b]Lappen[/b][/anim] liegen lassen... Wenn du ihn findest kannst du ihn [i]nass[/i] machen und die dreckigen Flecken im Bad entfernen!",
   "character.fly.drink.question": "Wo bekomme ich denn etwas für dich zu trinken her?",
   "character.fly.drink.info": "Als Mitarbeiter darf ich kostenlos an die Getränke aus der [anim][b]Getränkebar[/b][/anim], dort könntest du mir etwas [i]mischen[/i].",
+  "character.fly.clean.not_done.dry": "Ah, du hast meinen Lappen gefunden. Mit ein bisschen Wasser kann man damit das Bad reinigen.",
+  "character.fly.clean.not_done": "Du bist noch nicht fertig mit putzen. Die beiden Klos müssen sauber gemacht werden und ich meine ich habe vorhin einen dicken Flecken auf dem Boden gesehen.",
   "character.fly.clean.done.1": "Ich habe das Bad geputzt!",
   "character.fly.clean.done.2": "Wundervoll! Dankeschön, dass du mir die Arbeit abgenommen hast, das bedeutet mir sehr viel.",
   "character.fly.dialog.done.0": "Ich habe alle Aufgaben erledigt!",

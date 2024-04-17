@@ -28,7 +28,7 @@ namespace Script {
             } else {
                 this.#animator.animation = this.animations.get("IdleHappy");
                 this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = <ƒ.AnimationGLTF>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
-                
+
                 let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator)
                 grammoAnimator.animation = <ƒ.Animation>await ƒ.Project.getResource("AnimationGLTF|2024-04-16T08:34:09.712Z|66465");
                 grammoAnimator.playmode = ƒ.ANIMATION_PLAYMODE.LOOP;
@@ -55,36 +55,63 @@ namespace Script {
         }
 
         tryUseWith(_interactable: Interactable): void {
-            if (!_interactable.name.startsWith("glass.")) {
-                // CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
-                CharacterScript.talkAs("Fly", Interactable.getInteractionText(this, _interactable));
-                return;
-            }
-            if (progress.fly.drink == 2) {
-                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.drink.done"));
+
+            // trying to use a glass
+            if (_interactable.name.startsWith("glass.")) {
+                if (progress.fly.drink == 2) {
+                    CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.drink.done"));
+                    return;
+                }
+
+                Inventory.Instance.removeItem(_interactable);
+                let cocktail = _interactable.name.split(".")[1];
+                let ingredients = new Set(CocktailManager.unmix(cocktail));
+                let wanted = new Set(this.#wantedIngredients);
+                for (let ingredient of wanted) {
+                    if (ingredients.has(ingredient)) {
+                        ingredients.delete(ingredient);
+                        wanted.delete(ingredient);
+                    }
+                }
+                if (wanted.size > 0) {
+                    CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_little", Interactable.textProvider.get(`item.glass.${[...wanted][0]}.name`)));
+                    return;
+                }
+                if (ingredients.size > 0) {
+                    CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_much", Interactable.textProvider.get(`item.glass.${[...ingredients][0]}.name`)));
+                    return;
+                }
+                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.like"));
+                progress.fly.drink = 2;
                 return;
             }
 
-            Inventory.Instance.removeItem(_interactable);
-            let cocktail = _interactable.name.split(".")[1];
-            let ingredients = new Set(CocktailManager.unmix(cocktail));
-            let wanted = new Set(this.#wantedIngredients);
-            for (let ingredient of wanted) {
-                if (ingredients.has(ingredient)) {
-                    ingredients.delete(ingredient);
-                    wanted.delete(ingredient);
+            // trying to use the wet rag
+            if (_interactable.name.includes("rag")) {
+                // cleaning is done but not acknowledged yet
+                if (progress.fly.clean === 4) {
+                    CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.clean.done.1"));
+                    CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.clean.done.2"));
+                    progress.fly.clean = 6;
+                    return;
+                }
+                // cleaning isn't done
+                if (progress.fly.clean < 4) {
+                    if (_interactable.name === "rag") {
+                        CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.clean.not_done.dry"));
+                        return;
+                    }
+                    if (_interactable.name === "rag_wet") {
+                        CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.clean.not_done"));
+                        return;
+                    }
+                    return;
                 }
             }
-            if (wanted.size > 0) {
-                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_little", Interactable.textProvider.get(`item.glass.${[...wanted][0]}.name`)));
-                return;
-            }
-            if (ingredients.size > 0) {
-                CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.too_much", Interactable.textProvider.get(`item.glass.${[...ingredients][0]}.name`)));
-                return;
-            }
-            CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.like"));
-            progress.fly.drink = 2;
+
+            // CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.no_item"));
+            CharacterScript.talkAs("Fly", Interactable.getInteractionText(this, _interactable));
+            return;
         }
 
         async interact(): Promise<void> {
@@ -148,9 +175,17 @@ namespace Script {
                             progress.fly.clean = Math.max(1, progress.fly.clean);
                             break;
                         case "drink":
+                            let glassInInventory = Inventory.Instance.hasItemThatStartsWith("glass")
+                            if (glassInInventory) {
+                                this.tryUseWith(glassInInventory);
+                                if (progress.fly.drink === 2) {
+                                    options.splice(options.findIndex((opt) => opt.id === "drink"), 1);
+                                }
+                                break;
+                            }
                             CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.drink.question"));
                             CharacterScript.talkAs("Fly", Interactable.textProvider.get("character.fly.drink.info"));
-                            progress.fly.drink = 1;
+                            progress.fly.drink = Math.max(1, progress.fly.drink);
                             break;
                         case "clean-done":
                             CharacterScript.talkAs("Tadpole", Interactable.textProvider.get("character.fly.clean.done.1"));

@@ -3205,14 +3205,21 @@
                         "slopeOut": 0
                       },
                       {
-                        "time": 416.6666564941406,
+                        "time": 533.3333129882812,
                         "value": -55.56999999999999,
                         "interpolation": 2,
                         "slopeIn": 0,
                         "slopeOut": 0
                       },
                       {
-                        "time": 983.3333129882812,
+                        "time": 1366.6666259765625,
+                        "value": -55.57000000000001,
+                        "interpolation": 2,
+                        "slopeIn": 0,
+                        "slopeOut": 0
+                      },
+                      {
+                        "time": 1650,
                         "value": 44.435214950285,
                         "interpolation": 2,
                         "slopeIn": 0,
@@ -3540,7 +3547,7 @@
                         "ƒ.ComponentTransform": {
                           "local": {
                             "translation": "[-1.375, 0.777999997138977, 0.8130999803543091]",
-                            "rotation": "[90, 0, -5.743841171264648]",
+                            "rotation": "[90, 0, 44.43521499633789]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -3569,7 +3576,7 @@
                       {
                         "ƒ.ComponentAnimator": {
                           "Component": {
-                            "active": true
+                            "active": false
                           },
                           "idAnimation": "Animation|2024-04-16T07:35:01.911Z|03147",
                           "playmode": "playOnce",
@@ -4032,7 +4039,7 @@
                           "clrPrimary": "[1, 1, 1, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
-                            "translation": "[0.8947368264198303, 0]",
+                            "translation": "[0.44736841320991516, 0]",
                             "rotation": 0,
                             "scaling": "[0.02631578966975212, 1]"
                           },
