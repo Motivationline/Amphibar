@@ -388,28 +388,7 @@
             "idResource": "Material|2024-03-28T14:20:22.998Z|62887"
           },
           {
-            "idResource": "TextureImage|2024-04-09T08:33:35.558Z|92644"
-          },
-          {
-            "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092"
-          },
-          {
-            "idResource": "Material|2024-04-09T08:34:12.967Z|24076"
-          },
-          {
-            "idResource": "AnimationSprite|2024-04-09T08:34:55.843Z|50615"
-          },
-          {
-            "idResource": "MeshSprite|2024-04-09T08:35:46.599Z|62497"
-          },
-          {
             "idResource": "Material|2024-04-09T08:51:19.169Z|58429"
-          },
-          {
-            "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000"
-          },
-          {
-            "idResource": "Material|2024-04-11T09:22:42.439Z|33550"
           }
         ]
       },
@@ -475,6 +454,56 @@
         "entries": [
           {
             "idResource": "GraphGLTF|2024-04-15T13:16:49.545Z|11967"
+          }
+        ]
+      },
+      {
+        "name": "sprites",
+        "entries": [
+          {
+            "name": "wataerfall",
+            "entries": [
+              {
+                "idResource": "AnimationSprite|2024-04-11T09:20:53.593Z|44000"
+              },
+              {
+                "idResource": "Material|2024-04-11T09:22:42.439Z|33550"
+              },
+              {
+                "idResource": "TextureImage|2024-04-11T09:20:37.988Z|18092"
+              }
+            ]
+          },
+          {
+            "name": "waterdrop",
+            "entries": [
+              {
+                "idResource": "Material|2024-04-09T08:34:12.967Z|24076"
+              },
+              {
+                "idResource": "AnimationSprite|2024-04-09T08:34:55.843Z|50615"
+              },
+              {
+                "idResource": "TextureImage|2024-04-09T08:33:35.558Z|92644"
+              }
+            ]
+          },
+          {
+            "name": "music",
+            "entries": [
+              {
+                "idResource": "TextureImage|2024-04-17T12:48:44.683Z|16358"
+              },
+              {
+                "idResource": "AnimationSprite|2024-04-17T12:48:52.826Z|44957"
+              },
+              {
+                "idResource": "Material|2024-04-17T12:48:57.818Z|88929"
+              }
+            ]
+          },
+          {
+            "idResource": "MeshSprite|2024-04-09T08:35:46.599Z|62497"
           }
         ]
       }

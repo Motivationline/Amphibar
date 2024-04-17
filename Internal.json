@@ -1947,6 +1947,77 @@
                   },
                   "children": []
                 }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "MusicGrammophon",
+                  "active": true,
+                  "components": {
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSprite|2024-04-09T08:35:46.599Z|62497",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": [
+                      {
+                        "ƒ.ComponentMaterial": {
+                          "sortForAlpha": false,
+                          "clrPrimary": "[1, 1, 1, 1]",
+                          "clrSecondary": "[1, 1, 1, 1]",
+                          "pivot": {
+                            "translation": "[0.5, 0]",
+                            "rotation": 0,
+                            "scaling": "[0.0555555559694767, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          },
+                          "idMaterial": "Material|2024-04-17T12:48:57.818Z|88929"
+                        }
+                      }
+                    ],
+                    "ComponentAnimator": [
+                      {
+                        "ƒ.ComponentAnimator": {
+                          "Component": {
+                            "active": true
+                          },
+                          "idAnimation": "AnimationSprite|2024-04-17T12:48:52.826Z|44957",
+                          "playmode": "loop",
+                          "quantization": "discrete",
+                          "scale": 1,
+                          "scaleWithGameTime": true,
+                          "animateInEditor": true
+                        }
+                      }
+                    ],
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[2, 1.1899999380111694, -1.3000000715255737]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "children": []
+                }
               }
             ]
           }
@@ -3576,7 +3647,7 @@
                       {
                         "ƒ.ComponentAnimator": {
                           "Component": {
-                            "active": false
+                            "active": true
                           },
                           "idAnimation": "Animation|2024-04-16T07:35:01.911Z|03147",
                           "playmode": "playOnce",
@@ -8025,6 +8096,51 @@
       "name": "grammoDance",
       "url": "Assets\\Bar\\Grammophon.glb",
       "framesPerSecond": 60
+    }
+  },
+  "TextureImage|2024-04-17T12:48:44.683Z|16358": {
+    "ƒ.TextureImage": {
+      "url": "Assets\\Spritesheets\\musik_spritesheet.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2024-04-17T12:48:44.683Z|16358",
+        "name": "Assets\\Spritesheets\\musik_spritesheet.png",
+        "mipmap": "CRISP",
+        "wrap": "REPEAT"
+      }
+    }
+  },
+  "AnimationSprite|2024-04-17T12:48:52.826Z|44957": {
+    "ƒ.AnimationSprite": {
+      "idResource": "AnimationSprite|2024-04-17T12:48:52.826Z|44957",
+      "idTexture": "TextureImage|2024-04-17T12:48:44.683Z|16358",
+      "frames": 18,
+      "wrapAfter": 18,
+      "start": "[0, 0]",
+      "size": "[128, 128]",
+      "next": "[128, 0]",
+      "wrap": "[0, 80]",
+      "Animation": {
+        "idResource": "AnimationSprite|2024-04-17T12:48:52.826Z|44957",
+        "name": "AnimationSprite",
+        "labels": {},
+        "events": {},
+        "framesPerSecond": 25,
+        "animationStructure": {}
+      }
+    }
+  },
+  "Material|2024-04-17T12:48:57.818Z|88929": {
+    "ƒ.Material": {
+      "name": "MusicTexture",
+      "idResource": "Material|2024-04-17T12:48:57.818Z|88929",
+      "shader": "ShaderLitTextured",
+      "coat": {
+        "ƒ.CoatTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2024-04-17T12:48:44.683Z|16358"
+        }
+      }
     }
   }
 }
