@@ -13,6 +13,8 @@ namespace Script {
         #currentDialog: Dialog;
         #textProgress: number = 0;
         #currentPromiseResolver: (value: string | void | PromiseLike<string | void>) => void;
+        #cmpAudio: ƒ.ComponentAudio;
+        #defaultAudio: ƒ.Audio;
 
         #dialogQueue: Promise<void | string>[] = [];
 
@@ -20,9 +22,16 @@ namespace Script {
             if (DialogManager.Instance) return DialogManager.Instance;
             document.addEventListener("DOMContentLoaded", this.initHtml.bind(this));
             DialogManager.Instance = this;
+
+            if(ƒ.Project.mode === ƒ.MODE.EDITOR) return;
+
+            this.#defaultAudio = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
+            this.#cmpAudio = new ƒ.ComponentAudio(this.#defaultAudio, true, false);
+            this.#cmpAudio.connect(true);
+            this.#cmpAudio.volume = settings.sounds / 100;
         }
+
         private initHtml() {
-            console.log("initHtml");
             this.#parentBox = document.getElementById("dialog");
             this.#nameBox = this.#parentBox.querySelector("#dialog-name");
             this.#textBox = this.#parentBox.querySelector("#dialog-text");
@@ -78,14 +87,20 @@ namespace Script {
                 if (_delay <= 0) {
                     this.#textProgress = Infinity;
                 }
+
+                this.#cmpAudio.setAudio(this.#defaultAudio);
+                if(this.#currentDialog.audio){
+                    this.#cmpAudio.setAudio(this.#currentDialog.audio);
+                }
+                this.#cmpAudio.play(true);
                 let interval = setInterval(() => {
                     this.#textProgress++;
                     [this.#textBox.innerHTML] = this.getTextContent(this.#currentDialog.parsedText, this.#textProgress);
                     if (this.#textProgress >= this.#currentDialog.textLength) {
                         this.#continueIcon.classList.remove("hidden");
                         clearInterval(interval);
-                        // this.#status = DialogStatus.WAITING_FOR_DISMISSAL;
                         setTimeout(resolve, 250);
+                        this.#cmpAudio.play(false);
                     }
                 }, _delay);
             });
@@ -205,7 +220,7 @@ namespace Script {
             });
         }
 
-        public async showDialog(_dialog: Dialog, _delay: number = 10): Promise<void | string> {
+        public async showDialog(_dialog: Dialog, _delay: number = 10, _audio?: ƒ.Audio): Promise<void | string> {
             let promise = this.showDialogInternal(_dialog, _delay);
             this.#dialogQueue.push(promise);
             return promise;
@@ -220,6 +235,7 @@ namespace Script {
         icon: string,
         position: "left" | "right",
         options?: DialogOption[],
+        audio?: ƒ.Audio,
     }
 
     export interface DialogOption {

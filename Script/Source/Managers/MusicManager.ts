@@ -3,8 +3,8 @@ namespace Script {
         public static Instance: MusicManager = new MusicManager();
         private cmpAudio: ƒ.ComponentAudio;
         private listener = this.start.bind(this);
-        private background :ƒ.Audio ;
-        private grammophone :ƒ.Audio ;
+        private background: ƒ.Audio;
+        private grammophone: ƒ.Audio;
 
         constructor() {
             if (MusicManager.Instance) return MusicManager.Instance;
@@ -30,7 +30,7 @@ namespace Script {
         public startGrammophone(_fadeOut: number = 0) {
             let startVol = this.cmpAudio.volume;
 
-            let interval: number; 
+            let interval: number;
             if (_fadeOut > 0) {
                 interval = setInterval(() => {
                     this.cmpAudio.volume -= 0.01;
@@ -49,8 +49,8 @@ namespace Script {
             )
         }
 
-        public changeVolume(_vol: number){
-            if(!this.cmpAudio) return;
+        public changeVolume(_vol: number) {
+            if (!this.cmpAudio) return;
             this.cmpAudio.volume = _vol;
         }
     }

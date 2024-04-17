@@ -1,6 +1,8 @@
 namespace Script {
     export class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean = false;
+        private static cmpAudio: ƒ.ComponentAudio;
+        private static audios: Map<string, ƒ.Audio> = new Map();
 
         constructor() {
             super();
@@ -8,6 +10,11 @@ namespace Script {
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
 
+            SceneManager.audios.set("close", new ƒ.Audio("Assets/Sounds/General/Door_Close.mp3"));
+            SceneManager.audios.set("open", new ƒ.Audio("Assets/Sounds/General/Door_Open.mp3"));
+            SceneManager.cmpAudio = new ƒ.ComponentAudio();
+            SceneManager.cmpAudio.connect(true);
+            SceneManager.cmpAudio.volume = settings.sounds / 100;
         }
 
         static load(_name: string, _noTransition: boolean = false) {
@@ -24,9 +31,14 @@ namespace Script {
             this.isTransitioning = true;
             let overlay = document.getElementById("scene-overlay");
             overlay.classList.add("active");
+
+            this.cmpAudio.setAudio(this.audios.get("open"));
+            this.cmpAudio.play(true);
             setTimeout(() => {
                 //@ts-ignore
                 this.loadScene(sceneToLoad);
+                this.cmpAudio.setAudio(this.audios.get("close"));
+                this.cmpAudio.play(true);
             }, 1000)
             setTimeout(() => {
                 overlay.classList.remove("active");

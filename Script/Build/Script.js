@@ -10,10 +10,12 @@ var Script;
         currentTarget;
         walker;
         animator;
+        // private cmpAudio: ƒ.ComponentAudio;
         animations = new Map();
         #currentlyWalking = false;
         #currentPromiseResolve;
         #currentPromiseReject;
+        // #stepAudio: ƒ.Audio[];
         static characterIcons = {
             Tadpole: { neutral: "Assets/UI/Dialog/Charaktere/Kaulquappe.png" },
             Frog: { neutral: "Assets/UI/Dialog/Charaktere/Frosch.png" },
@@ -24,6 +26,7 @@ var Script;
             Frog: "Assets/UI/Dialog/Namen/Name_Frosch.svg",
             Fly: "Assets/UI/Dialog/Namen/Name_Fliege.svg",
         };
+        static characterAudio;
         static talkAs(_character, _text, _mood = "neutral", _options) {
             return Script.DialogManager.Instance.showDialog({
                 icon: this.characterIcons[_character][_mood],
@@ -31,6 +34,7 @@ var Script;
                 text: _text,
                 position: _character === "Tadpole" ? "left" : "right",
                 options: _options,
+                audio: this.characterAudio[_character],
             });
         }
         constructor() {
@@ -38,9 +42,24 @@ var Script;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
+            // this.#stepAudio = [
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_0.mp3"),
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_1.mp3"),
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_2.mp3"),
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_3.mp3"),
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_4.mp3"),
+            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_5.mp3"),
+            // ];
+            CharacterScript.characterAudio = {
+                Tadpole: new ƒ.Audio("Assets/Sounds/Dialog/Quip_Dialog.mp3"),
+                Frog: new ƒ.Audio("Assets/Sounds/Dialog/Gero_Dialog.mp3"),
+                Fly: new ƒ.Audio("Assets/Sounds/Dialog/Alfi_Dialog.mp3"),
+            };
             ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
                 this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setCharacter.bind(this), true);
+                // this.cmpAudio = new ƒ.ComponentAudio();
+                // this.node.addComponent(this.cmpAudio);
             });
         }
         init() {
@@ -49,7 +68,8 @@ var Script;
             this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
             this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
             this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
-            // console.log("idle", );
+            this.animator.addEventListener("step", this.playStepSound.bind(this));
+            this.animator.addEventListener("step2", this.playStepSound.bind(this));
             let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
             for (let anim of animations) {
                 this.animations.set(anim.name, anim);
@@ -57,6 +77,10 @@ var Script;
             // this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
             // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
             // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
+            // step timings
+            let wd = this.animations.get("WalkDerpy");
+            wd.setEvent("step", 0);
+            wd.setEvent("step2", wd.totalTime / 2);
         }
         initPosition() {
             if (!this.currentTarget) {
@@ -70,6 +94,10 @@ var Script;
         setCharacter() {
             Script.character = this;
             this.initPosition();
+        }
+        playStepSound() {
+            // this.cmpAudio.setAudio(this.#stepAudio[Math.floor(Math.random() * this.#stepAudio.length)]);
+            // this.cmpAudio.play(true);
         }
         moveTo(_waypoint) {
             this.resolveOrReject(false);
@@ -290,84 +318,6 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class Inventory {
-        static Instance = new Inventory();
-        divInventory;
-        divWrapper;
-        preview;
-        itemsToHTMLMap = new Map();
-        constructor() {
-            if (Inventory.Instance)
-                return Inventory.Instance;
-            Inventory.Instance = this;
-            document.addEventListener("DOMContentLoaded", () => {
-                this.divInventory = document.getElementById("inventory");
-                this.divWrapper = document.getElementById("inventory-wrapper");
-                this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
-                this.preview = document.getElementById("inventory-preview");
-            });
-        }
-        toggleInventory(_event) {
-            let isInventory = _event.target.classList.contains("inventory");
-            if (!isInventory)
-                return;
-            this.divWrapper.classList.toggle("visible");
-        }
-        updateStorage() {
-            let inv = [];
-            for (let item of this.itemsToHTMLMap.keys()) {
-                inv.push({ name: item.name, image: item.image });
-            }
-            localStorage.setItem("inventory", JSON.stringify(inv));
-        }
-        addItem(_item) {
-            if (!this.itemsToHTMLMap.has(_item)) {
-                let element = _item.toHTMLElement();
-                this.itemsToHTMLMap.set(_item, element);
-                this.updateStorage();
-                this.preview.innerHTML = "";
-                this.preview.appendChild(_item.toHTMLElement());
-                this.preview.classList.add("show");
-                setTimeout(() => {
-                    this.preview.classList.remove("show");
-                    this.divInventory.appendChild(element);
-                }, 1300);
-            }
-        }
-        removeItem(_item) {
-            let element = this.itemsToHTMLMap.get(_item);
-            if (element) {
-                this.itemsToHTMLMap.delete(_item);
-                this.divInventory.removeChild(element);
-                this.updateStorage();
-            }
-        }
-        hasItem(_nameOrItem) {
-            if (typeof _nameOrItem === "string") {
-                for (let item of this.itemsToHTMLMap.keys()) {
-                    if (item.name === _nameOrItem)
-                        return item;
-                }
-            }
-            else {
-                if (this.itemsToHTMLMap.has(_nameOrItem)) {
-                    return _nameOrItem;
-                }
-            }
-            return null;
-        }
-        hasItemThatStartsWith(_name) {
-            for (let item of this.itemsToHTMLMap.keys()) {
-                if (item.name.startsWith(_name))
-                    return item;
-            }
-            return null;
-        }
-    }
-    Script.Inventory = Inventory;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
     var ƒ = FudgeCore;
     document.addEventListener("interactiveViewportStarted", start);
     Script.interactableItems = [];
@@ -571,6 +521,104 @@ var Script;
     }
     Script.merge = merge;
     //#endregion
+})(Script || (Script = {}));
+/// <reference path="Main.ts" />
+var Script;
+/// <reference path="Main.ts" />
+(function (Script) {
+    class Inventory {
+        static Instance = new Inventory();
+        divInventory;
+        divWrapper;
+        preview;
+        itemsToHTMLMap = new Map();
+        #cmpAudio;
+        #audioFiles = new Map();
+        constructor() {
+            if (Inventory.Instance)
+                return Inventory.Instance;
+            Inventory.Instance = this;
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            document.addEventListener("DOMContentLoaded", () => {
+                this.divInventory = document.getElementById("inventory");
+                this.divWrapper = document.getElementById("inventory-wrapper");
+                this.divWrapper.addEventListener("click", this.toggleInventory.bind(this));
+                this.preview = document.getElementById("inventory-preview");
+            });
+            this.#audioFiles.set("invOpen", new ƒ.Audio("Assets/Sounds/UI/Inventory_Open.mp3"));
+            this.#audioFiles.set("invClose", new ƒ.Audio("Assets/Sounds/UI/Inventory_Close.mp3"));
+            this.#audioFiles.set("invAdd", new ƒ.Audio("Assets/Sounds/UI/Add_Inventory.mp3"));
+            this.#cmpAudio = new ƒ.ComponentAudio(this.#audioFiles.get("invAdd"), false, false);
+            this.#cmpAudio.connect(true);
+            this.#cmpAudio.volume = Script.settings.sounds / 100;
+        }
+        toggleInventory(_event) {
+            let isInventory = _event.target.classList.contains("inventory");
+            if (!isInventory)
+                return;
+            if (this.divWrapper.classList.toggle("visible")) {
+                this.#cmpAudio.setAudio(this.#audioFiles.get("invOpen"));
+            }
+            else {
+                this.#cmpAudio.setAudio(this.#audioFiles.get("invClose"));
+            }
+            this.#cmpAudio.play(true);
+        }
+        updateStorage() {
+            let inv = [];
+            for (let item of this.itemsToHTMLMap.keys()) {
+                inv.push({ name: item.name, image: item.image });
+            }
+            localStorage.setItem("inventory", JSON.stringify(inv));
+        }
+        addItem(_item) {
+            if (!this.itemsToHTMLMap.has(_item)) {
+                let element = _item.toHTMLElement();
+                this.itemsToHTMLMap.set(_item, element);
+                this.updateStorage();
+                this.preview.innerHTML = "";
+                this.preview.appendChild(_item.toHTMLElement());
+                this.preview.classList.add("show");
+                setTimeout(() => {
+                    this.preview.classList.remove("show");
+                    this.divInventory.appendChild(element);
+                }, 1300);
+            }
+            this.#cmpAudio.setAudio(this.#audioFiles.get("invAdd"));
+            this.#cmpAudio.play(true);
+        }
+        removeItem(_item) {
+            let element = this.itemsToHTMLMap.get(_item);
+            if (element) {
+                this.itemsToHTMLMap.delete(_item);
+                this.divInventory.removeChild(element);
+                this.updateStorage();
+            }
+        }
+        hasItem(_nameOrItem) {
+            if (typeof _nameOrItem === "string") {
+                for (let item of this.itemsToHTMLMap.keys()) {
+                    if (item.name === _nameOrItem)
+                        return item;
+                }
+            }
+            else {
+                if (this.itemsToHTMLMap.has(_nameOrItem)) {
+                    return _nameOrItem;
+                }
+            }
+            return null;
+        }
+        hasItemThatStartsWith(_name) {
+            for (let item of this.itemsToHTMLMap.keys()) {
+                if (item.name.startsWith(_name))
+                    return item;
+            }
+            return null;
+        }
+    }
+    Script.Inventory = Inventory;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
@@ -1280,15 +1328,22 @@ var Script;
         #currentDialog;
         #textProgress = 0;
         #currentPromiseResolver;
+        #cmpAudio;
+        #defaultAudio;
         #dialogQueue = [];
         constructor() {
             if (DialogManager.Instance)
                 return DialogManager.Instance;
             document.addEventListener("DOMContentLoaded", this.initHtml.bind(this));
             DialogManager.Instance = this;
+            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                return;
+            this.#defaultAudio = new ƒ.Audio("Assets/Music/Amphibar_GameMusic.mp3");
+            this.#cmpAudio = new ƒ.ComponentAudio(this.#defaultAudio, true, false);
+            this.#cmpAudio.connect(true);
+            this.#cmpAudio.volume = Script.settings.sounds / 100;
         }
         initHtml() {
-            console.log("initHtml");
             this.#parentBox = document.getElementById("dialog");
             this.#nameBox = this.#parentBox.querySelector("#dialog-name");
             this.#textBox = this.#parentBox.querySelector("#dialog-text");
@@ -1339,14 +1394,19 @@ var Script;
                 if (_delay <= 0) {
                     this.#textProgress = Infinity;
                 }
+                this.#cmpAudio.setAudio(this.#defaultAudio);
+                if (this.#currentDialog.audio) {
+                    this.#cmpAudio.setAudio(this.#currentDialog.audio);
+                }
+                this.#cmpAudio.play(true);
                 let interval = setInterval(() => {
                     this.#textProgress++;
                     [this.#textBox.innerHTML] = this.getTextContent(this.#currentDialog.parsedText, this.#textProgress);
                     if (this.#textProgress >= this.#currentDialog.textLength) {
                         this.#continueIcon.classList.remove("hidden");
                         clearInterval(interval);
-                        // this.#status = DialogStatus.WAITING_FOR_DISMISSAL;
                         setTimeout(resolve, 250);
+                        this.#cmpAudio.play(false);
                     }
                 }, _delay);
             });
@@ -1456,7 +1516,7 @@ var Script;
                 this.#currentPromiseResolver = resolve;
             });
         }
-        async showDialog(_dialog, _delay = 10) {
+        async showDialog(_dialog, _delay = 10, _audio) {
             let promise = this.showDialogInternal(_dialog, _delay);
             this.#dialogQueue.push(promise);
             return promise;
@@ -1654,10 +1714,17 @@ var Script;
 (function (Script) {
     class SceneManager extends ƒ.ComponentScript {
         static isTransitioning = false;
+        static cmpAudio;
+        static audios = new Map();
         constructor() {
             super();
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
+            SceneManager.audios.set("close", new ƒ.Audio("Assets/Sounds/General/Door_Close.mp3"));
+            SceneManager.audios.set("open", new ƒ.Audio("Assets/Sounds/General/Door_Open.mp3"));
+            SceneManager.cmpAudio = new ƒ.ComponentAudio();
+            SceneManager.cmpAudio.connect(true);
+            SceneManager.cmpAudio.volume = Script.settings.sounds / 100;
         }
         static load(_name, _noTransition = false) {
             if (this.isTransitioning)
@@ -1674,9 +1741,13 @@ var Script;
             this.isTransitioning = true;
             let overlay = document.getElementById("scene-overlay");
             overlay.classList.add("active");
+            this.cmpAudio.setAudio(this.audios.get("open"));
+            this.cmpAudio.play(true);
             setTimeout(() => {
                 //@ts-ignore
                 this.loadScene(sceneToLoad);
+                this.cmpAudio.setAudio(this.audios.get("close"));
+                this.cmpAudio.play(true);
             }, 1000);
             setTimeout(() => {
                 overlay.classList.remove("active");

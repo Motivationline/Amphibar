@@ -18,11 +18,15 @@ declare namespace Script {
         static characterNames: ({
             [key: string]: string;
         });
+        static characterAudio: ({
+            [key: string]: ƒ.Audio;
+        });
         static talkAs(_character: Character, _text: string, _mood?: Mood, _options?: DialogOption[]): Promise<string | void>;
         constructor();
         private init;
         private initPosition;
         private setCharacter;
+        private playStepSound;
         moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown>;
         private actuallyWalk;
         private reachedWaypoint;
@@ -67,23 +71,6 @@ declare namespace Script {
     }
 }
 declare namespace Script {
-    class Inventory {
-        static Instance: Inventory;
-        private divInventory;
-        private divWrapper;
-        private preview;
-        private itemsToHTMLMap;
-        constructor();
-        private toggleInventory;
-        private updateStorage;
-        addItem(_item: Interactable): void;
-        removeItem(_item: Interactable): void;
-        hasItem(_item: Interactable): Interactable;
-        hasItem(_name: string): Interactable;
-        hasItemThatStartsWith(_name: string): Interactable;
-    }
-}
-declare namespace Script {
     import ƒ = FudgeCore;
     export let mainViewport: ƒ.Viewport;
     export let mainNode: ƒ.Node;
@@ -125,6 +112,24 @@ declare namespace Script {
     /** Deep merges the _updates object into the _current object. */
     export function merge(_current: any, _updates: any): any;
     export {};
+}
+declare namespace Script {
+    class Inventory {
+        #private;
+        static Instance: Inventory;
+        private divInventory;
+        private divWrapper;
+        private preview;
+        private itemsToHTMLMap;
+        constructor();
+        private toggleInventory;
+        private updateStorage;
+        addItem(_item: Interactable): void;
+        removeItem(_item: Interactable): void;
+        hasItem(_item: Interactable): Interactable;
+        hasItem(_name: string): Interactable;
+        hasItemThatStartsWith(_name: string): Interactable;
+    }
 }
 declare namespace Script {
     class Text {
@@ -259,7 +264,7 @@ declare namespace Script {
         private showOptions;
         private hideDialog;
         private showDialogInternal;
-        showDialog(_dialog: Dialog, _delay?: number): Promise<void | string>;
+        showDialog(_dialog: Dialog, _delay?: number, _audio?: ƒ.Audio): Promise<void | string>;
     }
     export interface Dialog {
         text: string;
@@ -269,6 +274,7 @@ declare namespace Script {
         icon: string;
         position: "left" | "right";
         options?: DialogOption[];
+        audio?: ƒ.Audio;
     }
     export interface DialogOption {
         text: string;
@@ -328,6 +334,8 @@ declare namespace Script {
 declare namespace Script {
     class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean;
+        private static cmpAudio;
+        private static audios;
         constructor();
         static load(_name: string, _noTransition?: boolean): void;
         private static loadScene;
