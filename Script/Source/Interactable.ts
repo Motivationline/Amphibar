@@ -1,7 +1,9 @@
 namespace Script {
     import ƒ = FudgeCore;
     export class Interactable extends ƒ.ComponentScript {
+        @ƒ.edit(String)
         name: string;
+        @ƒ.edit(String)
         image?: string;
         static textProvider: Text;
 

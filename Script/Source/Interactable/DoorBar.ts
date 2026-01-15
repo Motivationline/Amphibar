@@ -1,7 +1,9 @@
 namespace Script {
     import ƒ = FudgeCore;
     export class DoorBar extends Interactable {
+        @ƒ.edit(String)
         public target: string = "done";
+        @ƒ.edit(Boolean)
         public locked: boolean = true;
 
         constructor(_name?: string, _image?: string) {

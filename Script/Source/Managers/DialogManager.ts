@@ -1,4 +1,5 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class DialogManager {
         public static Instance = new DialogManager();
         #nameBox: HTMLImageElement;

@@ -1,7 +1,8 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class Fly extends Interactable {
         #wantedIngredients: string[] = this.randomDrinkOrLoad();
-        #animator: ƒ.ComponentAnimator;
+        #animator: ƒ.ComponentAnimation;
         private animations: Map<string, ƒ.Animation> = new Map();
 
         constructor(_name?: string, _image?: string) {
@@ -15,7 +16,7 @@ namespace Script {
         }
 
         private init() {
-            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimation);
             let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
             for (let anim of animations) {
                 this.animations.set(anim.name, <ƒ.Animation>anim);
@@ -27,9 +28,9 @@ namespace Script {
                 this.#animator.animation = this.animations.get("IdleSad");
             } else {
                 this.#animator.animation = this.animations.get("IdleHappy");
-                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = <ƒ.AnimationGLTF>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
+                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimation).animation = <ƒ.AnimationGLTF>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
 
-                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator)
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimation)
                 grammoAnimator.animation = <ƒ.Animation>await ƒ.Project.getResource("AnimationGLTF|2024-04-16T08:34:09.712Z|66465");
                 grammoAnimator.playmode = ƒ.ANIMATION_PLAYMODE.LOOP;
             }
@@ -217,7 +218,7 @@ namespace Script {
                 this.#animator.animation = <ƒ.Animation>await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
                 this.#animator.jumpTo(0);
 
-                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator);
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimation);
                 grammoAnimator.jumpTo(0);
                 setTimeout(async () => {
                     this.setAnimation();

@@ -1,5 +1,7 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class BathroomDirt extends Interactable {
+        @ƒ.edit(String)
         public name: string = "dirt";
 
         constructor(_name: string, _image: string) {

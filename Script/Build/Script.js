@@ -1,32 +1,68 @@
 "use strict";
+var __esDecorate = (this && this.__esDecorate) || function (ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) { if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected"); return f; }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for (var i = decorators.length - 1; i >= 0; i--) {
+        var context = {};
+        for (var p in contextIn) context[p] = p === "access" ? {} : contextIn[p];
+        for (var p in contextIn.access) context.access[p] = contextIn.access[p];
+        context.addInitializer = function (f) { if (done) throw new TypeError("Cannot add initializers after decoration has completed"); extraInitializers.push(accept(f || null)); };
+        var result = (0, decorators[i])(kind === "accessor" ? { get: descriptor.get, set: descriptor.set } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        }
+        else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+};
+var __runInitializers = (this && this.__runInitializers) || function (thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for (var i = 0; i < initializers.length; i++) {
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+};
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class CharacterScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(CharacterScript);
-        nextTarget;
-        currentTarget;
-        walker;
-        animator;
-        // private cmpAudio: ƒ.ComponentAudio;
-        animations = new Map();
-        #currentlyWalking = false;
+        static { this.iSubclass = ƒ.Component.registerSubclass(CharacterScript); }
+        #currentlyWalking;
         #currentPromiseResolve;
         #currentPromiseReject;
-        // #stepAudio: ƒ.Audio[];
-        static characterIcons = {
+        static { this.characterIcons = {
             Tadpole: { neutral: "Assets/UI/Dialog/Charaktere/Kaulquappe.png" },
             Frog: { neutral: "Assets/UI/Dialog/Charaktere/Frosch.png" },
             Fly: { neutral: "Assets/UI/Dialog/Charaktere/Fliege.png" },
-        };
-        static characterNames = {
+        }; }
+        static { this.characterNames = {
             Tadpole: "Assets/UI/Dialog/Namen/Name_Kaulquappe.svg",
             Frog: "Assets/UI/Dialog/Namen/Name_Frosch.svg",
             Fly: "Assets/UI/Dialog/Namen/Name_Fliege.svg",
-        };
-        static characterAudio;
+        }; }
+        static {
+            if (ƒ.Project.mode != ƒ.MODE.EDITOR) {
+                this.characterAudio = {
+                    Tadpole: new ƒ.Audio("Assets/Sounds/Dialog/Quip_Dialog.mp3"),
+                    Frog: new ƒ.Audio("Assets/Sounds/Dialog/Gero_Dialog.mp3"),
+                    Fly: new ƒ.Audio("Assets/Sounds/Dialog/Alfi_Dialog.mp3"),
+                };
+            }
+        }
+        ;
         static talkAs(_character, _text, _mood = "neutral", _options) {
             return Script.DialogManager.Instance.showDialog({
                 icon: this.characterIcons[_character][_mood],
@@ -34,32 +70,19 @@ var Script;
                 text: _text,
                 position: _character === "Tadpole" ? "left" : "right",
                 options: _options,
-                audio: this.characterAudio[_character],
+                audio: this.characterAudio[_character]
             });
         }
         constructor() {
             super();
+            this.animations = new Map();
+            this.#currentlyWalking = false;
             // Don't start when running in editor
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
-            // this.#stepAudio = [
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_0.mp3"),
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_1.mp3"),
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_2.mp3"),
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_3.mp3"),
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_4.mp3"),
-            //   new ƒ.Audio("Assets/Sounds/Footsteps/Footstep_5.mp3"),
-            // ];
-            CharacterScript.characterAudio = {
-                Tadpole: new ƒ.Audio("Assets/Sounds/Dialog/Quip_Dialog.mp3"),
-                Frog: new ƒ.Audio("Assets/Sounds/Dialog/Gero_Dialog.mp3"),
-                Fly: new ƒ.Audio("Assets/Sounds/Dialog/Alfi_Dialog.mp3"),
-            };
             ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
                 this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setCharacter.bind(this), true);
-                // this.cmpAudio = new ƒ.ComponentAudio();
-                // this.node.addComponent(this.cmpAudio);
             });
         }
         init() {
@@ -67,9 +90,8 @@ var Script;
             this.walker = this.node.getComponent(ƒ.ComponentWalker);
             this.walker.addEventListener("waypointReached" /* ƒ.EVENT.WAYPOINT_REACHED */, this.reachedWaypoint.bind(this));
             this.walker.addEventListener("pathingConcluded" /* ƒ.EVENT.PATHING_CONCLUDED */, this.finishedWalking.bind(this));
-            this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
-            this.animator.addEventListener("step", this.playStepSound.bind(this));
-            this.animator.addEventListener("step2", this.playStepSound.bind(this));
+            this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimation);
+            // console.log("idle", );
             let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
             for (let anim of animations) {
                 this.animations.set(anim.name, anim);
@@ -77,10 +99,6 @@ var Script;
             // this.animations.set("idle", <ƒ.Animation>ƒ.Project.getResourcesByName("Idle")[0])
             // this.animations.set("interact", <ƒ.Animation>ƒ.Project.getResourcesByName("Interact")[0])
             // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
-            // step timings
-            let wd = this.animations.get("WalkDerpy");
-            wd.setEvent("step", 0);
-            wd.setEvent("step2", wd.totalTime / 2);
         }
         initPosition() {
             if (!this.currentTarget) {
@@ -94,10 +112,6 @@ var Script;
         setCharacter() {
             Script.character = this;
             this.initPosition();
-        }
-        playStepSound() {
-            // this.cmpAudio.setAudio(this.#stepAudio[Math.floor(Math.random() * this.#stepAudio.length)]);
-            // this.cmpAudio.play(true);
         }
         moveTo(_waypoint) {
             this.resolveOrReject(false);
@@ -167,144 +181,184 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
-    class GenerateWaypointsScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(GenerateWaypointsScript);
-        dx = 2;
-        dz = 2;
-        distance = 0.5;
-        #waypoints = [];
-        constructor() {
-            super();
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.createWaypoints.bind(this));
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                // this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.createWaypoints.bind(this), true);
-            });
-        }
-        createWaypoints(_ev) {
-            console.log("create", _ev.type);
-            for (let comp of this.node.getComponents(ƒ.ComponentWaypoint)) {
-                this.node.removeComponent(comp);
+    let GenerateWaypointsScript = (() => {
+        let _classSuper = ƒ.ComponentScript;
+        let _dx_decorators;
+        let _dx_initializers = [];
+        let _dx_extraInitializers = [];
+        let _dz_decorators;
+        let _dz_initializers = [];
+        let _dz_extraInitializers = [];
+        let _distance_decorators;
+        let _distance_initializers = [];
+        let _distance_extraInitializers = [];
+        return class GenerateWaypointsScript extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _dx_decorators = [ƒ.edit(Number)];
+                _dz_decorators = [ƒ.edit(Number)];
+                _distance_decorators = [ƒ.edit(Number)];
+                __esDecorate(null, null, _dx_decorators, { kind: "field", name: "dx", static: false, private: false, access: { has: obj => "dx" in obj, get: obj => obj.dx, set: (obj, value) => { obj.dx = value; } }, metadata: _metadata }, _dx_initializers, _dx_extraInitializers);
+                __esDecorate(null, null, _dz_decorators, { kind: "field", name: "dz", static: false, private: false, access: { has: obj => "dz" in obj, get: obj => obj.dz, set: (obj, value) => { obj.dz = value; } }, metadata: _metadata }, _dz_initializers, _dz_extraInitializers);
+                __esDecorate(null, null, _distance_decorators, { kind: "field", name: "distance", static: false, private: false, access: { has: obj => "distance" in obj, get: obj => obj.distance, set: (obj, value) => { obj.distance = value; } }, metadata: _metadata }, _distance_initializers, _distance_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-            this.#waypoints = [];
-            let connectionDistance = this.distance * this.distance * 2.5 /* slightly more than sqrt(2) = 1.41 */;
-            for (let x = 0; x <= this.dx; x += this.distance) {
-                for (let z = 0; z <= this.dz; z += this.distance) {
-                    let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.CONSTRUCTION(new ƒ.Vector3(x, 0, z)));
-                    this.node.addComponent(waypoint);
-                    for (let w of this.#waypoints) {
-                        let distance = ƒ.Vector3.DIFFERENCE(w.mtxWorld.translation, waypoint.mtxWorld.translation).magnitudeSquared;
-                        if (distance < connectionDistance)
-                            ƒ.ComponentWaypoint.addConnection(w, waypoint, distance, 1, true);
+            // Register the script as component for use in the editor via drag&drop
+            static { this.iSubclass = ƒ.Component.registerSubclass(GenerateWaypointsScript); }
+            #waypoints;
+            constructor() {
+                super();
+                this.dx = __runInitializers(this, _dx_initializers, 2);
+                this.dz = (__runInitializers(this, _dx_extraInitializers), __runInitializers(this, _dz_initializers, 2));
+                this.distance = (__runInitializers(this, _dz_extraInitializers), __runInitializers(this, _distance_initializers, 0.5));
+                this.#waypoints = (__runInitializers(this, _distance_extraInitializers), []);
+                // Don't start when running in editor
+                if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                    return;
+                // ƒ.Loop.addEventListener(ƒ.EVENT.LOOP_FRAME, this.frame.bind(this));
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, this.createWaypoints.bind(this));
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    // this.node.addEventListener(ƒ.EVENT.ATTACH_BRANCH, this.createWaypoints.bind(this), true);
+                });
+            }
+            createWaypoints(_ev) {
+                console.log("create", _ev.type);
+                for (let comp of this.node.getComponents(ƒ.ComponentWaypoint)) {
+                    this.node.removeComponent(comp);
+                }
+                this.#waypoints = [];
+                let connectionDistance = this.distance * this.distance * 2.5 /* slightly more than sqrt(2) = 1.41 */;
+                for (let x = 0; x <= this.dx; x += this.distance) {
+                    for (let z = 0; z <= this.dz; z += this.distance) {
+                        let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.COMPOSITION(new ƒ.Vector3(x, 0, z)));
+                        this.node.addComponent(waypoint);
+                        for (let w of this.#waypoints) {
+                            let distance = ƒ.Vector3.DIFFERENCE(w.mtxWorld.translation, waypoint.mtxWorld.translation).magnitudeSquared;
+                            if (distance < connectionDistance)
+                                ƒ.ComponentWaypoint.addConnection(w, waypoint, distance, 1, true);
+                        }
+                        this.#waypoints.push(waypoint);
                     }
-                    this.#waypoints.push(waypoint);
                 }
             }
-        }
-    }
+        };
+    })();
     Script.GenerateWaypointsScript = GenerateWaypointsScript;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class Interactable extends ƒ.ComponentScript {
-        name;
-        image;
-        static textProvider;
-        constructor(_name, _image) {
-            super();
-            this.name = _name;
-            this.image = _image;
-            Script.interactableItems.push(this);
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("click", this.interact.bind(this));
-            });
-            if (!Interactable.textProvider)
-                Interactable.textProvider = new Script.Text();
-        }
-        static getInteractionText(_object, _item) {
-            if (!_object.node) {
-                let key = `${_object.name}.interact`;
+    let Interactable = (() => {
+        let _classSuper = ƒ.ComponentScript;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        let _image_decorators;
+        let _image_initializers = [];
+        let _image_extraInitializers = [];
+        return class Interactable extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                _image_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                __esDecorate(null, null, _image_decorators, { kind: "field", name: "image", static: false, private: false, access: { has: obj => "image" in obj, get: obj => obj.image, set: (obj, value) => { obj.image = value; } }, metadata: _metadata }, _image_initializers, _image_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+            }
+            constructor(_name, _image) {
+                super();
+                this.name = __runInitializers(this, _name_initializers, void 0);
+                this.image = (__runInitializers(this, _name_extraInitializers), __runInitializers(this, _image_initializers, void 0));
+                __runInitializers(this, _image_extraInitializers);
+                this.name = _name;
+                this.image = _image;
+                Script.interactableItems.push(this);
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("click", this.interact.bind(this));
+                });
+                if (!Interactable.textProvider)
+                    Interactable.textProvider = new Script.Text();
+            }
+            static getInteractionText(_object, _item) {
+                if (!_object.node) {
+                    let key = `${_object.name}.interact`;
+                    let text = Interactable.textProvider.get(key);
+                    if (text !== key)
+                        return text;
+                    key = `interact`;
+                    text = Interactable.textProvider.get(key);
+                    if (text !== key)
+                        return text;
+                    return `${_object.name}.interact`;
+                }
+                let base = _object.node.getAncestor();
+                let key = "";
+                if (_item) {
+                    key = `${base.name}.${_object.name}.interact.${_item.name}`;
+                    let text = Interactable.textProvider.get(key);
+                    if (text !== key)
+                        return text;
+                    let itemname = _item.name.split(".")[0];
+                    key = `${base.name}.${_object.name}.interact.${itemname}`;
+                    text = Interactable.textProvider.get(key);
+                    if (text !== key)
+                        return text;
+                }
+                key = `${base.name}.${_object.name}.interact`;
                 let text = Interactable.textProvider.get(key);
-                if (text !== key)
+                if (key !== text)
+                    return text;
+                key = `${base.name}.interact`;
+                text = Interactable.textProvider.get(key);
+                if (key !== text)
                     return text;
                 key = `interact`;
                 text = Interactable.textProvider.get(key);
-                if (text !== key)
+                if (key !== text)
                     return text;
-                return `${_object.name}.interact`;
+                return `${base.name}.${_object.name}.interact.${_item?.name ?? ""}`;
             }
-            let base = _object.node.getAncestor();
-            let key = "";
-            if (_item) {
-                key = `${base.name}.${_object.name}.interact.${_item.name}`;
-                let text = Interactable.textProvider.get(key);
-                if (text !== key)
-                    return text;
-                let itemname = _item.name.split(".")[0];
-                key = `${base.name}.${_object.name}.interact.${itemname}`;
-                text = Interactable.textProvider.get(key);
-                if (text !== key)
-                    return text;
+            interact() {
+                Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this));
             }
-            key = `${base.name}.${_object.name}.interact`;
-            let text = Interactable.textProvider.get(key);
-            if (key !== text)
-                return text;
-            key = `${base.name}.interact`;
-            text = Interactable.textProvider.get(key);
-            if (key !== text)
-                return text;
-            key = `interact`;
-            text = Interactable.textProvider.get(key);
-            if (key !== text)
-                return text;
-            return `${base.name}.${_object.name}.interact.${_item?.name ?? ""}`;
-        }
-        interact() {
-            Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this));
-        }
-        tryUseWith(_interactable) {
-            Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this, _interactable));
-        }
-        getInteractionType() {
-            return INTERACTION_TYPE.LOOK_AT;
-        }
-        toHTMLElement() {
-            let div = document.createElement("div");
-            let name = Interactable.textProvider.get(`item.${this.name}.name`);
-            let img = document.createElement("img");
-            img.src = this.image;
-            img.alt = name;
-            div.appendChild(img);
-            div.classList.add("item");
-            div.draggable = true;
-            div.addEventListener("dragstart", addData.bind(this));
-            div.addEventListener("drop", tryUseWithEvent.bind(this));
-            div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
-            div.addEventListener("pointermove", _ev => { Script.MenuManager.Instance.hoverStart(_ev, this); });
-            div.addEventListener("pointerleave", _ev => { Script.MenuManager.Instance.hoverEnd(); });
-            return div;
-            function addData(_event) {
-                _event.dataTransfer.setData("interactable", this.name);
+            tryUseWith(_interactable) {
+                Script.CharacterScript.talkAs("Tadpole", Interactable.getInteractionText(this, _interactable));
             }
-            function tryUseWithEvent(_event) {
-                let otherInteractableName = _event.dataTransfer.getData("interactable");
-                let otherInteractable = Script.interactableItems.find(i => i.name === otherInteractableName);
-                if (!otherInteractable)
-                    return;
-                console.log("try to use", this.name, "with", otherInteractable);
-                this.tryUseWith(otherInteractable);
+            getInteractionType() {
+                return INTERACTION_TYPE.LOOK_AT;
             }
-        }
-        canUseWithItem() {
-            return false;
-        }
-    }
+            toHTMLElement() {
+                let div = document.createElement("div");
+                let name = Interactable.textProvider.get(`item.${this.name}.name`);
+                let img = document.createElement("img");
+                img.src = this.image;
+                img.alt = name;
+                div.appendChild(img);
+                div.classList.add("item");
+                div.draggable = true;
+                div.addEventListener("dragstart", addData.bind(this));
+                div.addEventListener("drop", tryUseWithEvent.bind(this));
+                div.addEventListener("dragover", _ev => { _ev.preventDefault(); });
+                div.addEventListener("pointermove", _ev => { Script.MenuManager.Instance.hoverStart(_ev, this); });
+                div.addEventListener("pointerleave", _ev => { Script.MenuManager.Instance.hoverEnd(); });
+                return div;
+                function addData(_event) {
+                    _event.dataTransfer.setData("interactable", this.name);
+                }
+                function tryUseWithEvent(_event) {
+                    let otherInteractableName = _event.dataTransfer.getData("interactable");
+                    let otherInteractable = Script.interactableItems.find(i => i.name === otherInteractableName);
+                    if (!otherInteractable)
+                        return;
+                    console.log("try to use", this.name, "with", otherInteractable);
+                    this.tryUseWith(otherInteractable);
+                }
+            }
+            canUseWithItem() {
+                return false;
+            }
+        };
+    })();
     Script.Interactable = Interactable;
     let INTERACTION_TYPE;
     (function (INTERACTION_TYPE) {
@@ -526,15 +580,14 @@ var Script;
 var Script;
 /// <reference path="Main.ts" />
 (function (Script) {
+    var ƒ = FudgeCore;
     class Inventory {
-        static Instance = new Inventory();
-        divInventory;
-        divWrapper;
-        preview;
-        itemsToHTMLMap = new Map();
+        static { this.Instance = new Inventory(); }
         #cmpAudio;
-        #audioFiles = new Map();
+        #audioFiles;
         constructor() {
+            this.itemsToHTMLMap = new Map();
+            this.#audioFiles = new Map();
             if (Inventory.Instance)
                 return Inventory.Instance;
             Inventory.Instance = this;
@@ -622,9 +675,9 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class Text {
-        static instance = new Text();
-        textData;
+        static { this.instance = new Text(); }
         constructor() {
             if (Text.instance)
                 return Text.instance;
@@ -654,194 +707,258 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class Bar extends Script.Interactable {
-        name = "Getränkebar";
-        target = "shelf";
-        constructor(_name, _image) {
-            super(_name, _image);
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-        }
-        getInteractionType() {
-            if (!Script.progress.fly.intro) {
-                return Script.INTERACTION_TYPE.LOOK_AT;
+    let Bar = (() => {
+        let _classSuper = Script.Interactable;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        let _target_decorators;
+        let _target_initializers = [];
+        let _target_extraInitializers = [];
+        return class Bar extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                _target_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                __esDecorate(null, null, _target_decorators, { kind: "field", name: "target", static: false, private: false, access: { has: obj => "target" in obj, get: obj => obj.target, set: (obj, value) => { obj.target = value; } }, metadata: _metadata }, _target_initializers, _target_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-            return Script.INTERACTION_TYPE.DOOR;
-        }
-        interact() {
-            if (!Script.progress.fly.intro) {
-                super.interact();
-                return;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.name = __runInitializers(this, _name_initializers, "Getränkebar");
+                this.target = (__runInitializers(this, _name_extraInitializers), __runInitializers(this, _target_initializers, "shelf"));
+                __runInitializers(this, _target_extraInitializers);
+                // Don't start when running in editor
+                if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                    return;
             }
-            Script.SceneManager.load(this.target);
-        }
-        tryUseWith(_interactable) { }
-    }
+            getInteractionType() {
+                if (!Script.progress.fly.intro) {
+                    return Script.INTERACTION_TYPE.LOOK_AT;
+                }
+                return Script.INTERACTION_TYPE.DOOR;
+            }
+            interact() {
+                if (!Script.progress.fly.intro) {
+                    super.interact();
+                    return;
+                }
+                Script.SceneManager.load(this.target);
+            }
+            tryUseWith(_interactable) { }
+        };
+    })();
     Script.Bar = Bar;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class BathroomBucket extends Script.Interactable {
-        name = "bucket";
-        constructor(_name, _image) {
-            super(_name, _image);
-            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
-            });
-        }
-        interact() {
-            let p = Script.progress.fly.clean ?? 0;
-            if (p <= 1) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.0"));
-                return;
+    var ƒ = FudgeCore;
+    let BathroomBucket = (() => {
+        let _classSuper = Script.Interactable;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        return class BathroomBucket extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-            if (p === 2) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.1"));
-                return;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.name = __runInitializers(this, _name_initializers, "bucket");
+                __runInitializers(this, _name_extraInitializers);
+                if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+                });
             }
-            if (p === 3) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.0"));
-                return;
+            interact() {
+                let p = Script.progress.fly.clean ?? 0;
+                if (p <= 1) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.0"));
+                    return;
+                }
+                if (p === 2) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket.interact.1"));
+                    return;
+                }
+                if (p === 3) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.0"));
+                    return;
+                }
+                if (p >= 4) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.1"));
+                    return;
+                }
             }
-            if (p >= 4) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.1"));
-                return;
+            async tryUseWith(_interactable) {
+                if (Script.progress.fly.clean >= 3) {
+                    this.name = "bucket_full";
+                }
+                if (_interactable.name == "rag" && Script.progress.fly.clean >= 3) {
+                    await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.rag"));
+                    Script.Inventory.Instance.removeItem(Script.Inventory.Instance.hasItem(_interactable.name));
+                    Script.Inventory.Instance.addItem(new Script.Interactable("rag_wet", "Assets/UI/Inventar/Item_Lappen_Nass.png"));
+                    return;
+                }
+                super.tryUseWith(_interactable);
             }
-        }
-        async tryUseWith(_interactable) {
-            if (Script.progress.fly.clean >= 3) {
+            checkExistance() {
+                if (Script.progress.fly.clean >= 3) {
+                    this.fillBucket();
+                }
+                else {
+                    this.emptyBucket();
+                }
+            }
+            emptyBucket() {
+                this.node.getChild(0).activate(true);
+                this.node.getChild(1).activate(false);
+            }
+            fillBucket() {
                 this.name = "bucket_full";
+                this.node.getChild(0).activate(false);
+                this.node.getChild(1).activate(true);
             }
-            if (_interactable.name == "rag" && Script.progress.fly.clean >= 3) {
-                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.bucket_full.interact.rag"));
-                Script.Inventory.Instance.removeItem(Script.Inventory.Instance.hasItem(_interactable.name));
-                Script.Inventory.Instance.addItem(new Script.Interactable("rag_wet", "Assets/UI/Inventar/Item_Lappen_Nass.png"));
-                return;
-            }
-            super.tryUseWith(_interactable);
-        }
-        checkExistance() {
-            if (Script.progress.fly.clean >= 3) {
-                this.fillBucket();
-            }
-            else {
-                this.emptyBucket();
-            }
-        }
-        emptyBucket() {
-            this.node.getChild(0).activate(true);
-            this.node.getChild(1).activate(false);
-        }
-        fillBucket() {
-            this.name = "bucket_full";
-            this.node.getChild(0).activate(false);
-            this.node.getChild(1).activate(true);
-        }
-    }
+        };
+    })();
     Script.BathroomBucket = BathroomBucket;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class BathroomDirt extends Script.Interactable {
-        name = "dirt";
-        constructor(_name, _image) {
-            super(_name, _image);
-            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
-            });
-        }
-        checkExistance() {
-            if (Script.progress.fly.cleaned.dirt) {
-                this.remove();
+    var ƒ = FudgeCore;
+    let BathroomDirt = (() => {
+        let _classSuper = Script.Interactable;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        return class BathroomDirt extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-        }
-        remove() {
-            this.node.getParent().removeChild(this.node);
-        }
-        tryUseWith(_interactable) {
-            if (Script.progress.fly.clean >= 3 && _interactable.name === "rag_wet") {
-                Script.progress.fly.cleaned.dirt = true;
-                this.remove();
-                let allClean = true;
-                for (let key of Object.keys(Script.progress.fly.cleaned)) {
-                    //@ts-ignore
-                    allClean = Script.progress.fly.cleaned[key] && allClean;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.name = __runInitializers(this, _name_initializers, "dirt");
+                __runInitializers(this, _name_extraInitializers);
+                if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+                });
+            }
+            checkExistance() {
+                if (Script.progress.fly.cleaned.dirt) {
+                    this.remove();
                 }
-                if (allClean)
-                    Script.progress.fly.clean = 4;
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Schleim.clean"));
-                return;
             }
-            super.tryUseWith(_interactable);
-        }
-    }
+            remove() {
+                this.node.getParent().removeChild(this.node);
+            }
+            tryUseWith(_interactable) {
+                if (Script.progress.fly.clean >= 3 && _interactable.name === "rag_wet") {
+                    Script.progress.fly.cleaned.dirt = true;
+                    this.remove();
+                    let allClean = true;
+                    for (let key of Object.keys(Script.progress.fly.cleaned)) {
+                        //@ts-ignore
+                        allClean = Script.progress.fly.cleaned[key] && allClean;
+                    }
+                    if (allClean)
+                        Script.progress.fly.clean = 4;
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Schleim.clean"));
+                    return;
+                }
+                super.tryUseWith(_interactable);
+            }
+        };
+    })();
     Script.BathroomDirt = BathroomDirt;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class BathroomToilet extends Script.Interactable {
-        name = "toilet";
-        id = 1;
-        constructor(_name, _image) {
-            super(_name, _image);
-            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkDirtyness.bind(this), true);
-            });
-        }
-        checkDirtyness() {
-            if (Script.progress.fly.cleaned.toilet1 && this.id == 1) {
-                this.clean();
-                return;
+    var ƒ = FudgeCore;
+    let BathroomToilet = (() => {
+        let _classSuper = Script.Interactable;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        let _id_decorators;
+        let _id_initializers = [];
+        let _id_extraInitializers = [];
+        return class BathroomToilet extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                _id_decorators = [ƒ.edit(Number)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                __esDecorate(null, null, _id_decorators, { kind: "field", name: "id", static: false, private: false, access: { has: obj => "id" in obj, get: obj => obj.id, set: (obj, value) => { obj.id = value; } }, metadata: _metadata }, _id_initializers, _id_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-            if (Script.progress.fly.cleaned.toilet2 && this.id == 2) {
-                this.clean();
-                return;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.name = __runInitializers(this, _name_initializers, "toilet");
+                this.id = (__runInitializers(this, _name_extraInitializers), __runInitializers(this, _id_initializers, 1));
+                __runInitializers(this, _id_extraInitializers);
+                if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkDirtyness.bind(this), true);
+                });
             }
-            this.node.getChild(0).activate(true);
-            this.node.getChild(1).activate(false);
-        }
-        clean() {
-            this.name = "Toilette_sauber";
-            this.node.getChild(0).activate(false);
-            this.node.getChild(1).activate(true);
-        }
-        tryUseWith(_interactable) {
-            if (Script.progress.fly.clean === 3 && _interactable.name === "rag_wet") {
-                if (this.id === 1 && !Script.progress.fly.cleaned.toilet1) {
-                    Script.progress.fly.cleaned.toilet1 = true;
+            checkDirtyness() {
+                if (Script.progress.fly.cleaned.toilet1 && this.id == 1) {
                     this.clean();
+                    return;
                 }
-                if (this.id === 2 && !Script.progress.fly.cleaned.toilet2) {
-                    Script.progress.fly.cleaned.toilet2 = true;
+                if (Script.progress.fly.cleaned.toilet2 && this.id == 2) {
                     this.clean();
+                    return;
                 }
-                let allClean = true;
-                for (let key of Object.keys(Script.progress.fly.cleaned)) {
-                    //@ts-ignore
-                    allClean = Script.progress.fly.cleaned[key] && allClean;
-                }
-                if (allClean)
-                    Script.progress.fly.clean = 4;
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Toilette.clean"));
-                return;
+                this.node.getChild(0).activate(true);
+                this.node.getChild(1).activate(false);
             }
-            super.tryUseWith(_interactable);
-        }
-    }
+            clean() {
+                this.name = "Toilette_sauber";
+                this.node.getChild(0).activate(false);
+                this.node.getChild(1).activate(true);
+            }
+            tryUseWith(_interactable) {
+                if (Script.progress.fly.clean === 3 && _interactable.name === "rag_wet") {
+                    if (this.id === 1 && !Script.progress.fly.cleaned.toilet1) {
+                        Script.progress.fly.cleaned.toilet1 = true;
+                        this.clean();
+                    }
+                    if (this.id === 2 && !Script.progress.fly.cleaned.toilet2) {
+                        Script.progress.fly.cleaned.toilet2 = true;
+                        this.clean();
+                    }
+                    let allClean = true;
+                    for (let key of Object.keys(Script.progress.fly.cleaned)) {
+                        //@ts-ignore
+                        allClean = Script.progress.fly.cleaned[key] && allClean;
+                    }
+                    if (allClean)
+                        Script.progress.fly.clean = 4;
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.Toilette.clean"));
+                    return;
+                }
+                super.tryUseWith(_interactable);
+            }
+        };
+    })();
     Script.BathroomToilet = BathroomToilet;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class BathroomValve extends Script.Interactable {
-        drop;
-        open;
         constructor(_name, _image) {
             super(_name, _image);
             if (ƒ.Project.mode === ƒ.MODE.EDITOR)
@@ -863,15 +980,15 @@ var Script;
             else if (Script.progress.fly.clean === 2) {
                 this.open.activate(true);
                 this.drop.activate(false);
-                let anim = this.open.getComponent(ƒ.ComponentAnimator);
+                let anim = this.open.getComponent(ƒ.ComponentAnimation);
                 anim.jumpTo(0);
-                this.node.getComponent(ƒ.ComponentAnimator).activate(true);
-                this.node.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                this.node.getComponent(ƒ.ComponentAnimation).activate(true);
+                this.node.getComponent(ƒ.ComponentAnimation).jumpTo(0);
                 console.log(anim.animation.totalTime);
                 setTimeout(() => {
                     this.open.activate(false);
                     this.drop.activate(true);
-                    this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                    this.drop.getComponent(ƒ.ComponentAnimation).jumpTo(0);
                     // TODO: wasser eimer visuell anpassen
                     //@ts-ignore
                     this.node.getParent().getChildrenByName("bucket")[0].getComponent(Script.BathroomBucket).fillBucket();
@@ -895,124 +1012,176 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class Door extends Script.Interactable {
-        target = "main";
-        constructor(_name, _image) {
-            super(_name, _image);
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-        }
-        getInteractionType() {
-            return Script.INTERACTION_TYPE.DOOR;
-        }
-        interact() {
-            Script.SceneManager.load(this.target);
-        }
-        tryUseWith(_interactable) { }
-    }
+    let Door = (() => {
+        let _classSuper = Script.Interactable;
+        let _target_decorators;
+        let _target_initializers = [];
+        let _target_extraInitializers = [];
+        return class Door extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _target_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _target_decorators, { kind: "field", name: "target", static: false, private: false, access: { has: obj => "target" in obj, get: obj => obj.target, set: (obj, value) => { obj.target = value; } }, metadata: _metadata }, _target_initializers, _target_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+            }
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.target = __runInitializers(this, _target_initializers, "main");
+                __runInitializers(this, _target_extraInitializers);
+                // Don't start when running in editor
+                if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                    return;
+            }
+            getInteractionType() {
+                return Script.INTERACTION_TYPE.DOOR;
+            }
+            interact() {
+                Script.SceneManager.load(this.target);
+            }
+            tryUseWith(_interactable) { }
+        };
+    })();
     Script.Door = Door;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class DoorBar extends Script.Interactable {
-        target = "done";
-        locked = true;
-        constructor(_name, _image) {
-            super(_name, _image);
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkStatus.bind(this), true);
-            });
-        }
-        getInteractionType() {
-            return Script.INTERACTION_TYPE.DOOR;
-        }
-        interact() {
-            Script.progress.frog.checked_door = true;
-            if (this.locked) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_locked"));
-                return;
+    let DoorBar = (() => {
+        let _classSuper = Script.Interactable;
+        let _target_decorators;
+        let _target_initializers = [];
+        let _target_extraInitializers = [];
+        let _locked_decorators;
+        let _locked_initializers = [];
+        let _locked_extraInitializers = [];
+        return class DoorBar extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _target_decorators = [ƒ.edit(String)];
+                _locked_decorators = [ƒ.edit(Boolean)];
+                __esDecorate(null, null, _target_decorators, { kind: "field", name: "target", static: false, private: false, access: { has: obj => "target" in obj, get: obj => obj.target, set: (obj, value) => { obj.target = value; } }, metadata: _metadata }, _target_initializers, _target_extraInitializers);
+                __esDecorate(null, null, _locked_decorators, { kind: "field", name: "locked", static: false, private: false, access: { has: obj => "locked" in obj, get: obj => obj.locked, set: (obj, value) => { obj.locked = value; } }, metadata: _metadata }, _locked_initializers, _locked_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-            // SceneManager.load(this.target);
-            Script.MenuManager.Instance.showGameOver();
-        }
-        tryUseWith(_interactable) {
-            if (_interactable.name === "key") {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_unlocked"));
-                this.locked = false;
-                Script.Inventory.Instance.removeItem(_interactable);
-                Script.progress.frog.door_locked = false;
-                return;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.target = __runInitializers(this, _target_initializers, "done");
+                this.locked = (__runInitializers(this, _target_extraInitializers), __runInitializers(this, _locked_initializers, true));
+                __runInitializers(this, _locked_extraInitializers);
+                // Don't start when running in editor
+                if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkStatus.bind(this), true);
+                });
             }
-        }
-        checkStatus() {
-            this.locked = Script.progress.frog.door_locked;
-        }
-    }
+            getInteractionType() {
+                return Script.INTERACTION_TYPE.DOOR;
+            }
+            interact() {
+                Script.progress.frog.checked_door = true;
+                if (this.locked) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_locked"));
+                    return;
+                }
+                // SceneManager.load(this.target);
+                Script.MenuManager.Instance.showGameOver();
+            }
+            tryUseWith(_interactable) {
+                if (_interactable.name === "key") {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("character.tadpole.door_unlocked"));
+                    this.locked = false;
+                    Script.Inventory.Instance.removeItem(_interactable);
+                    Script.progress.frog.door_locked = false;
+                    return;
+                }
+            }
+            checkStatus() {
+                this.locked = Script.progress.frog.door_locked;
+            }
+        };
+    })();
     Script.DoorBar = DoorBar;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
-    class Rag extends Script.Interactable {
-        name = "rag";
-        image = "Assets/UI/Inventar/Item_Lappen.png";
-        constructor(_name, _image) {
-            super(_name, _image);
-            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
-            });
-        }
-        checkExistance() {
-            if (Script.progress.fly.clean >= 2) {
-                this.remove();
+    var ƒ = FudgeCore;
+    let Rag = (() => {
+        let _classSuper = Script.Interactable;
+        let _name_decorators;
+        let _name_initializers = [];
+        let _name_extraInitializers = [];
+        let _image_decorators;
+        let _image_initializers = [];
+        let _image_extraInitializers = [];
+        return class Rag extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _name_decorators = [ƒ.edit(String)];
+                _image_decorators = [ƒ.edit(String)];
+                __esDecorate(null, null, _name_decorators, { kind: "field", name: "name", static: false, private: false, access: { has: obj => "name" in obj, get: obj => obj.name, set: (obj, value) => { obj.name = value; } }, metadata: _metadata }, _name_initializers, _name_extraInitializers);
+                __esDecorate(null, null, _image_decorators, { kind: "field", name: "image", static: false, private: false, access: { has: obj => "image" in obj, get: obj => obj.image, set: (obj, value) => { obj.image = value; } }, metadata: _metadata }, _image_initializers, _image_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
             }
-        }
-        remove() {
-            this.node.getParent().removeChild(this.node);
-        }
-        getInteractionType() {
-            if (!Script.progress.fly.intro) {
-                return Script.INTERACTION_TYPE.LOOK_AT;
+            constructor(_name, _image) {
+                super(_name, _image);
+                this.name = __runInitializers(this, _name_initializers, "rag");
+                this.image = (__runInitializers(this, _name_extraInitializers), __runInitializers(this, _image_initializers, "Assets/UI/Inventar/Item_Lappen.png"));
+                __runInitializers(this, _image_extraInitializers);
+                if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.checkExistance.bind(this), true);
+                });
             }
-            return Script.INTERACTION_TYPE.PICK_UP;
-        }
-        async interact() {
-            if (!Script.progress.fly.intro) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.no_need"));
-                return;
+            checkExistance() {
+                if (Script.progress.fly.clean >= 2) {
+                    this.remove();
+                }
             }
-            else {
-                await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.pickup"));
-                Script.progress.fly.clean = 2;
-                Script.Inventory.Instance.addItem(this);
-                this.remove();
-                return;
+            remove() {
+                this.node.getParent().removeChild(this.node);
             }
-        }
-    }
+            getInteractionType() {
+                if (!Script.progress.fly.intro) {
+                    return Script.INTERACTION_TYPE.LOOK_AT;
+                }
+                return Script.INTERACTION_TYPE.PICK_UP;
+            }
+            async interact() {
+                if (!Script.progress.fly.intro) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.no_need"));
+                    return;
+                }
+                else {
+                    await Script.CharacterScript.talkAs("Tadpole", Script.Interactable.textProvider.get("bath.rag.pickup"));
+                    Script.progress.fly.clean = 2;
+                    Script.Inventory.Instance.addItem(this);
+                    this.remove();
+                    return;
+                }
+            }
+        };
+    })();
     Script.Rag = Rag;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class Fly extends Script.Interactable {
-        #wantedIngredients = this.randomDrinkOrLoad();
+        #wantedIngredients;
         #animator;
-        animations = new Map();
         constructor(_name, _image) {
             super(_name, _image);
+            this.#wantedIngredients = this.randomDrinkOrLoad();
+            this.animations = new Map();
             ƒ.Project.addEventListener("resourcesLoaded" /* ƒ.EVENT.RESOURCES_LOADED */, this.init.bind(this));
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
                 this.node.addEventListener("attachBranch" /* ƒ.EVENT.ATTACH_BRANCH */, this.setAnimation.bind(this), true);
             });
         }
         init() {
-            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimator);
+            this.#animator = this.node.getChild(0).getComponent(ƒ.ComponentAnimation);
             let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
             for (let anim of animations) {
                 this.animations.set(anim.name, anim);
@@ -1024,8 +1193,8 @@ var Script;
             }
             else {
                 this.#animator.animation = this.animations.get("IdleHappy");
-                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimator).animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
-                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator);
+                this.node.getParent().getChildrenByName("baarkeeper")[0].getChild(0).getComponent(ƒ.ComponentAnimation).animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T19:23:48.182Z|13254");
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimation);
                 grammoAnimator.animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-16T08:34:09.712Z|66465");
                 grammoAnimator.playmode = ƒ.ANIMATION_PLAYMODE.LOOP;
             }
@@ -1200,7 +1369,7 @@ var Script;
                 // TODO: play music animation
                 this.#animator.animation = await ƒ.Project.getResource("AnimationGLTF|2024-04-15T11:39:39.877Z|33975");
                 this.#animator.jumpTo(0);
-                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimator);
+                let grammoAnimator = this.node.getParent().getChildrenByName("items")[0].getChildrenByName("Grammophon")[0].getChild(0).getComponent(ƒ.ComponentAnimation);
                 grammoAnimator.jumpTo(0);
                 setTimeout(async () => {
                     this.setAnimation();
@@ -1300,7 +1469,7 @@ var Script;
     ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
     class BathroomManager extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(BathroomManager);
+        static { this.iSubclass = ƒ.Component.registerSubclass(BathroomManager); }
         constructor() {
             super();
             // Don't start when running in editor
@@ -1315,8 +1484,9 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class DialogManager {
-        static Instance = new DialogManager();
+        static { this.Instance = new DialogManager(); }
         #nameBox;
         #textBox;
         #textBackgroundBox;
@@ -1528,16 +1698,11 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     class MenuManager {
-        static Instance = new MenuManager();
-        loadingScreen;
-        mainMenuScreen;
-        optionsScreen;
-        gameOverlay;
-        disableOverlay;
-        itemHover;
-        gameOver;
-        loadingScreenMinimumVisibleTimeMS = 4000;
+        static { this.Instance = new MenuManager(); }
         constructor() {
+            this.loadingScreenMinimumVisibleTimeMS = 4000;
+            this.gameWasStarted = false;
+            this.gameIsLoaded = false;
             if (MenuManager.Instance)
                 return MenuManager.Instance;
             MenuManager.Instance = this;
@@ -1583,7 +1748,6 @@ var Script;
             this.gameOverlay.classList.remove("hidden");
             Script.SceneManager.load(Script.progress.scene, true);
         }
-        gameWasStarted = false;
         startGame() {
             this.mainMenuScreen.classList.add("hidden");
             setTimeout(() => {
@@ -1622,7 +1786,6 @@ var Script;
                 }
             }
         }
-        gameIsLoaded = false;
         gameLoaded() {
             this.gameIsLoaded = true;
             if (this.gameWasStarted) {
@@ -1661,16 +1824,14 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class MusicManager extends ƒ.ComponentScript {
-        static Instance = new MusicManager();
-        cmpAudio;
-        listener = this.start.bind(this);
-        background;
-        grammophone;
+        static { this.Instance = new MusicManager(); }
         constructor() {
             if (MusicManager.Instance)
                 return MusicManager.Instance;
             super();
+            this.listener = this.start.bind(this);
             MusicManager.Instance = this;
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
@@ -1712,10 +1873,10 @@ var Script;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
+    var ƒ = FudgeCore;
     class SceneManager extends ƒ.ComponentScript {
-        static isTransitioning = false;
-        static cmpAudio;
-        static audios = new Map();
+        static { this.isTransitioning = false; }
+        static { this.audios = new Map(); }
         constructor() {
             super();
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
@@ -1782,11 +1943,9 @@ var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     class CocktailGlass extends Script.Interactable {
-        emptyGlass;
-        cocktails = new Map();
-        currentCocktail;
         constructor(_name, _image) {
             super(_name, _image);
+            this.cocktails = new Map();
             if (ƒ.Project.mode == ƒ.MODE.EDITOR)
                 return;
             this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
@@ -1839,73 +1998,6 @@ var Script;
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
-    class CocktailInteractableIngredient extends Script.Interactable {
-        ingredient = CocktailIngredient.Bachwasser;
-        cmpAnimator;
-        constructor(_name) {
-            super(_name);
-            if (ƒ.Project.mode === ƒ.MODE.EDITOR)
-                return;
-            this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
-                this.cmpAnimator = this.node.getComponent(ƒ.ComponentAnimator);
-                if (!this.cmpAnimator) {
-                    for (let child of this.node.getChildren()) {
-                        this.cmpAnimator = child.getComponent(ƒ.ComponentAnimator);
-                        if (this.cmpAnimator)
-                            break;
-                    }
-                }
-                this.cmpAnimator?.addEventListener("LiquidPour", this.pouringDone.bind(this));
-            });
-        }
-        pouringDone() {
-            if (this.promiseResolver) {
-                this.promiseResolver();
-                this.promiseResolver = null;
-            }
-        }
-        getInteractionType() {
-            if (Script.CocktailManager.Instance.ingredients.length >= 3)
-                return Script.INTERACTION_TYPE.LOOK_AT;
-            return Script.INTERACTION_TYPE.USE;
-        }
-        // tryUseWith(_interactable: Interactable): void {
-        // }
-        promiseResolver;
-        interact() {
-            if (Script.CocktailManager.Instance.ingredients.length >= 3) {
-                Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktails.full"));
-                return;
-            }
-            let promise = new Promise((resolve) => {
-                this.promiseResolver = resolve;
-            });
-            if (!Script.CocktailManager.Instance.addIngredient(this.ingredient, promise)) {
-                return;
-            }
-            Script.MenuManager.Instance.inputDisable();
-            //TODO: play animation and enable interaction after animation instead of after timeout
-            if (this.cmpAnimator) {
-                this.cmpAnimator.jumpTo(0);
-                setTimeout(() => {
-                    Script.MenuManager.Instance.inputEnable();
-                }, this.cmpAnimator.animation.totalTime);
-            }
-            else {
-                setTimeout(() => {
-                    this.pouringDone();
-                    Script.MenuManager.Instance.inputEnable();
-                }, 1000);
-            }
-        }
-        getMutatorAttributeTypes(_mutator) {
-            let types = super.getMutatorAttributeTypes(_mutator);
-            if (types.ingredient)
-                types.ingredient = CocktailIngredient;
-            return types;
-        }
-    }
-    Script.CocktailInteractableIngredient = CocktailInteractableIngredient;
     let CocktailIngredient;
     (function (CocktailIngredient) {
         CocktailIngredient[CocktailIngredient["Bachwasser"] = 1] = "Bachwasser";
@@ -1913,13 +2005,89 @@ var Script;
         CocktailIngredient[CocktailIngredient["Schlammsprudel"] = 4] = "Schlammsprudel";
         CocktailIngredient[CocktailIngredient["Seerosenextrakt"] = 8] = "Seerosenextrakt";
     })(CocktailIngredient = Script.CocktailIngredient || (Script.CocktailIngredient = {}));
+    let CocktailInteractableIngredient = (() => {
+        let _classSuper = Script.Interactable;
+        let _ingredient_decorators;
+        let _ingredient_initializers = [];
+        let _ingredient_extraInitializers = [];
+        return class CocktailInteractableIngredient extends _classSuper {
+            static {
+                const _metadata = typeof Symbol === "function" && Symbol.metadata ? Object.create(_classSuper[Symbol.metadata] ?? null) : void 0;
+                _ingredient_decorators = [ƒ.edit(CocktailIngredient)];
+                __esDecorate(null, null, _ingredient_decorators, { kind: "field", name: "ingredient", static: false, private: false, access: { has: obj => "ingredient" in obj, get: obj => obj.ingredient, set: (obj, value) => { obj.ingredient = value; } }, metadata: _metadata }, _ingredient_initializers, _ingredient_extraInitializers);
+                if (_metadata) Object.defineProperty(this, Symbol.metadata, { enumerable: true, configurable: true, writable: true, value: _metadata });
+            }
+            constructor(_name) {
+                super(_name);
+                this.ingredient = __runInitializers(this, _ingredient_initializers, CocktailIngredient.Bachwasser);
+                this.cmpAnimator = __runInitializers(this, _ingredient_extraInitializers);
+                if (ƒ.Project.mode === ƒ.MODE.EDITOR)
+                    return;
+                this.addEventListener("nodeDeserialized" /* ƒ.EVENT.NODE_DESERIALIZED */, () => {
+                    this.cmpAnimator = this.node.getComponent(ƒ.ComponentAnimation);
+                    if (!this.cmpAnimator) {
+                        for (let child of this.node.getChildren()) {
+                            this.cmpAnimator = child.getComponent(ƒ.ComponentAnimation);
+                            if (this.cmpAnimator)
+                                break;
+                        }
+                    }
+                    this.cmpAnimator?.addEventListener("LiquidPour", this.pouringDone.bind(this));
+                });
+            }
+            pouringDone() {
+                if (this.promiseResolver) {
+                    this.promiseResolver();
+                    this.promiseResolver = null;
+                }
+            }
+            getInteractionType() {
+                if (Script.CocktailManager.Instance.ingredients.length >= 3)
+                    return Script.INTERACTION_TYPE.LOOK_AT;
+                return Script.INTERACTION_TYPE.USE;
+            }
+            interact() {
+                if (Script.CocktailManager.Instance.ingredients.length >= 3) {
+                    Script.CharacterScript.talkAs("Tadpole", Script.Text.instance.get("cocktails.full"));
+                    return;
+                }
+                let promise = new Promise((resolve) => {
+                    this.promiseResolver = resolve;
+                });
+                if (!Script.CocktailManager.Instance.addIngredient(this.ingredient, promise)) {
+                    return;
+                }
+                Script.MenuManager.Instance.inputDisable();
+                //TODO: play animation and enable interaction after animation instead of after timeout
+                if (this.cmpAnimator) {
+                    this.cmpAnimator.jumpTo(0);
+                    setTimeout(() => {
+                        Script.MenuManager.Instance.inputEnable();
+                    }, this.cmpAnimator.animation.totalTime);
+                }
+                else {
+                    setTimeout(() => {
+                        this.pouringDone();
+                        Script.MenuManager.Instance.inputEnable();
+                    }, 1000);
+                }
+            }
+            getMutatorAttributeTypes(_mutator) {
+                let types = ƒ.Mutable.getMutatorTypes(this, _mutator);
+                if (types.ingredient)
+                    types.ingredient = CocktailIngredient;
+                return types;
+            }
+        };
+    })();
+    Script.CocktailInteractableIngredient = CocktailInteractableIngredient;
 })(Script || (Script = {}));
 var Script;
 (function (Script) {
     var ƒ = FudgeCore;
     class CocktailManager extends ƒ.ComponentScript {
-        static Instance = new CocktailManager();
-        static mixTable = [
+        static { this.Instance = new CocktailManager(); }
+        static { this.mixTable = [
             /*1*/ "bachwasser",
             /*2*/ "goldnektar",
             /*3*/ "goldwasser",
@@ -1934,11 +2102,10 @@ var Script;
             /*12*/ "sumpfrosensprudel",
             /*13*/ "sumpfrosenschorle",
             /*14*/ "goldrosenmatsch",
-        ];
-        currentIngredients = [];
-        static glass;
+        ]; }
         constructor() {
             super();
+            this.currentIngredients = [];
             if (CocktailManager.Instance)
                 return CocktailManager.Instance;
             CocktailManager.Instance = this;

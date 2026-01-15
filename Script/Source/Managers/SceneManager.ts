@@ -1,4 +1,5 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean = false;
         private static cmpAudio: ƒ.ComponentAudio;

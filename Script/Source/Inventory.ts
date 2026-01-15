@@ -1,6 +1,7 @@
 /// <reference path="Main.ts" />
 
 namespace Script {
+    import ƒ = FudgeCore;
     export class Inventory {
         public static Instance: Inventory = new Inventory();
         private divInventory: HTMLElement;

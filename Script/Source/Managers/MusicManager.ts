@@ -1,4 +1,5 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class MusicManager extends ƒ.ComponentScript {
         public static Instance: MusicManager = new MusicManager();
         private cmpAudio: ƒ.ComponentAudio;

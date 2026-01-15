@@ -18,15 +18,12 @@ declare namespace Script {
         static characterNames: ({
             [key: string]: string;
         });
-        static characterAudio: ({
-            [key: string]: ƒ.Audio;
-        });
+        static characterAudio: Record<string, ƒ.Audio>;
         static talkAs(_character: Character, _text: string, _mood?: Mood, _options?: DialogOption[]): Promise<string | void>;
         constructor();
         private init;
         private initPosition;
         private setCharacter;
-        private playStepSound;
         moveTo(_waypoint: ƒ.ComponentWaypoint): Promise<unknown>;
         private actuallyWalk;
         private reachedWaypoint;
@@ -250,6 +247,7 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
     export class DialogManager {
         #private;
         static Instance: DialogManager;
@@ -319,6 +317,7 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
     class MusicManager extends ƒ.ComponentScript {
         static Instance: MusicManager;
         private cmpAudio;
@@ -332,6 +331,7 @@ declare namespace Script {
     }
 }
 declare namespace Script {
+    import ƒ = FudgeCore;
     class SceneManager extends ƒ.ComponentScript {
         static isTransitioning: boolean;
         private static cmpAudio;
@@ -355,21 +355,21 @@ declare namespace Script {
 }
 declare namespace Script {
     import ƒ = FudgeCore;
+    enum CocktailIngredient {
+        Bachwasser = 1,
+        Goldnektar = 2,
+        Schlammsprudel = 4,
+        Seerosenextrakt = 8
+    }
     class CocktailInteractableIngredient extends Interactable {
         ingredient: CocktailIngredient;
-        cmpAnimator: ƒ.ComponentAnimator;
+        cmpAnimator: ƒ.ComponentAnimation;
         constructor(_name: string);
         private pouringDone;
         getInteractionType(): INTERACTION_TYPE;
         private promiseResolver;
         interact(): void;
         getMutatorAttributeTypes(_mutator: ƒ.Mutator): ƒ.MutatorAttributeTypes;
-    }
-    enum CocktailIngredient {
-        Bachwasser = 1,
-        Goldnektar = 2,
-        Schlammsprudel = 4,
-        Seerosenextrakt = 8
     }
 }
 declare namespace Script {

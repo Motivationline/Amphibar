@@ -1,4 +1,5 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class Text {
         public static instance: Text = new Text();
         private textData: { [key: string]: string | string[] };

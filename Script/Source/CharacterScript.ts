@@ -11,7 +11,7 @@ namespace Script {
     private nextTarget: ƒ.ComponentWaypoint;
     private currentTarget: ƒ.ComponentWaypoint;
     private walker: ƒ.ComponentWalker;
-    private animator: ƒ.ComponentAnimator;
+    private animator: ƒ.ComponentAnimation;
     private animations: Map<string, ƒ.Animation> = new Map();
 
     #currentlyWalking: boolean = false;
@@ -30,6 +30,17 @@ namespace Script {
       Fly: "Assets/UI/Dialog/Namen/Name_Fliege.svg",
     };
 
+    static characterAudio: Record<string, ƒ.Audio>;
+    static {
+      if (ƒ.Project.mode != ƒ.MODE.EDITOR) {
+        this.characterAudio = {
+          Tadpole: new ƒ.Audio("Assets/Sounds/Dialog/Quip_Dialog.mp3"),
+          Frog: new ƒ.Audio("Assets/Sounds/Dialog/Gero_Dialog.mp3"),
+          Fly: new ƒ.Audio("Assets/Sounds/Dialog/Alfi_Dialog.mp3"),
+        }
+      }
+    };
+
     static talkAs(_character: Character, _text: string, _mood: Mood = "neutral", _options?: DialogOption[]): Promise<string | void> {
       return DialogManager.Instance.showDialog({
         icon: this.characterIcons[_character][_mood],
@@ -37,6 +48,7 @@ namespace Script {
         text: _text,
         position: _character === "Tadpole" ? "left" : "right",
         options: _options,
+        audio: this.characterAudio[_character]
       })
     }
 
@@ -59,7 +71,7 @@ namespace Script {
       this.walker.addEventListener(ƒ.EVENT.WAYPOINT_REACHED, this.reachedWaypoint.bind(this));
       this.walker.addEventListener(ƒ.EVENT.PATHING_CONCLUDED, this.finishedWalking.bind(this));
 
-      this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimator);
+      this.animator = this.node.getChild(0).getChild(0).getComponent(ƒ.ComponentAnimation);
 
       // console.log("idle", );
       let animations = ƒ.Project.getResourcesByType(ƒ.Animation);
@@ -71,11 +83,11 @@ namespace Script {
       // this.animations.set("walk", <ƒ.Animation>ƒ.Project.getResourcesByName("WalkDerpy")[0])
     }
 
-    private initPosition() {      
+    private initPosition() {
       if (!this.currentTarget) {
         ƒ.Render.prepare(this.node.getAncestor());
         let closestWaypoint = getClosestWaypoint(this.node.getAncestor(), (_translation) => ƒ.Vector3.DIFFERENCE(_translation, this.node.mtxWorld.translation).magnitudeSquared)
-        if(!closestWaypoint) return;
+        if (!closestWaypoint) return;
         this.moveTo(closestWaypoint);
       }
     }

@@ -1,18 +1,27 @@
 namespace Script {
     import ƒ = FudgeCore;
+    
+    export enum CocktailIngredient {
+        Bachwasser = 1,
+        Goldnektar = 2,
+        Schlammsprudel = 4,
+        Seerosenextrakt = 8,
+    }
+
     export class CocktailInteractableIngredient extends Interactable {
+        @ƒ.edit(CocktailIngredient)
         ingredient: CocktailIngredient = CocktailIngredient.Bachwasser;
-        cmpAnimator: ƒ.ComponentAnimator;
+        cmpAnimator: ƒ.ComponentAnimation;
 
         constructor(_name: string) {
             super(_name);
             if (ƒ.Project.mode === ƒ.MODE.EDITOR) return;
 
             this.addEventListener(ƒ.EVENT.NODE_DESERIALIZED, () => {
-                this.cmpAnimator = this.node.getComponent(ƒ.ComponentAnimator);
+                this.cmpAnimator = this.node.getComponent(ƒ.ComponentAnimation);
                 if(!this.cmpAnimator){
                     for(let child of this.node.getChildren()){
-                        this.cmpAnimator = child.getComponent(ƒ.ComponentAnimator);
+                        this.cmpAnimator = child.getComponent(ƒ.ComponentAnimation);
                         if(this.cmpAnimator) break;
                     }
                 }
@@ -66,7 +75,7 @@ namespace Script {
         }
 
         public getMutatorAttributeTypes(_mutator: ƒ.Mutator): ƒ.MutatorAttributeTypes {
-            let types: ƒ.MutatorAttributeTypes = super.getMutatorAttributeTypes(_mutator);
+            let types: ƒ.MutatorAttributeTypes = ƒ.Mutable.getMutatorTypes(this, _mutator);
             if (types.ingredient)
                 types.ingredient = CocktailIngredient;
             return types;
@@ -75,10 +84,5 @@ namespace Script {
     }
 
 
-    export enum CocktailIngredient {
-        Bachwasser = 1,
-        Goldnektar = 2,
-        Schlammsprudel = 4,
-        Seerosenextrakt = 8,
-    }
+
 }

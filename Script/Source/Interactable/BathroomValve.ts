@@ -1,4 +1,5 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class BathroomValve extends Interactable {
         private drop: ƒ.Node;
         private open: ƒ.Node;
@@ -26,16 +27,16 @@ namespace Script {
                 this.open.activate(true);
                 this.drop.activate(false);
 
-                let anim = this.open.getComponent(ƒ.ComponentAnimator);
+                let anim = this.open.getComponent(ƒ.ComponentAnimation);
                 anim.jumpTo(0);
-                this.node.getComponent(ƒ.ComponentAnimator).activate(true);
-                this.node.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                this.node.getComponent(ƒ.ComponentAnimation).activate(true);
+                this.node.getComponent(ƒ.ComponentAnimation).jumpTo(0);
                 console.log(anim.animation.totalTime);
 
                 setTimeout(() => {
                     this.open.activate(false);
                     this.drop.activate(true);
-                    this.drop.getComponent(ƒ.ComponentAnimator).jumpTo(0);
+                    this.drop.getComponent(ƒ.ComponentAnimation).jumpTo(0);
                     // TODO: wasser eimer visuell anpassen
                     //@ts-ignore
                     this.node.getParent().getChildrenByName("bucket")[0].getComponent(BathroomBucket).fillBucket();

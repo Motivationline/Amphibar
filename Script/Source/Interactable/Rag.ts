@@ -1,6 +1,9 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class Rag extends Interactable {
+        @ƒ.edit(String)
         public name: string = "rag";
+        @ƒ.edit(String)
         public image: string = "Assets/UI/Inventar/Item_Lappen.png";
 
         constructor(_name: string, _image: string) {

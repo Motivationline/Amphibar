@@ -1,6 +1,7 @@
 namespace Script {
     import ƒ = FudgeCore;
     export class Door extends Interactable {
+        @ƒ.edit(String)
         public target: string = "main";
 
         constructor(_name?: string, _image?: string) {

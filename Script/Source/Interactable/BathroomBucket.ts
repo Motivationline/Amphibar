@@ -1,5 +1,7 @@
 namespace Script {
+    import ƒ = FudgeCore;
     export class BathroomBucket extends Interactable {
+        @ƒ.edit(String)
         public name: string = "bucket";
 
         constructor(_name?: string, _image?: string) {

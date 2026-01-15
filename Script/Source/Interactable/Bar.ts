@@ -1,7 +1,9 @@
 namespace Script {
     import ƒ = FudgeCore;
     export class Bar extends Interactable {
+        @ƒ.edit(String)
         public name: string = "Getränkebar";
+        @ƒ.edit(String)
         public target: string = "shelf";
 
         constructor(_name?: string, _image?: string) {

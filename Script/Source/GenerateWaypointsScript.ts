@@ -6,8 +6,11 @@ namespace Script {
     // Register the script as component for use in the editor via drag&drop
     public static readonly iSubclass: number = ƒ.Component.registerSubclass(GenerateWaypointsScript);
 
+    @ƒ.edit(Number)
     public dx: number = 2;
+     @ƒ.edit(Number)
     public dz: number = 2;
+     @ƒ.edit(Number)
     public distance: number = 0.5;
 
     #waypoints: ƒ.ComponentWaypoint[] = [];
@@ -36,7 +39,7 @@ namespace Script {
 
       for (let x: number = 0; x <= this.dx; x += this.distance) {
         for (let z: number = 0; z <= this.dz; z += this.distance) {
-          let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.CONSTRUCTION(new ƒ.Vector3(x, 0, z)));
+          let waypoint = new ƒ.ComponentWaypoint(ƒ.Matrix4x4.COMPOSITION(new ƒ.Vector3(x, 0, z)));
           this.node.addComponent(waypoint);
           for (let w of this.#waypoints) {
             let distance = ƒ.Vector3.DIFFERENCE(w.mtxWorld.translation, waypoint.mtxWorld.translation).magnitudeSquared;
